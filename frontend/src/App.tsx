@@ -1,10 +1,13 @@
-import { Button } from "./components/ui/button";
-
+import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 function App() {
   return (
-    <div className="flex justify-center items-center w-full border-1 border-solid border-red-50 ">
-      <Button>Click</Button>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<div>Home</div>}></Route>
+        <Route path="/user-profile" element={<div>Profile</div>}></Route>
+        <Route path="*" element={<Navigate to="/" />}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
