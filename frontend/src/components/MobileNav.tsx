@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Separator } from "@radix-ui/react-separator";
 import {
   Sheet,
@@ -36,9 +35,9 @@ export function MobileNav() {
             <Separator className="my-6 h-px bg-black" />
             <SheetDescription className="flex">
               <SheetClose asChild>
-                <Button className=" bg-[#97bcf4] text-black font-bold hover:bg-[#75aaf0]/50 flex-1">
+                <button className="hover-button py-1 rounded-xl bg-[#97bcf4] font-bold hover:bg-black flex-1">
                   Login
-                </Button>
+                </button>
               </SheetClose>
             </SheetDescription>
           </SheetContent>
