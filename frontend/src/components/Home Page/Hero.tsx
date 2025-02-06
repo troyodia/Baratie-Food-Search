@@ -1,10 +1,10 @@
-import hero from "../../assets/Images/hero-image.jpg";
+import heroTest from "../../assets/Images/hero-image-test.png";
 export default function Hero() {
   return (
     <div className="">
       <img
-        className="w-2/3 max-h-[700px] object-cover mx-auto"
-        src={hero}
+        className="w-full max-h-[720px] border2 object-cover mx-auto"
+        src={heroTest}
         alt=""
       />
     </div>

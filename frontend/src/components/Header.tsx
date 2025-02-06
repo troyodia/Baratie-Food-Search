@@ -7,7 +7,7 @@ export default function Header() {
       <div className=" h-full container mx-auto flex justify-between items-center px-8">
         <NavLink
           to="/"
-          className=" text-3xl font-bold tracking-tight text-white "
+          className="text-4xl sm:text-5xl font-bold tracking-tight text-white "
         >
           Baratie
         </NavLink>

@@ -25,7 +25,11 @@ export function MobileNav() {
           <SheetContent>
             <SheetHeader>
               <SheetTitle className="text-2xl flex flex-col items-start gap-2">
-                <img className=" w-20" src={baratieIcon} alt="" />
+                <img
+                  className="w-20 hover:scale-110 transition-all ease-in-out delay-75 "
+                  src={baratieIcon}
+                  alt=""
+                />
                 <span>Baratie!</span>
               </SheetTitle>
             </SheetHeader>
