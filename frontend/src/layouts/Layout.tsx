@@ -11,9 +11,10 @@ type Props = {
 export default function Layout({ children }: Props) {
   const { pathname } = useLocation();
   return (
-    <div className=" flex flex-col min-h-screen bg-[#121212] ">
+    <div className=" flex flex-col min-h-screen bg-black ">
       <Header />
       {pathname === "/" && <Hero />}
+      <div className="h-20"></div>
       <div className=" container mx-auto flex-1 py-10 ">{children}</div>
       <Footer />
     </div>

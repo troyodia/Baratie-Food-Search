@@ -8,10 +8,10 @@ export default function AuthZeroProviderWithNaviagte({ children }: Props) {
   const domain: string = import.meta.env.VITE_AUTH0_DOMAIN;
   const clientId: string = import.meta.env.VITE_AUTH0_CLIENT_ID;
   const callbackUrl: string = import.meta.env.VITE_AUTH0_CALLBACK_URL;
-  if (!domain || !clientId || callbackUrl) {
+  if (!domain || !clientId || !callbackUrl) {
     throw new Error("Unable to initailize Auth0 SDK");
   }
-  const redirectCallBack = (user?: User, appState?: AppState) => {
+  const redirectCallBack = (appState?: AppState, user?: User) => {
     console.log("user", user, "Appstate", appState);
   };
   return (

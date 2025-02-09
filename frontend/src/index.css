@@ -69,6 +69,6 @@
 }
 @layer components {
   .hover-button {
-    @apply text-transparent overflow-hidden leading-8 [text-shadow:0_0_#FFFF,0_1.8rem_#75AAF0] hover:[text-shadow:0_-1.8rem_#000,0_0_#75AAF0] transition-all duration-500 delay-75;
+    @apply text-transparent overflow-hidden leading-8 [text-shadow:0_0_#FFFF,0_1.8rem_#FFFF] hover:[text-shadow:0_-1.8rem_#000,0_0_#FFFF] transition-all duration-500 delay-75;
   }
 }

@@ -7,7 +7,7 @@ export default function HomePage() {
       <main className=" flex flex-col items-center gap-12 mx-6 mb-12">
         <section
           className=" bg-[#282828] -mt-24 w-full max-w-[1000px] py-6 flex flex-col items-center gap-3 rounded-md hover:shadow-lg hover:shadow-[#c5d8f9]
-        transition-shadow ease-in-out duration-100 delay-150 "
+        transition-shadow ease-in-out duration-150 delay-150 "
         >
           <h1 className="text-3xl sm:text-4xl text-white font-bold tracking-tight ">
             ようこそ, Welcome to Baratie
