@@ -1,15 +1,26 @@
 import "dotenv/config";
+import "express-async-errors";
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { connectDB } from "../db/connectDB";
+import { connectDB } from "./db/connectDB";
+import { notFoundErrorMiddleware } from "./middleware/not-found";
+import { errorHandler } from "./middleware/error-handler";
+import cookieParser from "cookie-parser";
+import { authRouter } from "./routes/user";
 const app = express();
 
 app.use(express.json());
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({ origin: process.env.APP_ORIGIN, credentials: true }));
 
+app.use(cookieParser());
 app.get("/", async (req: Request, res: Response) => {
   res.send("home");
 });
+
+app.use("/api/v1/auth", authRouter);
+
+app.use(notFoundErrorMiddleware);
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 const start = async () => {
@@ -22,4 +33,5 @@ const start = async () => {
     if (error instanceof Error) console.log(error);
   }
 };
+
 start();

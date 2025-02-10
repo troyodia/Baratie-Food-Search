@@ -176,7 +176,7 @@ export default function SignUp() {
                 </div>
               </FormControl>
               <FormDescription>
-                <div
+                <span
                   className={`flex gap-1 ${
                     !form.formState.errors.password && field.value.length > 1
                       ? " text-green-600"
@@ -187,7 +187,7 @@ export default function SignUp() {
                 >
                   <Check size={20} />
                   <span>Must be 8 characters long</span>
-                </div>
+                </span>
               </FormDescription>
             </FormItem>
           )}
