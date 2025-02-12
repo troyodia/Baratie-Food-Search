@@ -1,11 +1,25 @@
 import axios from "axios";
-import { CodeResponse } from "@react-oauth/google";
 import { BASE_URL } from "./URLS";
-export const googleAuth = async (code: CodeResponse) => {
+import { LoginUserInfo } from "../types/authTypes";
+
+export const googleAuth = async (
+  code: string,
+  errorFunc: () => void
+): Promise<LoginUserInfo | undefined> => {
   try {
-    const res = await axios.get(`${BASE_URL}/auth/google?code=${code}`);
-    console.log(res);
+    const res = await axios.get<LoginUserInfo>(
+      `${BASE_URL}/api/v1/auth/login-user-google?code=${code}`,
+      {
+        withCredentials: true,
+      }
+    );
+    if (res.data && res.status === 200) {
+      console.log(res.data);
+      return res.data;
+    }
   } catch (error) {
     console.log(error);
+    errorFunc();
+    return undefined;
   }
 };

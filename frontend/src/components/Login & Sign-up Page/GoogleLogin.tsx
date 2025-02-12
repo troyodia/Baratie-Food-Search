@@ -2,20 +2,20 @@ import { Button } from "../ui/button";
 import googleIcon from "../../assets/Images/google-icon.png";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "@/apis/auth";
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-export default function GoogleLogin() {
-  const [googleAuthRes, setGoogleAuthRes] = useState<CodeResponse>();
-  const { data } = useQuery({
-    queryKey: ["googleAuthResponse"],
-    queryFn: () => {
-      if (googleAuthRes) googleAuth(googleAuthRes);
-    },
+import { useMutation } from "@tanstack/react-query";
+type GoogleLoginProps = {
+  setGoogleLoginError: () => void;
+};
+// import { useState } from "react";
+export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
+  const { mutate } = useMutation({
+    mutationKey: ["googleAuthRes"],
+    mutationFn: (code: string) => googleAuth(code, setGoogleLoginError),
   });
-  console.log(data);
   const handleGoogleResponse = (codeResponse: CodeResponse) => {
-    console.log(codeResponse);
-    setGoogleAuthRes(codeResponse);
+    if (codeResponse["code"]) {
+      mutate(codeResponse["code"]);
+    }
   };
   const handleErrorRepsonse = (errorResponse: Pick<CodeResponse, "error">) => {
     console.log(errorResponse);

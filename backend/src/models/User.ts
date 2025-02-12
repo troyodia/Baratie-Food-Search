@@ -1,6 +1,23 @@
-import mongoose from "mongoose";
+import mongoose, { Model } from "mongoose";
+import jwt from "jsonwebtoken";
 
-const UserSchema = new mongoose.Schema(
+type IUser = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  address: string;
+  city: string;
+  country: string;
+  phoneNumber: number;
+};
+type IUserMethods = {
+  generateJwtToken: (secret: string) => string;
+};
+//create new User Model type so the shcema can regognize the function
+type UserModel = Model<IUser, {}, IUserMethods>;
+
+const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
   {
     firstname: {
       type: String,
@@ -23,15 +40,15 @@ const UserSchema = new mongoose.Schema(
       reqired: true,
       trim: true,
     },
-    Address: {
+    address: {
       type: String,
       required: false,
     },
-    City: {
+    city: {
       type: String,
       required: false,
     },
-    Country: {
+    country: {
       type: String,
       required: false,
     },
@@ -43,4 +60,19 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-export const User = mongoose.model("User", UserSchema);
+UserSchema.pre("save", async function () {
+  console.log("encrypt password");
+});
+
+UserSchema.methods.generateJwtToken = function (secret: string) {
+  const token = jwt.sign(
+    {
+      userId: this._id,
+      email: this.email,
+    },
+    secret,
+    { expiresIn: "1h" }
+  );
+  return token;
+};
+export const User = mongoose.model<IUser, UserModel>("User", UserSchema);

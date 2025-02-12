@@ -2,11 +2,12 @@ import { z } from "zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import baratieIcon from "../../assets/Images/Baratie-icon.png";
-import { Eye, EyeOff } from "lucide-react";
+import { Check, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,6 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { Separator } from "@radix-ui/react-separator";
 import { useState } from "react";
+import GoogleLogin from "./GoogleLogin";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -30,10 +32,16 @@ type FormFields = z.infer<typeof formSchema>;
 export default function Login() {
   const [hidePassword, setHidePassword] = useState(false);
   const form = useForm<FormFields>({
+    mode: "onChange",
     resolver: zodResolver(formSchema),
   });
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     console.log(data);
+  };
+  const setGoogleLoginError = () => {
+    form.setError("root", {
+      message: "Email and/or Password do not exist, please Sign up",
+    });
   };
   return (
     <Form {...form}>
@@ -50,6 +58,20 @@ export default function Login() {
           <p className="font-bold text-lg">
             ようこそ, Please Login to Conitnue to Baratie!
           </p>
+        </div>
+        <GoogleLogin setGoogleLoginError={setGoogleLoginError} />
+        <div className="flex justify-center items-center gap-2">
+          <Separator
+            orientation="horizontal"
+            className="bg-white w-full h-px"
+          />
+          <p className="text-sm tracking-tight min-w-max font-bold text-[#75aaf0] ">
+            Or Sign up with email and password
+          </p>
+          <Separator
+            orientation="horizontal"
+            className="bg-white w-full h-px"
+          />
         </div>
         <FormField
           defaultValue=""
@@ -79,13 +101,37 @@ export default function Login() {
               <FormLabel className="text-lg tracking-tight">Password</FormLabel>
               <FormControl>
                 <div className="flex gap-2">
-                  <Input {...field} type={hidePassword ? "password" : "text"} />
+                  <Input
+                    {...field}
+                    type={hidePassword ? "password" : "text"}
+                    onChange={(e) => {
+                      form.setValue("password", e.target.value);
+                      if (e.target.value.length < 1) {
+                        form.clearErrors("password");
+                      } else {
+                        form.trigger("password");
+                      }
+                    }}
+                  />
                   <button onClick={() => setHidePassword((prev) => !prev)}>
                     {!hidePassword ? <Eye /> : <EyeOff />}
                   </button>
                 </div>
               </FormControl>
-              <FormMessage />
+              <FormDescription>
+                <span
+                  className={`flex gap-1 ${
+                    !form.formState.errors.password && field.value.length > 1
+                      ? " text-green-600"
+                      : field.value.length < 1
+                      ? "text-gray-700"
+                      : "text-red-500"
+                  } `}
+                >
+                  <Check size={20} />
+                  <span>Must be 8 characters long</span>
+                </span>
+              </FormDescription>{" "}
             </FormItem>
           )}
         />
@@ -95,27 +141,18 @@ export default function Login() {
             Sign Up
           </Link>
         </div>
-        <p>ADD LOGIN WITH GOOGLE</p>
-        <div className="flex justify-center items-center gap-2">
-          <Separator
-            orientation="horizontal"
-            className="bg-white w-full h-px"
-          />
-          <p className="text-sm tracking-tight min-w-max  ">
-            Or with email and password
-          </p>
-          <Separator
-            orientation="horizontal"
-            className="bg-white w-full h-px"
-          />
-        </div>
         <Button
-          disabled={form.formState.isSubmitting}
+          disabled={!form.formState.isDirty || !form.formState.isValid}
           className="bg-white border text-black font-bold hover:bg-transparent hover:text-white hover:border-white px-6"
           type="submit"
         >
           Login
         </Button>
+        {form.formState.errors.root && (
+          <div className="text-red-500">
+            {form.formState.errors.root.message}
+          </div>
+        )}
       </form>
     </Form>
   );

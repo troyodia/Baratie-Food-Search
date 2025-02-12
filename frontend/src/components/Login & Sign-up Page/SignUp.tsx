@@ -56,6 +56,11 @@ export default function SignUp() {
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     console.log(data);
   };
+  const setGoogleLoginError = () => {
+    form.setError("root", {
+      message: "Email and/or Password do not exist, please Sign up",
+    });
+  };
   return (
     <Form {...form}>
       <form
@@ -78,7 +83,7 @@ export default function SignUp() {
             Login In
           </Link>
         </div>
-        <GoogleLogin />
+        <GoogleLogin setGoogleLoginError={setGoogleLoginError} />
         <div className="flex justify-center items-center gap-2">
           <Separator
             orientation="horizontal"
@@ -199,6 +204,11 @@ export default function SignUp() {
         >
           Sign Up
         </Button>
+        {form.formState.errors.root && (
+          <div className="text-red-500">
+            {form.formState.errors.root.message}
+          </div>
+        )}
       </form>
     </Form>
   );
