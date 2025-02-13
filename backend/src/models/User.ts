@@ -80,7 +80,7 @@ UserSchema.methods.generateJwtToken = function (
       email: this.email,
     },
     secret,
-    { expiresIn: timeOut === "1h" ? "1h" : "30d" }
+    { expiresIn: timeOut === "1h" ? "1h" : "1d" }
   );
   return token;
 };

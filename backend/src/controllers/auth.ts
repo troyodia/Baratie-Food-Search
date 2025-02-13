@@ -82,21 +82,40 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
   oauth2client.setCredentials(googleResponse.tokens);
 
   const userResponse = await axios.get(
-    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleResponse.tokens.access_token}`
+    `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${googleResponse.tokens.access_token}`,
+    { withCredentials: true }
   );
 
   const { email, name }: GoogleUserInfo = userResponse.data;
 
-  const registeredUser = await User.findOne({ email });
-  if (!registeredUser) {
+  const user = await User.findOne({ email });
+  if (!user) {
     throw new BadRequestError(
       "Email and Password do not exist, please Sign up"
     );
   }
+  // const accessToken = googleResponse.tokens.access_token;
+  // const refreshToken = googleResponse.tokens.refresh_token;
 
-  const token = registeredUser.generateJwtToken(
+  //set as google acccess token
+  const accessToken = user.generateJwtToken(
     process.env.ACCESS_SECRET as string,
     process.env.ACCESS_LIFETIME as string
   );
-  res.status(StatusCodes.OK).json({ registeredUser });
+  const refreshToken = user.generateJwtToken(
+    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_LIFETIME as string
+  );
+  console.log(accessToken, refreshToken);
+  res.cookie("ACCESS_TOKEN", accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.cookie("REFRESH_TOKEN", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
 };

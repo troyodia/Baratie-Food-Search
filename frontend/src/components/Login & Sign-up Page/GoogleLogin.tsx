@@ -3,14 +3,18 @@ import googleIcon from "../../assets/Images/google-icon.png";
 import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "@/apis/auth";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 type GoogleLoginProps = {
   setGoogleLoginError: () => void;
 };
-// import { useState } from "react";
 export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
+  const naviagte = useNavigate();
   const { mutate } = useMutation({
     mutationKey: ["googleAuthRes"],
     mutationFn: (code: string) => googleAuth(code, setGoogleLoginError),
+    onSuccess: () => {
+      naviagte("/");
+    },
   });
   const handleGoogleResponse = (codeResponse: CodeResponse) => {
     if (codeResponse["code"]) {

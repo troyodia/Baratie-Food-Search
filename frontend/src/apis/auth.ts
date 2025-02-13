@@ -1,17 +1,13 @@
 import axios, { isAxiosError } from "axios";
 import { BASE_URL, SIGN_UP_URL, LOGIN_URL } from "./URLS";
-import {
-  LoginUserInfo,
-  SignUpandLoginFormDataType,
-  ValidatedUser,
-} from "../types/authTypes";
+import { SignUpandLoginFormDataType, ValidatedUser } from "../types/authTypes";
 
 export const googleAuth = async (
   code: string,
   errorFunc: () => void
-): Promise<LoginUserInfo | undefined> => {
+): Promise<{ user: ValidatedUser; token: string } | undefined> => {
   try {
-    const res = await axios.get<LoginUserInfo>(
+    const res = await axios.get<{ user: ValidatedUser; token: string }>(
       `${BASE_URL}/api/v1/auth/login-user-google?code=${code}`,
       {
         withCredentials: true,
