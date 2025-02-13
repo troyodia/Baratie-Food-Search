@@ -1,15 +1,11 @@
 import axios, { isAxiosError } from "axios";
-import { BASE_URL, SIGN_UP_URL } from "./URLS";
+import { BASE_URL, SIGN_UP_URL, LOGIN_URL } from "./URLS";
 import {
   LoginUserInfo,
-  SignUpFormDataType,
-  SignedUpUser,
+  SignUpandLoginFormDataType,
+  ValidatedUser,
 } from "../types/authTypes";
 
-// type ApiErrorType = {
-//   message: string;
-//   status: number;
-// };
 export const googleAuth = async (
   code: string,
   errorFunc: () => void
@@ -33,10 +29,10 @@ export const googleAuth = async (
 };
 
 export const signUpUser = async (
-  signUpData: SignUpFormDataType
-): Promise<SignedUpUser | undefined> => {
+  signUpData: SignUpandLoginFormDataType
+): Promise<ValidatedUser | undefined> => {
   try {
-    const res = await axios.post<{ user: SignedUpUser }>(
+    const res = await axios.post<{ user: ValidatedUser }>(
       SIGN_UP_URL,
       signUpData,
       {
@@ -49,6 +45,26 @@ export const signUpUser = async (
     }
   } catch (error) {
     console.log(error);
+    if (isAxiosError(error)) throw new Error(error.response?.data.msg);
+    return;
+  }
+};
+
+export const loginUser = async (
+  loginData: SignUpandLoginFormDataType
+): Promise<{ user: ValidatedUser; token: string } | undefined> => {
+  try {
+    const res = await axios.post<{ user: ValidatedUser; token: string }>(
+      LOGIN_URL,
+      loginData,
+      { withCredentials: true }
+    );
+
+    if (res.data && res.status === 200) {
+      console.log(res.data);
+      return res.data;
+    }
+  } catch (error) {
     if (isAxiosError(error)) throw new Error(error.response?.data.msg);
     return;
   }

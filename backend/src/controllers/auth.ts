@@ -15,11 +15,6 @@ export const signUpUserForm = async (req: Request, res: Response) => {
     password,
   }: { firstname: string; lastname: string; email: string; password: string } =
     req.body;
-  //maybe have to check if user exists
-  // let user = await User.findOne({email})
-  // if(user){
-  //   throw new BadRequestError('email and password')
-  // }
   const user = await User.create({
     firstname,
     lastname,
@@ -49,7 +44,35 @@ export const signUpUserForm = async (req: Request, res: Response) => {
   });
   res.status(StatusCodes.OK).json({ user });
 };
+export const loginUserForm = async (req: Request, res: Response) => {
+  if (!req.body) throw new BadRequestError("request body not provided");
+  const { email, password }: { email: string; password: string } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) throw new BadRequestError("Email does not exist, please Sign up");
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) throw new BadRequestError("incorrect Password entered");
 
+  const accessToken = user.generateJwtToken(
+    process.env.ACCESS_SECRET as string,
+    process.env.ACCESS_LIFETIME as string
+  );
+  const refreshToken = user.generateJwtToken(
+    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_LIFETIME as string
+  );
+  console.log(accessToken, refreshToken);
+  res.cookie("ACCESS_TOKEN", accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.cookie("REFRESH_TOKEN", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
+};
 export const loginUserGoogle = async (req: Request, res: Response) => {
   const { code } = req.query;
   if (!code) {
@@ -66,11 +89,6 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
 
   const registeredUser = await User.findOne({ email });
   if (!registeredUser) {
-    // testUser = await User.create({
-    //   email: email,
-    //   firstname: name.split(" ")[0],
-    //   lastname: name.split(" ")[1],
-    // });
     throw new BadRequestError(
       "Email and Password do not exist, please Sign up"
     );

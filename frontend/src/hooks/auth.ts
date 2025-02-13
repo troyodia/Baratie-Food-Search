@@ -1,9 +1,16 @@
 import { useMutation } from "@tanstack/react-query";
-import { signUpUser } from "@/apis/auth";
-import { SignUpFormDataType } from "@/types/authTypes";
+import { signUpUser, loginUser } from "@/apis/auth";
+import { SignUpandLoginFormDataType } from "@/types/authTypes";
 export const useSignUpUser = (onSuccess: () => void) => {
   return useMutation({
-    mutationFn: (signUpData: SignUpFormDataType) => signUpUser(signUpData),
+    mutationFn: (signUpData: SignUpandLoginFormDataType) =>
+      signUpUser(signUpData),
+    onSuccess: onSuccess,
+  });
+};
+export const useLoginUser = (onSuccess: () => void) => {
+  return useMutation({
+    mutationFn: (loginData: SignUpandLoginFormDataType) => loginUser(loginData),
     onSuccess: onSuccess,
   });
 };

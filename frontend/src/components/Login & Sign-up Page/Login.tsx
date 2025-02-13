@@ -14,10 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Separator } from "@radix-ui/react-separator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GoogleLogin from "./GoogleLogin";
+import { useLoginUser } from "@/hooks/auth";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -30,19 +31,34 @@ const formSchema = z.object({
 type FormFields = z.infer<typeof formSchema>;
 
 export default function Login() {
+  const naviagte = useNavigate();
+  const { data, mutate, error } = useLoginUser(() => {
+    naviagte("/");
+  });
   const [hidePassword, setHidePassword] = useState(false);
   const form = useForm<FormFields>({
     mode: "onChange",
     resolver: zodResolver(formSchema),
   });
+  const {
+    formState: { isSubmitSuccessful },
+    reset,
+  } = form;
+
+  console.log(data, error);
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+    mutate(data);
   };
   const setGoogleLoginError = () => {
     form.setError("root", {
       message: "Email and/or Password do not exist, please Sign up",
     });
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
   return (
     <Form {...form}>
       <form
@@ -66,7 +82,7 @@ export default function Login() {
             className="bg-white w-full h-px"
           />
           <p className="text-sm tracking-tight min-w-max font-bold text-[#75aaf0] ">
-            Or Sign up with email and password
+            Or Log in with email and password
           </p>
           <Separator
             orientation="horizontal"
@@ -157,6 +173,7 @@ export default function Login() {
             {form.formState.errors.root.message}
           </div>
         )}
+        {error && <div className="text-red-500">{error.message}</div>}
       </form>
     </Form>
   );
