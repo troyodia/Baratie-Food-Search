@@ -29,7 +29,9 @@ export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
     <Button
       className="bg-white border text-gray-600 font-bold text-lg py-6 hover:bg-black hover:text-white hover:border-white"
       type="button"
-      onClick={googleLogin}
+      onClick={() => {
+        googleLogin();
+      }}
     >
       <img className="w-12" src={googleIcon} alt="" /> Google
     </Button>

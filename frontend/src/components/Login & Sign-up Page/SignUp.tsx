@@ -13,13 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Separator } from "@radix-ui/react-separator";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import baratieIcon from "../../assets/Images/Baratie-icon.png";
 import { Eye, EyeOff, Check } from "lucide-react";
 import GoogleLogin from "./GoogleLogin";
+import { useSignUpUser } from "@/hooks/auth";
 
 const formSchema = z.object({
   email: z.string().email({
@@ -47,20 +48,34 @@ const formSchema = z.object({
 type FormFields = z.infer<typeof formSchema>;
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const { data, mutate, error } = useSignUpUser(() => {
+    navigate("/");
+  });
   const [hidePassword, setHidePassword] = useState(false);
-
+  console.log(data, error);
   const form = useForm<FormFields>({
     mode: "onChange",
     resolver: zodResolver(formSchema),
   });
+  const {
+    formState: { isSubmitSuccessful },
+    reset,
+  } = form;
   const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+    mutate(data);
   };
   const setGoogleLoginError = () => {
     form.setError("root", {
       message: "Email and/or Password do not exist, please Sign up",
     });
   };
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful, reset]);
+
   return (
     <Form {...form}>
       <form
@@ -198,7 +213,11 @@ export default function SignUp() {
           )}
         />
         <Button
-          disabled={!form.formState.isDirty || !form.formState.isValid}
+          disabled={
+            !form.formState.isDirty ||
+            !form.formState.isValid ||
+            !form.getValues("password")
+          }
           className="bg-white border text-black font-bold hover:bg-transparent hover:text-white hover:border-white px-6"
           type="submit"
         >
@@ -209,6 +228,7 @@ export default function SignUp() {
             {form.formState.errors.root.message}
           </div>
         )}
+        {error && <div className="text-red-500">{error.message}</div>}
       </form>
     </Form>
   );

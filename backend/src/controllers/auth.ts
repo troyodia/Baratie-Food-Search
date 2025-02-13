@@ -7,7 +7,47 @@ import { User } from "../models/User";
 import { GoogleUserInfo } from "../responseTypes/authTypes";
 
 export const signUpUserForm = async (req: Request, res: Response) => {
-  res.json({ msg: "works" });
+  if (!req.body) throw new BadRequestError("request body not provided");
+  const {
+    firstname,
+    lastname,
+    email,
+    password,
+  }: { firstname: string; lastname: string; email: string; password: string } =
+    req.body;
+  //maybe have to check if user exists
+  // let user = await User.findOne({email})
+  // if(user){
+  //   throw new BadRequestError('email and password')
+  // }
+  const user = await User.create({
+    firstname,
+    lastname,
+    email,
+    password,
+  });
+  if (!user) {
+    throw new BadRequestError("user not craeted");
+  }
+  const accessToken = user.generateJwtToken(
+    process.env.ACCESS_SECRET as string,
+    process.env.ACCESS_LIFETIME as string
+  );
+  const refreshToken = user.generateJwtToken(
+    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_LIFETIME as string
+  );
+  res.cookie("ACCESS_TOKEN", accessToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.cookie("REFRESH_TOKEN", refreshToken, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
+  res.status(StatusCodes.OK).json({ user });
 };
 
 export const loginUserGoogle = async (req: Request, res: Response) => {
@@ -37,7 +77,8 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
   }
 
   const token = registeredUser.generateJwtToken(
-    process.env.ACCESS_SECRET as string
+    process.env.ACCESS_SECRET as string,
+    process.env.ACCESS_LIFETIME as string
   );
   res.status(StatusCodes.OK).json({ registeredUser });
 };

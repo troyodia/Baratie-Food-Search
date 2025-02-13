@@ -10,3 +10,14 @@ export type LoginUserInfo = {
   phoneNumber?: number;
   __v?: number;
 };
+export type SignUpFormDataType = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+};
+export type SignedUpUser = {
+  firstname: string;
+  lastname: string;
+  email: string;
+};

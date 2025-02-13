@@ -19,8 +19,8 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.use("/api/v1/auth", authRouter);
 
-app.use(notFoundErrorMiddleware);
 app.use(errorHandler);
+app.use(notFoundErrorMiddleware);
 
 const port = process.env.PORT || 5000;
 const start = async () => {

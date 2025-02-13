@@ -142,7 +142,11 @@ export default function Login() {
           </Link>
         </div>
         <Button
-          disabled={!form.formState.isDirty || !form.formState.isValid}
+          disabled={
+            !form.formState.isDirty ||
+            !form.formState.isValid ||
+            !form.getValues("password")
+          }
           className="bg-white border text-black font-bold hover:bg-transparent hover:text-white hover:border-white px-6"
           type="submit"
         >

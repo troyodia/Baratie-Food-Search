@@ -1,6 +1,6 @@
 import mongoose, { Model } from "mongoose";
 import jwt from "jsonwebtoken";
-
+import { hash, compare, genSalt } from "bcryptjs";
 type IUser = {
   firstname: string;
   lastname: string;
@@ -12,7 +12,8 @@ type IUser = {
   phoneNumber: number;
 };
 type IUserMethods = {
-  generateJwtToken: (secret: string) => string;
+  generateJwtToken: (secret: string, timeOut: string) => string;
+  comparePassword: (password: string) => Promise<boolean>;
 };
 //create new User Model type so the shcema can regognize the function
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -61,17 +62,25 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
 );
 
 UserSchema.pre("save", async function () {
-  console.log("encrypt password");
+  const salt = await genSalt();
+  const encryptedPassword = await hash(this.password, salt);
+  this.password = encryptedPassword;
 });
-
-UserSchema.methods.generateJwtToken = function (secret: string) {
+UserSchema.methods.comparePassword = async function (password: string) {
+  const isMatch = await compare(password, this.password);
+  return isMatch;
+};
+UserSchema.methods.generateJwtToken = function (
+  secret: string,
+  timeOut: string
+) {
   const token = jwt.sign(
     {
       userId: this._id,
       email: this.email,
     },
     secret,
-    { expiresIn: "1h" }
+    { expiresIn: timeOut === "1h" ? "1h" : "30d" }
   );
   return token;
 };
