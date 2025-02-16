@@ -10,3 +10,14 @@ export type ValidatedUser = {
   lastname: string;
   email: string;
 };
+export type AuthorizedUser = {
+  _id: string;
+  firstname: string;
+  lastname: string;
+  email: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  phoneNumber?: number;
+  token: string;
+};

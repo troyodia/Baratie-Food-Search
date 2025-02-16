@@ -3,7 +3,7 @@ export default function Hero() {
   return (
     <div className="">
       <img
-        className="w-full max-h-[720px] border2 object-cover mx-auto"
+        className="w-full aspect-video max-h-[720px] object-cover mx-auto"
         src={heroTest}
         alt=""
       />

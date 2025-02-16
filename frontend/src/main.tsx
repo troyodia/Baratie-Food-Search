@@ -5,7 +5,15 @@ import App from "./App.tsx";
 import GoogleAuthWrapper from "./auth/GoogleAuthWrapper.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    },
+  },
+});
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <GoogleAuthWrapper>

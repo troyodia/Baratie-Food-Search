@@ -4,7 +4,7 @@ import { BadRequestError } from "../errors";
 import { oauth2client } from "../utils/googleapis";
 import axios from "axios";
 import { User } from "../models/User";
-import { GoogleUserInfo } from "../responseTypes/authTypes";
+import { GoogleUserInfo } from "../types/authTypes";
 
 export const signUpUserForm = async (req: Request, res: Response) => {
   if (!req.body) throw new BadRequestError("request body not provided");
@@ -29,18 +29,20 @@ export const signUpUserForm = async (req: Request, res: Response) => {
     process.env.ACCESS_LIFETIME as string
   );
   const refreshToken = user.generateJwtToken(
-    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_SECRET as string,
     process.env.REFRESH_LIFETIME as string
   );
   res.cookie("ACCESS_TOKEN", accessToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 60 * 60 * 1000,
   });
   res.cookie("REFRESH_TOKEN", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ user });
 };
@@ -57,7 +59,7 @@ export const loginUserForm = async (req: Request, res: Response) => {
     process.env.ACCESS_LIFETIME as string
   );
   const refreshToken = user.generateJwtToken(
-    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_SECRET as string,
     process.env.REFRESH_LIFETIME as string
   );
   console.log(accessToken, refreshToken);
@@ -65,11 +67,13 @@ export const loginUserForm = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 60 * 60 * 1000,
   });
   res.cookie("REFRESH_TOKEN", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
 };
@@ -103,7 +107,7 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
     process.env.ACCESS_LIFETIME as string
   );
   const refreshToken = user.generateJwtToken(
-    process.env.REFRESH_LIFETIME as string,
+    process.env.REFRESH_SECRET as string,
     process.env.REFRESH_LIFETIME as string
   );
   console.log(accessToken, refreshToken);
@@ -111,11 +115,13 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 60 * 60 * 1000,
   });
   res.cookie("REFRESH_TOKEN", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
 };

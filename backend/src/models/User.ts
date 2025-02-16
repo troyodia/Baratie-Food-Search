@@ -14,6 +14,7 @@ type IUser = {
 type IUserMethods = {
   generateJwtToken: (secret: string, timeOut: string) => string;
   comparePassword: (password: string) => Promise<boolean>;
+  verfiyToken: (token: string, secret: string) => jwt.JwtPayload | string;
 };
 //create new User Model type so the shcema can regognize the function
 type UserModel = Model<IUser, {}, IUserMethods>;
@@ -70,6 +71,11 @@ UserSchema.methods.comparePassword = async function (password: string) {
   const isMatch = await compare(password, this.password);
   return isMatch;
 };
+UserSchema.methods.verfiyToken = function (token: string, secret: string) {
+  const payload = jwt.verify(token, secret);
+  return payload;
+};
+
 UserSchema.methods.generateJwtToken = function (
   secret: string,
   timeOut: string

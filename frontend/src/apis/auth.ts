@@ -1,6 +1,17 @@
 import axios, { isAxiosError } from "axios";
-import { BASE_URL, SIGN_UP_URL, LOGIN_URL } from "./URLS";
-import { SignUpandLoginFormDataType, ValidatedUser } from "../types/authTypes";
+import {
+  BASE_URL,
+  SIGN_UP_URL,
+  LOGIN_URL,
+  GET_AUTH_USER_URL,
+  REFRESH_URL,
+} from "./URLS";
+import {
+  AuthorizedUser,
+  SignUpandLoginFormDataType,
+  ValidatedUser,
+} from "../types/authTypes";
+import { axiosInstance } from "@/axios/axiosInstance";
 
 export const googleAuth = async (
   code: string,
@@ -63,5 +74,35 @@ export const loginUser = async (
   } catch (error) {
     if (isAxiosError(error)) throw new Error(error.response?.data.msg);
     return;
+  }
+};
+export const refreshToken = async (): Promise<string | undefined> => {
+  try {
+    const res = await axios.get<{ token: string }>(REFRESH_URL, {
+      withCredentials: true,
+    });
+    if (res.data && res.status === 200) {
+      return res.data.token;
+    }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data.msg);
+    }
+  }
+};
+
+export const getAuthorizedUser = async (): Promise<
+  AuthorizedUser | undefined
+> => {
+  try {
+    const res = await axiosInstance.get<{ user: AuthorizedUser }>(
+      GET_AUTH_USER_URL
+    );
+    if (res.data && res.status === 200) {
+      console.log(res.data.user);
+      return res.data.user;
+    }
+  } catch (error) {
+    if (isAxiosError(error)) throw new Error(error.response?.data.msg);
   }
 };
