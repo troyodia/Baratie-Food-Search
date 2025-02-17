@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { signUpUser, loginUser, getAuthorizedUser } from "@/apis/auth";
+import { signUpUser, loginUser, getAuthorizedUser, logout } from "@/apis/auth";
 import { SignUpandLoginFormDataType } from "@/types/authTypes";
 import { useAppStore } from "@/store";
 export const useSignUpUser = (onSuccess: () => void) => {
@@ -33,13 +33,13 @@ export const useGetAuthUser = () => {
   });
 };
 
-export const useRefreshUserOnReload = () => {
+export const useLogoutUser = (onSuccess: () => void) => {
   const client = useQueryClient();
-
   return useMutation({
-    mutationFn: getAuthorizedUser,
-    onSuccess: (data) => {
-      client.setQueryData(["user"], data);
+    mutationFn: logout,
+    onSuccess: () => {
+      client.setQueryData(["user"], null);
+      onSuccess();
     },
   });
 };

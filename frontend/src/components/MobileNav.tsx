@@ -11,12 +11,15 @@ import {
 import { SquareMenu } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import baratieIcon from "../assets/Images/Baratie-icon.png";
-import { useAuth0 } from "@auth0/auth0-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useGetAuthUser, useLogoutUser } from "@/hooks/auth";
 
 export function MobileNav() {
   const mobile = useMediaQuery({ maxWidth: 1024 });
-  const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
+  const { data: user } = useGetAuthUser();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { mutate: logout } = useLogoutUser(() => navigate("/login-page"));
   return (
     mobile && (
       <div className="flex flex-col gap-2 ">
@@ -36,11 +39,9 @@ export function MobileNav() {
               </SheetTitle>
             </SheetHeader>
             <Separator
-              className={`mt-6 ${
-                isAuthenticated ? "mb-16" : "mb-6"
-              } h-px bg-black`}
+              className={`mt-6 ${user ? "mb-16" : "mb-6"} h-px bg-black`}
             />
-            {isAuthenticated && (
+            {user && (
               <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center">
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="">Profile</NavLink>
@@ -52,10 +53,10 @@ export function MobileNav() {
                 <button
                   className=" group hover-button py-2 rounded-full font-bold bg-black flex-1 max-w-[250px]"
                   onClick={async () => {
-                    if (isAuthenticated) {
-                      await logout();
+                    if (user && pathname !== "/welcome") {
+                      logout();
                     } else {
-                      await loginWithRedirect();
+                      navigate("/login-page");
                     }
                   }}
                 >
@@ -63,7 +64,7 @@ export function MobileNav() {
                     className="relative px-12 py before:absolute before:top-[100%] before:left-0 before:right-0 before:mx-auto before:my-0 before:h-4/5 before:w-3/4
         before:bg-white before:opacity-0 before:[transform:perspective(4px)_rotateX(10deg)_scale(0.85,0.8)] before:blur-[0.98em] group-hover:before:opacity-90 "
                   >
-                    {isAuthenticated ? "Logout" : "Login"}
+                    {user && pathname !== "/welcome" ? "Logout" : "Login"}
                   </span>
                 </button>
               </SheetClose>

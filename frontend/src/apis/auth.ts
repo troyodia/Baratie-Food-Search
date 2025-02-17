@@ -5,6 +5,7 @@ import {
   LOGIN_URL,
   GET_AUTH_USER_URL,
   REFRESH_URL,
+  LOGOUT_URL,
 } from "./URLS";
 import {
   AuthorizedUser,
@@ -84,6 +85,17 @@ export const refreshToken = async (): Promise<string | undefined> => {
     if (res.data && res.status === 200) {
       return res.data.token;
     }
+  } catch (error) {
+    if (isAxiosError(error)) {
+      throw new Error(error.response?.data.msg);
+    }
+  }
+};
+
+export const logout = async () => {
+  try {
+    const res = await axiosInstance.get<{ msg: string }>(LOGOUT_URL);
+    console.log(res.data.msg);
   } catch (error) {
     if (isAxiosError(error)) {
       throw new Error(error.response?.data.msg);

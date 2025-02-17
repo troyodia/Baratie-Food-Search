@@ -3,12 +3,6 @@ import { Response, Request } from "express";
 import { BadRequestError, UnauthenticatedError } from "../errors";
 import jwt from "jsonwebtoken";
 export const refreshToken = async (req: Request, res: Response) => {
-  // const currentAccessToken = req.cookies.ACCESS_TOKEN;
-  // if (currentAccessToken) {
-  //   // console.log("current access token exists");
-  //   res.status(StatusCodes.OK).json({ token: req.cookies.ACCESS_TOKEN });
-  //   return;
-  // }
   const refreshToken = req.cookies.REFRESH_TOKEN;
   // console.log(refreshToken);
   if (!refreshToken)

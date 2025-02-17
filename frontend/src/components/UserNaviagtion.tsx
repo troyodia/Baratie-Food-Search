@@ -1,5 +1,5 @@
-import { useAuth0 } from "@auth0/auth0-react";
-import { NavLink } from "react-router-dom";
+import { useLogoutUser } from "@/hooks/auth";
+import { NavLink, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
 type NavLinksProps = {
@@ -26,7 +26,8 @@ const NavLinks: NavLinksProps[] = [
 ];
 
 export default function UserNaviagtion() {
-  const { logout } = useAuth0();
+  const navigate = useNavigate();
+  const { mutate: logout } = useLogoutUser(() => navigate("/login-page"));
   return (
     <nav className="hidden lg:flex space-x-10 items-center">
       <div className="flex items-center space-x-6 px-8 rounded-full font-medium text-lg tracking-tight bg-[#eff7ff1f] ">
@@ -51,7 +52,7 @@ export default function UserNaviagtion() {
       </div>
       <button
         className="group hover-button text-sm font-bold py-2.5 px-6 border-2 border-[#75AAF0] hover:border-[#FFFF] rounded-md"
-        onClick={async () => await logout()}
+        onClick={() => logout()}
       >
         <span
           className="relative before:absolute before:top-[100%] before:left-0 before:right-0 before:mx-auto before:my-0 before:h-4/5 before:w-3/4

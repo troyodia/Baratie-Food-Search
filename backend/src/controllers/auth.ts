@@ -44,7 +44,7 @@ export const signUpUserForm = async (req: Request, res: Response) => {
     sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000,
   });
-  res.status(StatusCodes.OK).json({ user });
+  res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
 };
 export const loginUserForm = async (req: Request, res: Response) => {
   if (!req.body) throw new BadRequestError("request body not provided");
@@ -124,4 +124,24 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
     maxAge: 24 * 60 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
+};
+export const logoutUser = (req: Request, res: Response) => {
+  const accessToken = req.cookies.ACCESS_TOKEN;
+  const refreshToken = req.cookies.REFRESH_TOKEN;
+  if (!accessToken || !refreshToken) {
+    throw new BadRequestError("Refresh or Access token does not exist");
+  }
+  res.clearCookie("ACCESS_TOKEN", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 60 * 60 * 1000,
+  });
+  res.clearCookie("REFRESH_TOKEN", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
+  res.status(StatusCodes.OK).json({ msg: "logout successfull" });
 };
