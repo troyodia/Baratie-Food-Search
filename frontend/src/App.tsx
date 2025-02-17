@@ -5,12 +5,16 @@ import SignUpPage from "./pages/SignUpPage";
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PersistLogin from "./auth/PersistLogin";
 import WelcomePage from "./pages/WelcomePage";
+import NaviagteToHome from "./auth/NaviagteToHome";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/welcome" element={<WelcomePage />}></Route>
-        <Route path="/login-page" element={<LoginPage />}></Route>
+        {/*Navigate to home sends user back to HomePage if the user is already signed in but goes to the logout page*/}
+        <Route element={<NaviagteToHome />}>
+          <Route path="/login-page" element={<LoginPage />}></Route>
+        </Route>
         <Route path="/signup-page" element={<SignUpPage />}></Route>
 
         {/*Private routes*/}

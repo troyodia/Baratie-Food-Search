@@ -35,7 +35,7 @@ export default function Login() {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
 
-  const { data, mutate, error } = useLoginUser(() => {
+  const { mutate, error } = useLoginUser(() => {
     naviagte(from, { replace: true });
   });
   const [hidePassword, setHidePassword] = useState(false);
@@ -48,7 +48,6 @@ export default function Login() {
     reset,
   } = form;
 
-  console.log(data, error);
   const onSubmit: SubmitHandler<FormFields> = (data) => {
     mutate(data);
   };
