@@ -4,10 +4,12 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import PrivateRoutes from "./auth/PrivateRoutes";
 import PersistLogin from "./auth/PersistLogin";
+import WelcomePage from "./pages/WelcomePage";
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/welcome" element={<WelcomePage />}></Route>
         <Route path="/login-page" element={<LoginPage />}></Route>
         <Route path="/signup-page" element={<SignUpPage />}></Route>
 

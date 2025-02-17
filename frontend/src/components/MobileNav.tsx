@@ -13,6 +13,7 @@ import { useMediaQuery } from "react-responsive";
 import baratieIcon from "../assets/Images/Baratie-icon.png";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useGetAuthUser, useLogoutUser } from "@/hooks/auth";
+import clsx from "clsx";
 
 export function MobileNav() {
   const mobile = useMediaQuery({ maxWidth: 1024 });
@@ -39,9 +40,12 @@ export function MobileNav() {
               </SheetTitle>
             </SheetHeader>
             <Separator
-              className={`mt-6 ${user ? "mb-16" : "mb-6"} h-px bg-black`}
+              className={clsx("mt-6 h-px bg-black", {
+                "mb-16": user && pathname !== "/welcome",
+                "mb-6": user === undefined || pathname === "/welcome",
+              })}
             />
-            {user && (
+            {user && pathname !== "/welcome" && (
               <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center">
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="">Profile</NavLink>

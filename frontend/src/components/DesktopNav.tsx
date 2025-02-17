@@ -8,7 +8,7 @@ export default function DesktopNav() {
   const { data: user } = useGetAuthUser();
   return (
     <>
-      {user === undefined && (
+      {(user === undefined || pathname === "/welcome") && (
         <div className="hidden lg:flex ">
           <button
             className="group hover-button text-sm font-bold py-2.5 px-6 border-2 border-[#75AAF0] hover:border-[#FFFF] rounded-md"
@@ -24,7 +24,7 @@ export default function DesktopNav() {
         </div>
       )}
 
-      {pathname !== "/welocome" && user !== undefined && <UserNaviagtion />}
+      {pathname !== "/welcome" && user !== undefined && <UserNaviagtion />}
     </>
   );
 }
