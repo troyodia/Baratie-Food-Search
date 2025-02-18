@@ -8,9 +8,10 @@ export default function useRefreshToken() {
         withCredentials: true,
       });
       if (res.data && res.status === 200) {
-        useAppStore.setState((prev) => ({
-          userInfo: { ...prev.userInfo!, token: res.data.token },
+        useAppStore.setState(() => ({
+          userToken: res.data.token,
         }));
+        console.log(useAppStore.getState());
       }
     } catch (error) {
       if (isAxiosError(error)) {

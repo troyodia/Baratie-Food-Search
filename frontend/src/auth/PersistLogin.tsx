@@ -6,7 +6,7 @@ import { Outlet } from "react-router-dom";
 export default function PersistLogin() {
   const [isLoading, setIsLoading] = useState(true);
   const refresh = useRefreshToken();
-  const authInfo = useAppStore(useShallow((state) => state.userInfo));
+  const authInfo = useAppStore(useShallow((state) => state.userToken));
 
   useEffect(() => {
     const validateRefresh = async () => {
@@ -18,7 +18,7 @@ export default function PersistLogin() {
         setIsLoading(false);
       }
     };
-    if (!authInfo?.token) validateRefresh();
+    if (!authInfo) validateRefresh();
     else setIsLoading(false);
   }, []);
   return isLoading ? (

@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/welcome" element={<WelcomePage />}></Route>
-        {/*Navigate to home sends user back to HomePage if the user is already signed in but goes to the logout page*/}
+        {/*Navigate to home sends user back to HomePage if the user is already signed in but goes to the logout page or tries to login from the welcome page*/}
         <Route element={<NaviagteToHome />}>
           <Route path="/login-page" element={<LoginPage />}></Route>
         </Route>

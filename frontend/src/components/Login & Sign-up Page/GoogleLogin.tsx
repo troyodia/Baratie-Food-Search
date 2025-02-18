@@ -4,6 +4,8 @@ import { CodeResponse, useGoogleLogin } from "@react-oauth/google";
 import { googleAuth } from "@/apis/auth";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useLocation, useNavigate } from "react-router-dom";
+import { setIntialUser } from "@/hooks/auth";
+import { useAppStore } from "@/store";
 type GoogleLoginProps = {
   setGoogleLoginError: () => void;
 };
@@ -17,6 +19,9 @@ export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
     mutationFn: (code: string) => googleAuth(code, setGoogleLoginError),
     onSuccess: (data) => {
       client.setQueryData(["user"], data);
+      if (data) setIntialUser(data.token);
+
+      console.log(useAppStore.getState());
       naviagte(from, { replace: true });
     },
   });

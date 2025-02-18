@@ -38,9 +38,9 @@ export const googleAuth = async (
 
 export const signUpUser = async (
   signUpData: SignUpandLoginFormDataType
-): Promise<ValidatedUser | undefined> => {
+): Promise<{ user: ValidatedUser; token: string } | undefined> => {
   try {
-    const res = await axios.post<{ user: ValidatedUser }>(
+    const res = await axios.post<{ user: ValidatedUser; token: string }>(
       SIGN_UP_URL,
       signUpData,
       {
@@ -49,7 +49,7 @@ export const signUpUser = async (
     );
     if (res.data && res.status === 200) {
       console.log(res.data);
-      return res.data.user;
+      return res.data;
     }
   } catch (error) {
     console.log(error);

@@ -1,7 +1,12 @@
 import Layout from "@/layouts/Layout";
 import phoneOrderImage from "../assets/Images/landing-page-image-1.png";
 import appStoreImage from "../assets/Images/landing-page-image-2.png";
+import { useGetAuthUser } from "@/hooks/auth";
+import { useLocation } from "react-router-dom";
 export default function HomePage() {
+  const { data: user } = useGetAuthUser();
+  const { pathname } = useLocation();
+  // console.log(user);
   return (
     <Layout>
       <main className=" flex flex-col items-center gap-12 mx-6 mb-12">
@@ -10,7 +15,8 @@ export default function HomePage() {
         transition-shadow ease-in-out duration-150 delay-150 "
         >
           <h1 className="text-3xl sm:text-4xl text-white font-bold tracking-tight ">
-            ようこそ, Welcome to Baratie
+            ようこそ, Welcome{" "}
+            {user && pathname !== "/welcome" ? user.firstname : ""} to Baratie
           </h1>
           <span className="text-lg sm:text-xl text-[#c5d8f9] font-bold tracking-tight">
             You're Hungry?! We'll Feed You!!
