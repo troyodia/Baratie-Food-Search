@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import GoogleAuthWrapper from "./auth/GoogleAuthWrapper.tsx";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ToastContainer } from "react-toastify";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +24,7 @@ createRoot(document.getElementById("root")!).render(
     <GoogleAuthWrapper>
       <QueryClientProvider client={queryClient}>
         <App />
+        <ToastContainer />
       </QueryClientProvider>
     </GoogleAuthWrapper>
   </StrictMode>

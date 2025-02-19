@@ -7,7 +7,6 @@ export default function HomePage() {
   const { data: user } = useGetAuthUser();
   const { pathname } = useLocation();
 
-  console.log(user);
   return (
     <Layout>
       <main className=" flex flex-col items-center gap-12 mx-6 mb-12">

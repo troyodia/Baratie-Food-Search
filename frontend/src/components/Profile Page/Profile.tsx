@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ToastContainer, toast } from "react-toastify";
+import { TypeOptions, toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,7 +13,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
-import { useGetAuthUser, useUpdateProfie } from "@/hooks/auth";
+import { useUpdateProfie } from "@/hooks/auth";
+import { LoaderCircle } from "lucide-react";
+import { User } from "@/types/userInfo";
 
 const ProfileSchema = z.object({
   email: z.string({ message: "email is required" }).email({
@@ -46,48 +48,56 @@ const ProfileSchema = z.object({
   }),
 });
 export type ProfileFormType = z.infer<typeof ProfileSchema>;
-
-export default function Profile() {
-  const { data } = useGetAuthUser();
-  const getDefaultValues = () => {
-    if (data?.address && data.city && data.country) {
-      return data;
+type Props = {
+  currentUser: User;
+};
+export default function Profile({ currentUser }: Props) {
+  const { error, mutate, isPending } = useUpdateProfie(
+    (message: string, type: TypeOptions) => {
+      toast.success(message, {
+        type,
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
-  };
-  const { error, mutate } = useUpdateProfie(() => {
-    toast.success("Profile Created Successfully", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  });
+  );
 
   const form = useForm<ProfileFormType>({
     resolver: zodResolver(ProfileSchema),
-    defaultValues: getDefaultValues(),
+    mode: "onChange",
+    defaultValues: currentUser,
   });
   const {
     reset,
     formState: { isSubmitSuccessful, isDirty, isValid },
   } = form;
   useEffect(() => {
-    if (isSubmitSuccessful) reset();
-  }, [reset, isSubmitSuccessful]);
-  const onSubmit: SubmitHandler<ProfileFormType> = (data) => {
-    mutate(data);
+    if (isSubmitSuccessful) reset(currentUser);
+  }, [reset, isSubmitSuccessful, currentUser]);
+  useEffect(() => {
+    reset(currentUser);
+  }, [currentUser, reset]);
+  const onSubmit: SubmitHandler<ProfileFormType> = (currentUser) => {
+    mutate(currentUser);
   };
   return (
     <Form {...form}>
-      <ToastContainer />
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-6 mx-4 text-black  border px-8 py-8 bg-white rounded-lg"
+        className="space-y-6 mx-4 text-black font-semibold border px-8 py-8 bg-white rounded-lg"
       >
+        <div>
+          <h2 className="text-3xl font-bold mb-1">User Profile</h2>
+          <p className="text-sm text-black/55">
+            View and Change your profile information here
+          </p>
+        </div>
         <FormField
           control={form.control}
           name="email"
@@ -103,7 +113,7 @@ export default function Profile() {
             </FormItem>
           )}
         />
-        <div className=" gap-4 space-y-6 md:space-y-0  md:flex">
+        <div className="flex flex-col gap-6  md:flex-row">
           <FormField
             control={form.control}
             name="firstname"
@@ -136,7 +146,7 @@ export default function Profile() {
           />
         </div>
 
-        <div className="space-y-6 md:space-y-0 md:gap-4 md:flex">
+        <div className="flex flex-col gap-6 md:flex-row">
           <FormField
             control={form.control}
             name="address"
@@ -184,12 +194,18 @@ export default function Profile() {
           />
         </div>
         <Button
-          disabled={!isDirty || !isValid}
-          className="py-6 px-6 bg-transparent text-white border-2 bg-black hover:bg-transparent
+          disabled={!isDirty || !isValid || isPending}
+          className="py-6 px-4 bg-transparent text-white border-2 bg-black hover:bg-transparent
            hover:text-black hover:border-2 hover:border-[#75AAF0] transition-all ease-in "
           type="submit"
         >
-          Submit
+          {isPending && (
+            <span className="flex gap-1">
+              <LoaderCircle className="animate-spin h-4 w-4" />
+              Submitting
+            </span>
+          )}
+          {!isPending && "Submit"}
         </Button>
         {error && <div className="text-red-500">{error.message}</div>}
       </form>

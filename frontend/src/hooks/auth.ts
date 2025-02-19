@@ -9,6 +9,7 @@ import {
 import { SignUpandLoginFormDataType } from "@/types/authTypes";
 import { useAppStore } from "@/store";
 import { ProfileFormType } from "@/components/Profile Page/Profile";
+import { TypeOptions } from "react-toastify";
 export const setIntialUser = (token: string) => {
   useAppStore.setState({
     userToken: token,
@@ -67,13 +68,18 @@ export const useLogoutUser = (onSuccess: () => void) => {
   });
 };
 
-export const useUpdateProfie = (onSuccess: () => void) => {
+export const useUpdateProfie = (
+  notify: (message: string, type: TypeOptions) => void
+) => {
   const client = useQueryClient();
   return useMutation({
     mutationFn: (formData: ProfileFormType) => updateUserProfile(formData),
     onSuccess: () => {
-      onSuccess();
+      notify("Profile Created Successfully", "success");
       client.invalidateQueries({ queryKey: ["user"] });
+    },
+    onError: (error) => {
+      notify(error.message, "error");
     },
   });
 

@@ -18,6 +18,7 @@ export const authorizeRoute = async (
   if (!payload) throw new BadRequestError("cannot verify access token");
   console.log(payload);
   const { email, userId } = payload as { email: string; userId: string };
+
   req.user = { email, userId };
   next();
 };
