@@ -9,7 +9,6 @@ type IUser = {
   address: string;
   city: string;
   country: string;
-  phoneNumber: number;
 };
 type IUserMethods = {
   generateJwtToken: (secret: string, timeOut: string) => string;
@@ -52,10 +51,6 @@ const UserSchema = new mongoose.Schema<IUser, UserModel, IUserMethods>(
     },
     country: {
       type: String,
-      required: false,
-    },
-    phoneNumber: {
-      type: Number,
       required: false,
     },
   },

@@ -18,6 +18,5 @@ export type AuthorizedUser = {
   address?: string;
   city?: string;
   country?: string;
-  phoneNumber?: number;
   token: string;
 };

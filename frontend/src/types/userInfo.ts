@@ -1,8 +1,5 @@
-export type GoogleUserInfo = {
-  email: string;
-  name: string;
-};
-export type ProfileRequestBody = {
+export type User = {
+  _id: string;
   firstname: string;
   lastname: string;
   email: string;

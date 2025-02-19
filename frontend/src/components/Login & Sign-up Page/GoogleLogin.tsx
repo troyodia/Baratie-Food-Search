@@ -18,11 +18,13 @@ export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
     mutationKey: ["googleAuthRes"],
     mutationFn: (code: string) => googleAuth(code, setGoogleLoginError),
     onSuccess: (data) => {
-      client.setQueryData(["user"], data);
-      if (data) setIntialUser(data.token);
+      if (data) {
+        client.setQueryData(["user"], data.user);
+        setIntialUser(data.token);
 
-      console.log(useAppStore.getState());
-      naviagte(from, { replace: true });
+        console.log(useAppStore.getState());
+        naviagte(from, { replace: true });
+      }
     },
   });
   const handleGoogleResponse = (codeResponse: CodeResponse) => {

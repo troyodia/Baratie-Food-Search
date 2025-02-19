@@ -6,7 +6,8 @@ import { useLocation } from "react-router-dom";
 export default function HomePage() {
   const { data: user } = useGetAuthUser();
   const { pathname } = useLocation();
-  // console.log(user);
+
+  console.log(user);
   return (
     <Layout>
       <main className=" flex flex-col items-center gap-12 mx-6 mb-12">
@@ -16,7 +17,10 @@ export default function HomePage() {
         >
           <h1 className="text-3xl sm:text-4xl text-white font-bold tracking-tight ">
             ようこそ, Welcome{" "}
-            {user && pathname !== "/welcome" ? user.firstname : ""} to Baratie
+            <span className="text-[#c5d8f9]">
+              {user && pathname !== "/welcome" ? user.firstname : ""}
+            </span>{" "}
+            to Baratie
           </h1>
           <span className="text-lg sm:text-xl text-[#c5d8f9] font-bold tracking-tight">
             You're Hungry?! We'll Feed You!!

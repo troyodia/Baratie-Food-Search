@@ -48,7 +48,7 @@ export function MobileNav() {
             {user && pathname !== "/welcome" && (
               <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center">
                 <NavLink to="">Order Status</NavLink>
-                <NavLink to="">Profile</NavLink>
+                <NavLink to="/user-profile">Profile</NavLink>
                 <NavLink to="">My Resturant</NavLink>
               </nav>
             )}

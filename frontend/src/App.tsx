@@ -6,6 +6,7 @@ import PrivateRoutes from "./auth/PrivateRoutes";
 import PersistLogin from "./auth/PersistLogin";
 import WelcomePage from "./pages/WelcomePage";
 import NaviagteToHome from "./auth/NaviagteToHome";
+import ProfilePage from "./pages/ProfilePage";
 function App() {
   return (
     <BrowserRouter>
@@ -21,7 +22,7 @@ function App() {
         <Route element={<PersistLogin />}>
           <Route element={<PrivateRoutes />}>
             <Route path="/" element={<HomePage />}></Route>
-            <Route path="/user-profile" element={<div>Profile</div>}></Route>
+            <Route path="/user-profile" element={<ProfilePage />}></Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/" />}></Route>

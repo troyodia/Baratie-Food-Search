@@ -6,7 +6,7 @@ import {
   logoutUser,
 } from "../controllers/auth";
 import { refreshToken } from "../controllers/refreshToken";
-import { getAuthorizedUser } from "../controllers/userInfo";
+import { getAuthorizedUser, updateUserProfile } from "../controllers/userInfo";
 import { authorizeRoute } from "../middleware/authorize";
 export const authRouter = express.Router();
 
@@ -18,3 +18,4 @@ authRouter.route("/refresh-access-token").get(refreshToken);
 authRouter
   .route("/authorized-user-info")
   .get(authorizeRoute, getAuthorizedUser);
+authRouter.route("/update-profile").post(authorizeRoute, updateUserProfile);

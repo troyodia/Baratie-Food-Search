@@ -94,6 +94,7 @@ export const loginUserGoogle = async (req: Request, res: Response) => {
 
   const user = await User.findOne({ email });
   if (!user) {
+    console.log("not found");
     throw new BadRequestError(
       "Email and Password do not exist, please Sign up"
     );
@@ -131,17 +132,7 @@ export const logoutUser = (req: Request, res: Response) => {
   if (!accessToken || !refreshToken) {
     throw new BadRequestError("Refresh or Access token does not exist");
   }
-  res.clearCookie("ACCESS_TOKEN", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 60 * 60 * 1000,
-  });
-  res.clearCookie("REFRESH_TOKEN", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "none",
-    maxAge: 24 * 60 * 60 * 1000,
-  });
+  res.clearCookie("ACCESS_TOKEN");
+  res.clearCookie("REFRESH_TOKEN");
   res.status(StatusCodes.OK).json({ msg: "logout successfull" });
 };

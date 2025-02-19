@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { Response, Request } from "express";
 import { BadRequestError, UnauthenticatedError } from "../errors";
 import jwt from "jsonwebtoken";
+import { User } from "../models/User";
 export const refreshToken = async (req: Request, res: Response) => {
   const refreshToken = req.cookies.REFRESH_TOKEN;
   // console.log(refreshToken);
@@ -14,10 +15,12 @@ export const refreshToken = async (req: Request, res: Response) => {
   if (!payload)
     throw new BadRequestError("unable to generate new access token");
   const { email, userId } = payload as { email: string; userId: string };
+  const user = await User.findOne({ _id: userId });
+  if (!user) throw new BadRequestError("No user found");
 
   const accessToken = jwt.sign(
     {
-      email,
+      email: user.email,
       userId,
     },
     process.env.ACCESS_SECRET as string,

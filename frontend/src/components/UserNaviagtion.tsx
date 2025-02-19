@@ -10,17 +10,17 @@ type NavLinksProps = {
 const NavLinks: NavLinksProps[] = [
   {
     name: "Order Status",
-    path: "",
+    path: "/order-status",
     id: uuidv4(),
   },
   {
     name: "Profile",
-    path: "",
+    path: "/user-profile",
     id: uuidv4(),
   },
   {
     name: "My Resturant",
-    path: "",
+    path: "/my-resturant",
     id: uuidv4(),
   },
 ];
@@ -41,7 +41,7 @@ export default function UserNaviagtion() {
               <NavLink
                 to={link.path}
                 className={({ isActive }) => {
-                  return isActive ? " py-2 px-3" : "py-2 px-3";
+                  return isActive ? " py-2 px-3 bg-white/35" : " py-2 px-3";
                 }}
               >
                 <span>{link.name}</span>
