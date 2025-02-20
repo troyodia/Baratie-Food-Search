@@ -19,12 +19,12 @@ export default function MenuForm({ form }: Props) {
     name: "menu",
   });
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <div className="space-y-2">
         <h2 className="text-white font-bold text-2xl tracking-tight">Menu</h2>
         <p className="text-gray-500 text-sm">
           Create your menu annd give each item a name and price!. You must have
-          at least one item in your menu.
+          at least one item in your menu
         </p>
       </div>
       {fields.map(({ id }, index) => {
@@ -39,7 +39,7 @@ export default function MenuForm({ form }: Props) {
                   <FormLabel>Name</FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-[#c5d8f9] text-black"
+                      className="bg-[#c5d8f9] text-black max-w-40 sm:max-w-full"
                       placeholder="Ramen"
                       {...field}
                     />
@@ -49,7 +49,7 @@ export default function MenuForm({ form }: Props) {
               )}
             />
             <FormField
-              defaultValue=""
+              //   defaultValue=""
               control={form.control}
               name={`menu.${index}.price`}
               render={({ field }) => (
@@ -57,8 +57,9 @@ export default function MenuForm({ form }: Props) {
                   <FormLabel>Price ($)</FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-[#c5d8f9] text-black"
+                      className="bg-[#c5d8f9] text-black max-w-40 sm:max-w-full"
                       placeholder="8.00"
+                      type="number"
                       {...field}
                     />
                   </FormControl>

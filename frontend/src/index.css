@@ -67,6 +67,15 @@
     @apply bg-background text-foreground;
   }
 }
+@layer base {
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"] {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield !important;
+  }
+}
 @layer components {
   .hover-button {
     @apply text-transparent overflow-hidden leading-8 [text-shadow:0_0_#FFFF,0_1.8rem_#FFFF] hover:[text-shadow:0_-1.8rem_#000,0_0_#FFFF] transition-all duration-500 delay-75;

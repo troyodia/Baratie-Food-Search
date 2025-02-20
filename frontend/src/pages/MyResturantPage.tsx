@@ -5,7 +5,7 @@ import Layout from "@/layouts/Layout";
 export default function MyResturantPage() {
   return (
     <Layout>
-      <Tabs defaultValue="orders" className="mx-4">
+      <Tabs defaultValue="orders" className="mx-6">
         <TabsList>
           <TabsTrigger value="orders">Orders</TabsTrigger>
           <TabsTrigger value="resturant">Manage Resturant</TabsTrigger>

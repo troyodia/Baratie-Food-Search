@@ -28,7 +28,7 @@ export default function CuisinesForm({ form }: Props) {
           <FormDescription>
             Select the Cuisines that your resturant serves
           </FormDescription>
-          <div className="grid grid-cols-5 gap-2 ">
+          <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
             {items.map((item) => {
               return (
                 <FormField
@@ -55,7 +55,7 @@ export default function CuisinesForm({ form }: Props) {
                           }}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm font-normal text-white font-semibold">
+                      <FormLabel className="text-sm  text-white font-semibold">
                         {item.label}
                       </FormLabel>
                     </FormItem>

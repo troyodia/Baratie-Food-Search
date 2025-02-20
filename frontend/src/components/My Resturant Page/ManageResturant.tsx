@@ -12,11 +12,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { SubmitHandler, useForm } from "react-hook-form";
 import MenuForm from "./MenuForm";
 import CuisinesForm from "./CuisinesForm";
 import { Separator } from "../ui/separator";
+import DetailsForm from "./DetailsForm";
 //get current restant as props
 const ManageResturantSchema = z.object({
   menu: z.array(
@@ -28,8 +28,19 @@ const ManageResturantSchema = z.object({
       price: z.string().nonempty("must provide a price"),
     })
   ),
+  //cuisines
   items: z.array(z.string()).refine((value) => {
     value.some((item) => item);
+  }),
+  details: z.object({
+    name: z
+      .string()
+      .nonempty("must provide resturant name")
+      .max(20, "20 character limit"),
+    city: z.string().nonempty("must provide resturant city"),
+    country: z.string().nonempty("must provide resturant country"),
+    deliveryPrice: z.string().nonempty("must provide a delivery price"),
+    deliveryTime: z.string().nonempty("muts provide a delivery time"),
   }),
 });
 export type ManageResturantForm = z.infer<typeof ManageResturantSchema>;
@@ -48,6 +59,8 @@ export default function ManageResturant() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <DetailsForm form={form} />
+        <Separator orientation="vertical" className="bg-white w-full h-px" />
         <CuisinesForm form={form} />
         <Separator orientation="vertical" className="bg-white w-full h-px" />
         <MenuForm form={form} />
