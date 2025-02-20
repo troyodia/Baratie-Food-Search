@@ -50,6 +50,7 @@ export const useGetAuthUser = () => {
   return useQuery({
     queryKey: ["user"],
     queryFn: getAuthorizedUser,
+    retry: false,
   });
 };
 

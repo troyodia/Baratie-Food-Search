@@ -7,7 +7,6 @@ export default function PrivateRoutes() {
   const user = useAppStore(useShallow((state) => state.userToken));
 
   const isAuthorized = !!user;
-  if (!isAuthorized) console.log("is auth", user);
   return isAuthorized ? (
     <Outlet />
   ) : (

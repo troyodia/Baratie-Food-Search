@@ -49,7 +49,7 @@ export function MobileNav() {
               <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center">
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="/user-profile">Profile</NavLink>
-                <NavLink to="">My Resturant</NavLink>
+                <NavLink to="/my-resturant">My Resturant</NavLink>
               </nav>
             )}
             <SheetDescription className="flex justify-center">

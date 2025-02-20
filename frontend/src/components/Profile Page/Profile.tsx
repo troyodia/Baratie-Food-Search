@@ -2,7 +2,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { TypeOptions, toast } from "react-toastify";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -16,6 +15,7 @@ import { useEffect } from "react";
 import { useUpdateProfie } from "@/hooks/auth";
 import { LoaderCircle } from "lucide-react";
 import { User } from "@/types/userInfo";
+import SubmitButton from "../ui/submitButton";
 
 const ProfileSchema = z.object({
   email: z.string({ message: "email is required" }).email({
@@ -193,12 +193,7 @@ export default function Profile({ currentUser }: Props) {
             )}
           />
         </div>
-        <Button
-          disabled={!isDirty || !isValid || isPending}
-          className="py-6 px-4 bg-transparent text-white border-2 bg-black hover:bg-transparent
-           hover:text-black hover:border-2 hover:border-[#75AAF0] transition-all ease-in "
-          type="submit"
-        >
+        <SubmitButton disabled={!isDirty || !isValid || isPending}>
           {isPending && (
             <span className="flex gap-1">
               <LoaderCircle className="animate-spin h-4 w-4" />
@@ -206,7 +201,7 @@ export default function Profile({ currentUser }: Props) {
             </span>
           )}
           {!isPending && "Submit"}
-        </Button>
+        </SubmitButton>
         {error && <div className="text-red-500">{error.message}</div>}
       </form>
     </Form>
