@@ -19,10 +19,10 @@ export default function MenuForm({ form }: Props) {
     name: "menu",
   });
   return (
-    <div className="space-y-2">
-      <div className="space-y-1">
+    <div className="space-y-1">
+      <div className="space-y-2">
         <h2 className="text-white font-bold text-2xl tracking-tight">Menu</h2>
-        <p className="text-gray-400 text-sm">
+        <p className="text-gray-500 text-sm">
           Create your menu annd give each item a name and price!. You must have
           at least one item in your menu.
         </p>
