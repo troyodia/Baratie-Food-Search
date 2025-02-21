@@ -105,3 +105,11 @@ export const items: CuisineItmes[] = [
     label: "Vegan",
   },
 ];
+
+export const imageTypes: string[] = [
+  "image/png",
+  "image/jpeg",
+  "image/jpg",
+  "image/webp",
+];
+export const MAX_FILE_SIZE = 5 * 1000 * 1000; // 5MB

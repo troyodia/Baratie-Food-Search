@@ -16,7 +16,7 @@ export const authorizeRoute = async (
     process.env.ACCESS_SECRET as string
   );
   if (!payload) throw new BadRequestError("cannot verify access token");
-  console.log(payload);
+  // console.log(payload);
   const { email, userId } = payload as { email: string; userId: string };
 
   req.user = { email, userId };

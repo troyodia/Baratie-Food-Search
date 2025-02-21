@@ -29,14 +29,17 @@ export default function MenuForm({ form }: Props) {
       </div>
       {fields.map(({ id }, index) => {
         return (
-          <div key={id} className="text-white flex gap-3 items-end">
+          <div key={id} className="text-white flex gap-3 items-center ">
             <FormField
               defaultValue=""
               control={form.control}
               name={`menu.${index}.name`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel className="flex items-end gap-1">
+                    <span>Name</span>
+                    <FormMessage />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="bg-[#c5d8f9] text-black max-w-40 sm:max-w-full"
@@ -44,7 +47,6 @@ export default function MenuForm({ form }: Props) {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -54,7 +56,10 @@ export default function MenuForm({ form }: Props) {
               name={`menu.${index}.price`}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Price ($)</FormLabel>
+                  <FormLabel className="flex items-end gap-1">
+                    <span>Price ($)</span>
+                    <FormMessage />
+                  </FormLabel>
                   <FormControl>
                     <Input
                       className="bg-[#c5d8f9] text-black max-w-40 sm:max-w-full"
@@ -63,7 +68,6 @@ export default function MenuForm({ form }: Props) {
                       {...field}
                     />
                   </FormControl>
-                  <FormMessage />
                 </FormItem>
               )}
             />

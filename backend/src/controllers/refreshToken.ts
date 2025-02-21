@@ -24,13 +24,14 @@ export const refreshToken = async (req: Request, res: Response) => {
       userId,
     },
     process.env.ACCESS_SECRET as string,
-    { expiresIn: "1h" }
+    { expiresIn: "2m" }
   );
   res.cookie("ACCESS_TOKEN", accessToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
     maxAge: 60 * 60 * 1000,
+    // maxAge: 2 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ token: req.cookies.ACCESS_TOKEN });
 };

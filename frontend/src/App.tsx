@@ -27,7 +27,7 @@ function App() {
             <Route path="/my-resturant" element={<MyResturantPage />}></Route>
           </Route>
         </Route>
-        <Route path="*" element={<Navigate to="/" />}></Route>
+        <Route path="*" element={<Navigate to="/welcome" />}></Route>
       </Routes>
     </BrowserRouter>
   );

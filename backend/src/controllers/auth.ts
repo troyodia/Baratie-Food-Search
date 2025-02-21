@@ -57,10 +57,12 @@ export const loginUserForm = async (req: Request, res: Response) => {
   const accessToken = user.generateJwtToken(
     process.env.ACCESS_SECRET as string,
     process.env.ACCESS_LIFETIME as string
+    // "2m"
   );
   const refreshToken = user.generateJwtToken(
     process.env.REFRESH_SECRET as string,
     process.env.REFRESH_LIFETIME as string
+    // "4m"
   );
   console.log(accessToken, refreshToken);
   res.cookie("ACCESS_TOKEN", accessToken, {
@@ -68,12 +70,14 @@ export const loginUserForm = async (req: Request, res: Response) => {
     secure: true,
     sameSite: "none",
     maxAge: 60 * 60 * 1000,
+    // maxAge: 2 * 60 * 1000,
   });
   res.cookie("REFRESH_TOKEN", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "none",
     maxAge: 24 * 60 * 60 * 1000,
+    // maxAge: 4 * 60 * 1000,
   });
   res.status(StatusCodes.OK).json({ user, token: req.cookies.ACCESS_TOKEN });
 };

@@ -8,7 +8,7 @@ export const getAuthorizedUser = async (req: Request, res: Response) => {
   const user = await User.findOne({
     _id: req.user?.userId,
   });
-  console.log(user);
+  // console.log(user);
   if (!user) throw new BadRequestError("user not found");
   res.status(StatusCodes.OK).json({ user });
 };
@@ -34,6 +34,6 @@ export const updateUserProfile = async (
 
   if (!user) throw new BadRequestError("user not found to update profile");
 
-  console.log(user);
+  // console.log(user);
   res.status(StatusCodes.OK).json({ user });
 };

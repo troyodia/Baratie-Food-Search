@@ -107,7 +107,7 @@ export const getAuthorizedUser = async (): Promise<User | undefined> => {
   try {
     const res = await axiosInstance.get<{ user: User }>(GET_AUTH_USER_URL);
     if (res.data && res.status === 200) {
-      console.log(res.data.user);
+      // console.log(res.data.user);
       return res.data.user;
     }
   } catch (error) {
