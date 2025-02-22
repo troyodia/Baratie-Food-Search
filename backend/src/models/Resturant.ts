@@ -1,20 +1,10 @@
 import mongoose from "mongoose";
-type ResturantModel = {
-  cuisineItems: string[];
-  menu: { name: string; price: number }[];
-  name: string;
-  city: string;
-  country: string;
-  deliveryPrice: number;
-  deliveryTime: number;
-  image: string;
-  owner: mongoose.Types.ObjectId;
-};
-const ResturantScehma = new mongoose.Schema<ResturantModel>(
+
+const ResturantScehma = new mongoose.Schema(
   {
     owner: {
-      type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      type: String,
+      //   required: true,
     },
     cuisineItems: {
       type: [String],
@@ -59,7 +49,4 @@ const ResturantScehma = new mongoose.Schema<ResturantModel>(
   },
   { timestamps: true }
 );
-export const Resturant = mongoose.model<ResturantModel>(
-  "Resturant",
-  ResturantScehma
-);
+export const Resturant = mongoose.model("Resturant", ResturantScehma);

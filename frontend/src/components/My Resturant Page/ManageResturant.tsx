@@ -93,9 +93,9 @@ export default function ManageResturant() {
     mutate(formData);
     //add toast to use muatation
   };
-  useEffect(() => {
-    if (isSubmitSuccessful) reset();
-  }, [reset, isSubmitSuccessful]);
+  //   useEffect(() => {
+  //     if (isSubmitSuccessful) reset();
+  //   }, [reset, isSubmitSuccessful]);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

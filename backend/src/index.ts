@@ -35,5 +35,4 @@ const start = async () => {
     if (error instanceof Error) console.log(error);
   }
 };
-
 start();

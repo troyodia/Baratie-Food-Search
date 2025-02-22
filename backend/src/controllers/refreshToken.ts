@@ -17,7 +17,7 @@ export const refreshToken = async (req: Request, res: Response) => {
   const { email, userId } = payload as { email: string; userId: string };
   const user = await User.findOne({ _id: userId });
   if (!user) throw new BadRequestError("No user found");
-
+  // console.log(payload);
   const accessToken = jwt.sign(
     {
       email: user.email,
