@@ -83,9 +83,16 @@ export const createResturant = async (req: Request, res: Response) => {
   if (!newResuturant) {
     throw new BadRequestError("Cannot create restruant");
   }
-  //   console.log(newResuturant);
-  //   console.log(uplaodResult);
-  //   console.log("optimaized", optimizeUrl);
 
   res.status(StatusCodes.OK).json({ mesg: "success" });
+};
+
+export const getMyResturant = async (req: Request, res: Response) => {
+  if (!req.user) throw new BadRequestError("req.user does not exist");
+
+  const restruant = await Resturant.findOne({ owner: req.user.userId });
+
+  if (!restruant) throw new BadRequestError("No restruant found");
+
+  res.status(StatusCodes.OK).json({ restruant });
 };

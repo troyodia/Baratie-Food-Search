@@ -29,7 +29,7 @@ export default function MenuForm({ form }: Props) {
       </div>
       {fields.map(({ id }, index) => {
         return (
-          <div key={id} className="text-white flex gap-3 items-center ">
+          <div key={id} className="text-white flex gap-3 items-end ">
             <FormField
               defaultValue=""
               control={form.control}

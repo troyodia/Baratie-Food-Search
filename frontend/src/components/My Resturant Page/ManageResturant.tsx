@@ -19,7 +19,7 @@ const ManageResturantSchema = z.object({
       name: z
         .string()
         .nonempty("must provide a meal name")
-        .max(10, "10 character limit"),
+        .max(25, "25 character limit"),
       price: z.string().nonempty("must provide a price"),
     })
   ),
@@ -34,7 +34,7 @@ const ManageResturantSchema = z.object({
     name: z
       .string()
       .nonempty("must provide resturant name")
-      .max(20, "20 character limit"),
+      .max(35, "35 character limit"),
     city: z.string().nonempty("must provide resturant city"),
     country: z.string().nonempty("must provide resturant country"),
     deliveryPrice: z.string().nonempty("must provide a delivery price"),
@@ -64,6 +64,7 @@ export default function ManageResturant() {
       items: ["american"],
       resturantImage: undefined,
     },
+    mode: "onChange",
   });
   const {
     formState: { isDirty, isValid, isSubmitSuccessful },

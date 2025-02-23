@@ -8,6 +8,7 @@ import { errorHandler } from "./middleware/error-handler";
 import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/user";
 import { resturantRouter } from "./routes/myResturant";
+import { authorizeRoute } from "./middleware/authorize";
 const app = express();
 
 app.use(express.json());
@@ -19,7 +20,7 @@ app.get("/", async (req: Request, res: Response) => {
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/resturant", resturantRouter);
+app.use("/api/v1/resturant", authorizeRoute, resturantRouter);
 
 app.use(errorHandler);
 app.use(notFoundErrorMiddleware);
