@@ -12,3 +12,5 @@ export const UPDATE_PROFILE = `/api/v1/auth/update-profile`;
 //my resturant
 
 export const CREATE_RESTURANT = "/api/v1/resturant/create-resturant";
+export const GET_RESTURANT = "/api/v1/resturant/get-resturant";
+export const UPDATE_RESTURANT = "/api/v1/resturant/update-resturant";

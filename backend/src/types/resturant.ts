@@ -1,4 +1,4 @@
-export type CreateResturantBody = {
+export type ResturantBody = {
   cuisineItems: string;
   menu: string;
   name: string;

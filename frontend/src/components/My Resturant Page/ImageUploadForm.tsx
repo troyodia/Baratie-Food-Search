@@ -1,16 +1,25 @@
-import { UseFormReturn } from "react-hook-form";
-import { ManageResturantForm } from "./ManageResturant";
 import { FormControl, FormField, FormItem, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
-import placeholder from "../../assets/Images/food.jpg";
+import { useEffect, useState } from "react";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { useFormContext } from "react-hook-form";
 
-type Props = {
-  form: UseFormReturn<ManageResturantForm>;
-};
-
-export default function ImageUploadForm({ form }: Props) {
-  //   const fileRef = form.register("resturantImage");
-
+export default function ImageUploadForm() {
+  const form = useFormContext();
+  const [fileDataUrl, setFileDataUrl] = useState<string | ArrayBuffer | null>(
+    null
+  );
+  const imageUrl: string = form.watch("imageUrl");
+  const previewImage = form.watch("image");
+  useEffect(() => {
+    if (previewImage) {
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        setFileDataUrl(fileReader.result);
+      };
+      fileReader.readAsDataURL(previewImage);
+    }
+  }, [previewImage]);
   return (
     <div className="space-y-8">
       <div className="space-y-2">
@@ -19,17 +28,32 @@ export default function ImageUploadForm({ form }: Props) {
           Add an image that will be displayed on your resturant listing in the
           seacrh results. Adding a new image will overwrite the existing one
         </p>
-        <div className="w-full max-w-[600px] ">
-          <img
-            alt=""
-            src={placeholder}
-            className="w-full object-contain rounded-lg"
-          ></img>
-        </div>
+        {imageUrl && !previewImage && (
+          <div className="w-full max-w-[600px] ">
+            <AspectRatio ratio={16 / 9}>
+              <img
+                alt=""
+                src={imageUrl}
+                className="w-full h-full object-cover rounded-lg"
+              ></img>
+            </AspectRatio>
+          </div>
+        )}
+        {previewImage && (
+          <div className="w-full max-w-[600px] ">
+            <AspectRatio ratio={16 / 9}>
+              <img
+                alt=""
+                src={fileDataUrl as string}
+                className="w-full h-full object-cover rounded-lg"
+              ></img>
+            </AspectRatio>
+          </div>
+        )}
       </div>
       <FormField
         control={form.control}
-        name="resturantImage"
+        name="image"
         render={({ field }) => (
           <FormItem>
             <FormControl>

@@ -6,14 +6,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UseFormReturn } from "react-hook-form";
-import { ManageResturantForm } from "./ManageResturant";
+import { useFormContext } from "react-hook-form";
 
-type Props = {
-  form: UseFormReturn<ManageResturantForm>;
-};
-
-function DetailsForm({ form }: Props) {
+function DetailsForm() {
+  const form = useFormContext();
   return (
     <div className="text-white space-y-3">
       <div className="space-y-2">

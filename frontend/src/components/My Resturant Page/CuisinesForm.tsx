@@ -8,18 +8,16 @@ import {
   FormMessage,
 } from "../ui/form";
 
-import { UseFormReturn } from "react-hook-form";
-import { ManageResturantForm } from "./ManageResturant";
 import { Checkbox } from "../ui/checkbox";
+import { useFormContext } from "react-hook-form";
 
-type Props = {
-  form: UseFormReturn<ManageResturantForm>;
-};
-export default function CuisinesForm({ form }: Props) {
+export default function CuisinesForm() {
+  const form = useFormContext();
+
   return (
     <FormField
       control={form.control}
-      name="items"
+      name="cuisineItems"
       render={() => (
         <FormItem>
           <FormLabel className="text-white text-2xl tracking-tight font-bold">
@@ -34,7 +32,7 @@ export default function CuisinesForm({ form }: Props) {
                 <FormField
                   key={item.id}
                   control={form.control}
-                  name="items"
+                  name="cuisineItems"
                   render={({ field }) => (
                     <FormItem
                       key={item.id}
@@ -49,7 +47,7 @@ export default function CuisinesForm({ form }: Props) {
                               ? field.onChange([...field.value, item.id])
                               : field.onChange(
                                   field.value?.filter(
-                                    (value) => value != item.id
+                                    (value: string) => value != item.id
                                   )
                                 );
                           }}

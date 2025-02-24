@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { TypeOptions, toast } from "react-toastify";
 import {
   Form,
   FormControl,
@@ -15,7 +14,8 @@ import { useEffect } from "react";
 import { useUpdateProfie } from "@/hooks/auth";
 import { LoaderCircle } from "lucide-react";
 import { User } from "@/types/userInfo";
-import SubmitButton from "../ui/submitButton";
+import SubmitButton from "@/components/ui/SubmitButton";
+import { notify } from "@/utils/notify";
 
 const ProfileSchema = z.object({
   email: z.string({ message: "email is required" }).email({
@@ -52,21 +52,7 @@ type Props = {
   currentUser: User;
 };
 export default function Profile({ currentUser }: Props) {
-  const { error, mutate, isPending } = useUpdateProfie(
-    (message: string, type: TypeOptions) => {
-      toast.success(message, {
-        type,
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-  );
+  const { error, mutate, isPending } = useUpdateProfie(notify);
 
   const form = useForm<ProfileFormType>({
     resolver: zodResolver(ProfileSchema),

@@ -14,7 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Separator } from "@radix-ui/react-separator";
 import { useEffect, useState } from "react";
 import GoogleLogin from "./GoogleLogin";
@@ -32,11 +32,12 @@ type FormFields = z.infer<typeof formSchema>;
 
 export default function Login() {
   const naviagte = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  // const location = useLocation();
+  // const from = location.state?.from?.pathname || "/";
 
   const { mutate, error } = useLoginUser(() => {
-    naviagte(from, { replace: true });
+    // naviagte(from, { replace: true });
+    naviagte("/");
   });
   const [hidePassword, setHidePassword] = useState(false);
   const form = useForm<FormFields>({
@@ -131,7 +132,10 @@ export default function Login() {
                       }
                     }}
                   />
-                  <button onClick={() => setHidePassword((prev) => !prev)}>
+                  <button
+                    type="button"
+                    onClick={() => setHidePassword((prev) => !prev)}
+                  >
                     {!hidePassword ? <Eye /> : <EyeOff />}
                   </button>
                 </div>

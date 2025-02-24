@@ -1,8 +1,17 @@
 import express from "express";
 import { upload } from "../middleware/multer";
-import { createResturant, getMyResturant } from "../controllers/resturant";
+import {
+  createMyResturant,
+  getMyResturant,
+  updateMyResturant,
+} from "../controllers/resturant";
 export const resturantRouter = express.Router();
 resturantRouter
   .route("/create-resturant")
-  .post(upload.single("image"), createResturant);
+  .post(upload.single("image"), createMyResturant);
+
+resturantRouter
+  .route("/update-resturant")
+  .post(upload.single("image"), updateMyResturant);
+
 resturantRouter.route("/get-resturant").get(getMyResturant);

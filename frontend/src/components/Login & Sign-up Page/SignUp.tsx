@@ -190,7 +190,10 @@ export default function SignUp() {
                       }
                     }}
                   />
-                  <button onClick={() => setHidePassword((prev) => !prev)}>
+                  <button
+                    type="button"
+                    onClick={() => setHidePassword((prev) => !prev)}
+                  >
                     {!hidePassword ? <Eye /> : <EyeOff />}
                   </button>
                 </div>

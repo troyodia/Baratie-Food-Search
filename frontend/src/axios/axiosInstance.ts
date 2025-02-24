@@ -11,7 +11,7 @@ const generateToken = async () => {
   try {
     await axios.get<{ token: string }>(REFRESH_URL, { withCredentials: true });
   } catch (error) {
-    if (isAxiosError(error)) {
+    if (isAxiosError(error) && error.status === 500) {
       throw new Error(error.response?.data.msg);
     }
   }

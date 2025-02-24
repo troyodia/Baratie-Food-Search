@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const ResturantScehma = new mongoose.Schema(
   {
     owner: {
-      type: String,
-      //   required: true,
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
     },
     cuisineItems: {
       type: [String],
@@ -44,6 +45,10 @@ const ResturantScehma = new mongoose.Schema(
     },
     image: {
       type: String,
+      required: true,
+    },
+    lastUpdated: {
+      type: Date,
       required: true,
     },
   },

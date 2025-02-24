@@ -1,6 +1,7 @@
-import ManageResturant from "@/components/My Resturant Page/ManageResturant";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Layout from "@/layouts/Layout";
+import ManageResturantPage from "./ManageResturantPage";
+import MyOrdersPage from "./MyOrdersPage";
 
 export default function MyResturantPage() {
   return (
@@ -11,10 +12,10 @@ export default function MyResturantPage() {
           <TabsTrigger value="resturant">Manage Resturant</TabsTrigger>
         </TabsList>
         <TabsContent className="border text-white" value="orders">
-          My orders
+          <MyOrdersPage />
         </TabsContent>
         <TabsContent value="resturant">
-          <ManageResturant />
+          <ManageResturantPage />
         </TabsContent>
       </Tabs>
     </Layout>

@@ -7,13 +7,11 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { ManageResturantForm } from "./ManageResturant";
-import { useFieldArray, UseFormReturn } from "react-hook-form";
-type Props = {
-  form: UseFormReturn<ManageResturantForm>;
-};
+import { useFieldArray, useFormContext } from "react-hook-form";
 
-export default function MenuForm({ form }: Props) {
+export default function MenuForm() {
+  const form = useFormContext();
+
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "menu",
