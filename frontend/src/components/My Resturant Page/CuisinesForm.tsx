@@ -20,7 +20,7 @@ export default function CuisinesForm() {
       name="cuisineItems"
       render={() => (
         <FormItem>
-          <FormLabel className="text-white text-2xl tracking-tight font-bold">
+          <FormLabel className="text-black text-2xl tracking-tight font-bold">
             Cuisines
           </FormLabel>
           <FormDescription>
@@ -40,7 +40,7 @@ export default function CuisinesForm() {
                     >
                       <FormControl>
                         <Checkbox
-                          className="border-white data-[state=checked]:bg-black"
+                          className="border-black data-[state=checked]:bg-black"
                           checked={field.value?.includes(item.id)}
                           onCheckedChange={(checked) => {
                             return checked
@@ -53,7 +53,7 @@ export default function CuisinesForm() {
                           }}
                         />
                       </FormControl>
-                      <FormLabel className="text-sm  text-white font-semibold">
+                      <FormLabel className="text-sm  text-black font-semibold">
                         {item.label}
                       </FormLabel>
                     </FormItem>

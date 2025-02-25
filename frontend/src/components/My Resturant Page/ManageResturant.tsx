@@ -159,13 +159,16 @@ export default function ManageResturant({ myCurrentResturant }: Props) {
   }, [reset, myCurrentResturant]);
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-10 bg-white text-black px-4 py-4 rounded-lg"
+      >
         <DetailsForm />
-        <Separator orientation="vertical" className="bg-white w-full h-px" />
+        <Separator orientation="vertical" className="bg-black w-full h-px" />
         <CuisinesForm />
-        <Separator orientation="vertical" className="bg-white w-full h-px" />
+        <Separator orientation="vertical" className="bg-black w-full h-px" />
         <MenuForm />
-        <Separator orientation="vertical" className="bg-white w-full h-px" />
+        <Separator orientation="vertical" className="bg-black w-full h-px" />
         <ImageUploadForm />
 
         <SubmitButton

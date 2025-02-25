@@ -23,7 +23,7 @@ export default function ImageUploadForm() {
   return (
     <div className="space-y-8">
       <div className="space-y-2">
-        <h2 className="text-white font-bold text-2xl tracking-tight">Image</h2>
+        <h2 className="text-black font-bold text-2xl tracking-tight">Image</h2>
         <p className="text-gray-500 text-sm">
           Add an image that will be displayed on your resturant listing in the
           seacrh results. Adding a new image will overwrite the existing one

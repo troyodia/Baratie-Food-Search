@@ -19,7 +19,7 @@ export default function MenuForm() {
   return (
     <div className="space-y-2">
       <div className="space-y-2">
-        <h2 className="text-white font-bold text-2xl tracking-tight">Menu</h2>
+        <h2 className="text-black font-bold text-2xl tracking-tight">Menu</h2>
         <p className="text-gray-500 text-sm">
           Create your menu annd give each item a name and price!. You must have
           at least one item in your menu
@@ -27,7 +27,7 @@ export default function MenuForm() {
       </div>
       {fields.map(({ id }, index) => {
         return (
-          <div key={id} className="text-white flex gap-3 items-end ">
+          <div key={id} className="text-black flex gap-3 items-end ">
             <FormField
               defaultValue=""
               control={form.control}
@@ -71,7 +71,7 @@ export default function MenuForm() {
             />
             {index > 0 && (
               <Button
-                className="bg-transparent border-2 border-red-800"
+                className="bg-transparent text-black border-2 border-red-700  hover:border-red-900 hover:bg-transparent transition-colors ease-in-out"
                 onClick={() => {
                   remove(index);
                 }}
@@ -84,7 +84,7 @@ export default function MenuForm() {
       })}
       <Button
         type="button"
-        className=" border-2 bg-transparent border-[#75AAF0]"
+        className=" border-2 bg-transparent text-black border-[#75AAF0] hover:border-[#b6cff7] hover:bg-transparent transition-colors ease-in-out"
         onClick={() => {
           append({ name: "", price: "" });
         }}

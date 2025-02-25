@@ -6,7 +6,7 @@ import MyOrdersPage from "./MyOrdersPage";
 export default function MyResturantPage() {
   return (
     <Layout>
-      <Tabs defaultValue="orders" className="mx-6">
+      <Tabs defaultValue="orders" className="mx-4">
         <TabsList>
           <TabsTrigger value="orders">Orders</TabsTrigger>
           <TabsTrigger value="resturant">Manage Resturant</TabsTrigger>

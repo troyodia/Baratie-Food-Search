@@ -11,9 +11,9 @@ import { useFormContext } from "react-hook-form";
 function DetailsForm() {
   const form = useFormContext();
   return (
-    <div className="text-white space-y-3">
+    <div className="text-black space-y-3">
       <div className="space-y-2">
-        <h2 className="text-white font-bold text-2xl tracking-tight">
+        <h2 className="text-black font-bold text-2xl tracking-tight">
           Details
         </h2>
         <p className="text-gray-500 text-sm">
