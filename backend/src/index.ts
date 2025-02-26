@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { authRouter } from "./routes/user";
 import { resturantRouter } from "./routes/myResturant";
 import { authorizeRoute } from "./middleware/authorize";
+import { searchRouter } from "./routes/searchRoutes";
 const app = express();
 
 app.use(express.json());
@@ -21,6 +22,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/resturant", authorizeRoute, resturantRouter);
+app.use("/api/v1/search", authorizeRoute, searchRouter);
 
 app.use(errorHandler);
 app.use(notFoundErrorMiddleware);

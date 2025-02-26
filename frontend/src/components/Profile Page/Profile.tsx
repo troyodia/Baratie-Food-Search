@@ -14,8 +14,8 @@ import { useEffect } from "react";
 import { useUpdateProfie } from "@/hooks/auth";
 import { LoaderCircle } from "lucide-react";
 import { User } from "@/types/userInfo";
-import SubmitButton from "@/components/ui/SubmitButton";
 import { notify } from "@/utils/notify";
+import SubmitButton from "@/components/ui/submitButton";
 
 const ProfileSchema = z.object({
   email: z.string({ message: "email is required" }).email({

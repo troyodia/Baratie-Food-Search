@@ -9,7 +9,7 @@ import { Separator } from "../ui/separator";
 import DetailsForm from "./DetailsForm";
 import { MAX_FILE_SIZE, imageTypes } from "./myResturantFormData";
 import ImageUploadForm from "./ImageUploadForm";
-import SubmitButton from "@/components/ui/SubmitButton";
+import SubmitButton from "@/components/ui/submitButton";
 import { useEffect } from "react";
 import { useCreatMyResturant, useUpdateMyResturant } from "@/hooks/myResturant";
 import { LoaderCircle } from "lucide-react";
