@@ -22,7 +22,7 @@ app.get("/", async (req: Request, res: Response) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/resturant", authorizeRoute, resturantRouter);
-app.use("/api/v1/search", authorizeRoute, searchRouter);
+app.use("/api/v1/search-restaurant", authorizeRoute, searchRouter);
 
 app.use(errorHandler);
 app.use(notFoundErrorMiddleware);
