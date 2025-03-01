@@ -16,10 +16,11 @@ export const searchForRestrauant = async (
   req: Request<{}, {}, {}, QueryParameter>,
   res: Response
 ) => {
-  // if (!req.query) {
-  //   throw new BadRequestError("url parameter required");
-  // }
   const { search, sortBy, cuisineFilter } = req.query;
+  if (!search) {
+    res.status(StatusCodes.OK).json({ restrauants: [] });
+    return;
+  }
   const query: FilterQuery = {};
   if (cuisineFilter) {
     query.cuisineItems = cuisineFilter.toLowerCase();
@@ -37,6 +38,6 @@ export const searchForRestrauant = async (
   const restrauants = await Resturant.find(query).sort([
     [sortOptions[sortBy!], "asc"],
   ]);
-  console.log(restrauants);
+  // console.log(restrauants);
   res.status(StatusCodes.OK).json({ restrauants });
 };

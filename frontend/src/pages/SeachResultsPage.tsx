@@ -1,9 +1,11 @@
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
-import React, { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { items } from "@/components/My Resturant Page/myResturantFormData";
 import { useSearchForRestaurant } from "@/hooks/search";
+import Layout from "@/layouts/Layout";
+import FilterSearchSection from "@/components/Search Results Page/FilterSearchSection";
 
 const SearchSchema = z.object({
   sortBy: z
@@ -20,16 +22,14 @@ const SearchSchema = z.object({
   search: z.string().catch(""),
 });
 export default function SeachResultsPage() {
-  //set initail value for sortBy and use it for ascending order in back end
-  //   const [search, setSearch] = useSearchParams();
   const naviagte = useNavigate();
-  const { search, sortBy, cuisineFilter, setSearch } = useRestaurantFilters();
-  //   console.log(search, sortBy);
+  const { search, sortBy, cuisineFilter } = useRestaurantFilters();
   const params = SearchSchema.parse({
     sortBy: sortBy,
     cuisineFilter: cuisineFilter,
     search: search,
   });
+
   const { data, error, isPending, isError } = useSearchForRestaurant(params);
   useEffect(() => {
     if (params.sortBy) {
@@ -43,7 +43,11 @@ export default function SeachResultsPage() {
       );
     }
   }, [search, naviagte, params.sortBy, params.cuisineFilter, params.search]);
-  //   console.log(params);
-  return <div>SeachResultsPage</div>;
-  //craete layout
+  return (
+    <Layout>
+      <div className="text-white border ">
+        <FilterSearchSection />
+      </div>
+    </Layout>
+  );
 }

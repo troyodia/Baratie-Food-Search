@@ -20,12 +20,12 @@ export default function useRestaurantFilters() {
         if (filters.sortBy) {
           params.set("sortBy", filters.sortBy);
         }
-        if (filters.cuisineFilter) {
+        if (filters.cuisineFilter || filters.cuisineFilter === "") {
           params.set("cuisineFilter", filters.cuisineFilter);
         }
         return params;
-      }
-      //   { replace: true }
+      },
+      { replace: true }
     );
   }, []);
   return {

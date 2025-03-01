@@ -1,20 +1,12 @@
 import { useState } from "react";
-import { Button } from "./ui/button";
 import { Search } from "lucide-react";
-import { useSearchForRestaurant } from "@/hooks/search";
-import { CreatedResturant } from "@/types/resturantTypes";
+
 import { createSearchParams, useNavigate } from "react-router-dom";
 
 export default function SearchBar() {
-  ///use injection from usequery for the search param check pics
-
   const [searchParam, setSearchParam] = useState("");
   const naviagte = useNavigate();
-  // const {} = useSearchForRestaurant((data:CreatedResturant[])=>{
-  //   if(data.length > 1 ){
-  //     naviagte('/search/:id')
-  //   }
-  // })
+
   return (
     <div className="flex w-full gap-2 max-w-[85%] sm:max-w-[70%]  text-white">
       <input
