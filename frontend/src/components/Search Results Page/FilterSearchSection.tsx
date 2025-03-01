@@ -24,8 +24,10 @@ export default function FilterSearchSection() {
           className=" border-2 bg-transparent  border-[#75AAF0]
              hover:border-[#b6cff7] hover:bg-transparent transition-colors ease-in-out"
           onClick={() => {
-            setActiveButton("");
-            setSearch({ cuisineFilter: "" });
+            if (activeButton) {
+              setActiveButton("");
+              setSearch({ cuisineFilter: "" });
+            }
           }}
         >
           <RotateCcw /> Reset
@@ -50,8 +52,10 @@ export default function FilterSearchSection() {
                   }
                 )}
                 onClick={() => {
-                  setActiveButton(item.id);
-                  setSearch({ cuisineFilter: item.label });
+                  if (activeButton !== item.id) {
+                    setActiveButton(item.id);
+                    setSearch({ cuisineFilter: item.label });
+                  }
                 }}
               >
                 {item.label}
@@ -74,8 +78,10 @@ export default function FilterSearchSection() {
                     }
                   )}
                   onClick={() => {
-                    setActiveButton(item.id);
-                    setSearch({ cuisineFilter: item.label });
+                    if (activeButton !== item.id) {
+                      setActiveButton(item.id);
+                      setSearch({ cuisineFilter: item.label });
+                    }
                   }}
                 >
                   {item.label}

@@ -6,11 +6,11 @@ import { createSearchParams, useNavigate } from "react-router-dom";
 export default function SearchBar() {
   const [searchParam, setSearchParam] = useState("");
   const naviagte = useNavigate();
-
+  // max-w-[85%] sm:max-w-[70%]
   return (
-    <div className="flex w-full gap-2 max-w-[85%] sm:max-w-[70%]  text-white">
+    <div className="flex w-full gap-2 mx-8 border  text-white">
       <input
-        placeholder="Search for a City or Town"
+        placeholder="Search by a City or Resturant Name or Cusinie"
         className="placeholder-[#c5d8f9] py-2  bg-[#474a4f] border-transparent outline-1 
         outline-offset-2 focus:outline-dashed px-6 focus:border-none flex flex-1 min-w-0"
         onChange={(e) => {

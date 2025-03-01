@@ -15,7 +15,6 @@ const SearchSchema = z.object({
     .string()
     .refine((val) => {
       const found = items.find((item) => val === item.label || val === item.id);
-      console.log(found);
       return !!found;
     })
     .catch(""),

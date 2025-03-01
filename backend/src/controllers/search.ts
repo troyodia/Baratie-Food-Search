@@ -9,7 +9,7 @@ type QueryParameter = {
 };
 type FilterQuery = {
   cuisineItems?: string;
-  city?: RegExp;
+  // city?: RegExp;
   // city?: string;
 };
 export const searchForRestrauant = async (
@@ -25,19 +25,28 @@ export const searchForRestrauant = async (
   if (cuisineFilter) {
     query.cuisineItems = cuisineFilter.toLowerCase();
   }
-  if (search) {
-    query.city = new RegExp(search, "i");
-    // query.city = search;
-  }
+  // if (search) {
+  //   query.city = new RegExp(search, "i");
+  // }
+  const searchRegex = new RegExp(search, "i");
   const sortOptions = {
     best_match: "name",
     delivery_price: "deliveryPrice",
     estimated_delivery_time: "deliveryTime",
   };
   console.log(query, sortOptions[sortBy!]);
-  const restrauants = await Resturant.find(query).sort([
-    [sortOptions[sortBy!], "asc"],
-  ]);
+  const restrauants = await Resturant.find({
+    $and: [
+      {
+        $or: [
+          { cuisineItems: searchRegex },
+          { city: searchRegex },
+          { name: searchRegex },
+        ],
+      },
+      query,
+    ],
+  }).sort([[sortOptions[sortBy!], "asc"]]);
   // console.log(restrauants);
   res.status(StatusCodes.OK).json({ restrauants });
 };
