@@ -6,6 +6,7 @@ import { items } from "@/components/My Resturant Page/myResturantFormData";
 import { useSearchForRestaurant } from "@/hooks/search";
 import Layout from "@/layouts/Layout";
 import FilterSearchSection from "@/components/Search Results Page/FilterSearchSection";
+import SearchResultsSection from "@/components/Search Results Page/SearchResultsSection";
 
 const SearchSchema = z.object({
   sortBy: z
@@ -30,6 +31,9 @@ export default function SeachResultsPage() {
   });
 
   const { data, error, isPending, isError } = useSearchForRestaurant(params);
+
+  //add error, ipending stuff, data existing else render error page, put is pedning in search results section
+
   useEffect(() => {
     if (params.sortBy) {
       naviagte(
@@ -44,8 +48,9 @@ export default function SeachResultsPage() {
   }, [search, naviagte, params.sortBy, params.cuisineFilter, params.search]);
   return (
     <Layout>
-      <div className="text-white border ">
+      <div className="text-white border flex gap-6">
         <FilterSearchSection />
+        <SearchResultsSection searchResults={data} />
       </div>
     </Layout>
   );

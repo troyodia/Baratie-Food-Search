@@ -14,7 +14,9 @@ export default function Layout({ children }: Props) {
     <div className=" flex flex-col min-h-screen bg-black ">
       <Header />
       {(pathname === "/" || pathname === "/welcome") && <Hero />}
-      <div className=" container mx-auto flex-1 py-10 ">{children}</div>
+      <div className=" container mx-auto flex-1 py-10 font-mono">
+        {children}
+      </div>
       <Footer />
     </div>
   );

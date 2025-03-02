@@ -23,14 +23,14 @@ export function MobileNav() {
   const { mutate: logout } = useLogoutUser(() => navigate("/login-page"));
   return (
     mobile && (
-      <div className="flex flex-col gap-2 ">
+      <div className="flex flex-col gap-2 font-mono ">
         <Sheet>
           <SheetTrigger asChild>
             <SquareMenu className=" cursor-pointer" color="#a7c5f5" size={30} />
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle className="text-2xl flex flex-col items-start gap-2">
+              <SheetTitle className="text-2xl flex flex-col items-start gap-2 font-mono">
                 <img
                   className="w-20 hover:scale-110 transition-all ease-in-out delay-75 "
                   src={baratieIcon}
@@ -46,7 +46,7 @@ export function MobileNav() {
               })}
             />
             {user && pathname !== "/welcome" && (
-              <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center">
+              <nav className="flex flex-col gap-10 mb-10 text-lg font-bold items-center justify-center font-mono">
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="/user-profile">Profile</NavLink>
                 <NavLink to="/my-resturant">My Resturant</NavLink>
@@ -55,7 +55,7 @@ export function MobileNav() {
             <SheetDescription className="flex justify-center">
               <SheetClose asChild>
                 <button
-                  className=" group hover-button py-2 rounded-full font-bold bg-black flex-1 max-w-[250px]"
+                  className="font-mono group hover-button py-2 rounded-full font-bold bg-black flex-1 max-w-[250px]"
                   onClick={async () => {
                     if (user && pathname !== "/welcome") {
                       logout();

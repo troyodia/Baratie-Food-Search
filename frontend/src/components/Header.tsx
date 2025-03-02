@@ -7,7 +7,7 @@ export default function Header() {
   const user = useAppStore(useShallow((state) => state.userToken));
 
   return (
-    <nav className="w-full h-20">
+    <nav className="w-full h-20 font-mono">
       <div className=" h-full container mx-auto flex justify-between items-center px-8">
         <NavLink
           to={user ? "/" : "/welcome"}

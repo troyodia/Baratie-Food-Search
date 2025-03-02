@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <main className="flex py-8 items-center bg-[#5f6166] ">
+    <main className="flex py-8 items-center bg-[#5f6166] font-mono">
       <div className="container mx-auto px-8 flex justify-between items-center">
         <span className="text-3xl md:text-4xl font-bold text-[#97bcf4] tracking-tight">
           Baratie.com

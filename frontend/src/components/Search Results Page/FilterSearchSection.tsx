@@ -17,9 +17,11 @@ export default function FilterSearchSection() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeButton, setActiveButton] = useState("");
   return (
-    <main className=" flex flex-col max-w-[300px] gap-3">
-      <section className="flex justify-between mx-2 items-center">
-        <span className="tracking-tight font-bold">Filter By Cusisine</span>
+    <main className=" flex flex-1 flex-col max-w-[250px] border gap-3">
+      <section className="flex justify-between mx-2 gap-2 items-center">
+        <span className="tracking-tight font-bold text-sm ">
+          Filter By Cusisine
+        </span>
         <Button
           className=" border-2 bg-transparent  border-[#75AAF0]
              hover:border-[#b6cff7] hover:bg-transparent transition-colors ease-in-out"
@@ -36,7 +38,7 @@ export default function FilterSearchSection() {
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className="max-w-[300px] space-y-2"
+        className="max-w-[250px] space-y-2"
       >
         {items
           .map((item) => {

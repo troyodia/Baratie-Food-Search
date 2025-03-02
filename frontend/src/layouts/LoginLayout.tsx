@@ -7,7 +7,7 @@ type Props = {
 export default function LoginLayout({ children }: Props) {
   return (
     <main className="min-h-screen bg-black flex px-6">
-      <div className="container mx-auto flex-1 items-center flex">
+      <div className="container mx-auto flex-1 items-center flex font-mono">
         {children}
       </div>
     </main>

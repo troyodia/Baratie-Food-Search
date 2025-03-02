@@ -12,7 +12,8 @@ export default function HomePage() {
     <Layout>
       <main className=" flex flex-col items-center gap-12 mx-6 mb-12">
         <section
-          className=" bg-[#282828] -mt-16 sm:-mt-24 border-2 w-full max-w-[1000px] py-6 sm:py-8 flex flex-col items-center gap-3 rounded-md hover:shadow-lg hover:shadow-[#c5d8f9]
+          className=" bg-[#282828] px-8 -mt-16 sm:-mt-24 border-2 w-full max-w-[1000px] py-6 
+          sm:py-8 flex flex-col items-center gap-3 rounded-md hover:shadow-lg hover:shadow-[#c5d8f9]
         transition-shadow ease-in-out duration-150 delay-150 "
         >
           <h1 className="text-lg sm:text-4xl text-white font-bold tracking-tight ">
