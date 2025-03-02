@@ -13,9 +13,11 @@ import { useState } from "react";
 import clsx from "clsx";
 
 export default function FilterSearchSection() {
-  const { setSearch } = useRestaurantFilters();
+  const { setSearch, cuisineFilter } = useRestaurantFilters();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState("");
+  const [activeButton, setActiveButton] = useState(
+    cuisineFilter?.toLowerCase()
+  );
   return (
     <main className=" flex flex-1 flex-col max-w-[250px] border gap-3">
       <section className="flex justify-between mx-2 gap-2 items-center">

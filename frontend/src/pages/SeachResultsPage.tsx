@@ -1,6 +1,6 @@
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { items } from "@/components/My Resturant Page/myResturantFormData";
 import { useSearchForRestaurant } from "@/hooks/search";
@@ -30,10 +30,7 @@ export default function SeachResultsPage() {
     search: search,
   });
 
-  const { data, error, isPending, isError } = useSearchForRestaurant(params);
-
   //add error, ipending stuff, data existing else render error page, put is pedning in search results section
-
   useEffect(() => {
     if (params.sortBy) {
       naviagte(
@@ -46,11 +43,15 @@ export default function SeachResultsPage() {
       );
     }
   }, [search, naviagte, params.sortBy, params.cuisineFilter, params.search]);
+
   return (
     <Layout>
-      <div className="text-white border flex gap-6">
+      <div className="text-white border flex gap-10">
         <FilterSearchSection />
-        <SearchResultsSection searchResults={data} />
+        <SearchResultsSection
+          // searchResults={data}
+          params={params}
+        />
       </div>
     </Layout>
   );

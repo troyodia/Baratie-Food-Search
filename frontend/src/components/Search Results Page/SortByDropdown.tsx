@@ -27,7 +27,7 @@ export default function SortByDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <span className="px-2 py-1 bg-[#97bcf4] text-black font-semibold rounded-md">
+        <span className="px-2 py-1 bg-[#97bcf4] text-black font-semibold rounded-md hover:bg-[#c5d8f9] transition-all">
           Sort By: {currentSortOption}
         </span>
       </DropdownMenuTrigger>
