@@ -11,7 +11,8 @@ type Props = {
 };
 
 export default function SearchResultsSection({ params }: Props) {
-  const { search } = useRestaurantFilters();
+  const { search, setSearch } = useRestaurantFilters();
+  //   console.log(search);
   const {
     data: searchResults,
     isPending,
@@ -20,13 +21,21 @@ export default function SearchResultsSection({ params }: Props) {
 
   //improve error message, handle error in main page and ahndle empty search results
   // with lottie in middle of page
+
+  const searchFn = (search: string) => {
+    // console.log(search);
+    setSearch({
+      search: search,
+      sortBy: "best_match",
+      cuisineFilter: "",
+    });
+  };
   if (isError) {
     return <div>Error</div>;
   }
-
   return (
     <div className=" flex-1 flex flex-col gap-8">
-      <SearchBar />
+      <SearchBar searchFn={searchFn} />
       <section className="justify-between flex">
         <span className=" font-bold ">
           {searchResults?.length} Resturaunts found for search term{" "}

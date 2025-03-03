@@ -10,11 +10,11 @@ type Props = {
 export default function SearchResults({ searchResults }: Props) {
   //loading lottie?
   return (
-    <main className="">
+    <main className="flex flex-col gap-8">
       {searchResults?.map((result) => {
         return (
-          <Link key={result._id} to="/" className="group flex2">
-            <div className=" flex gap-6 w-full">
+          <Link key={result._id} to="/" className="group">
+            <div className="  grid grid-cols-3 gap-6 w-full">
               <section className="w-full max-w-[450px]">
                 <AspectRatio ratio={16 / 9} className="">
                   <img
@@ -24,12 +24,12 @@ export default function SearchResults({ searchResults }: Props) {
                   ></img>
                 </AspectRatio>
               </section>
-              <section className="flex flex-col gap-2">
+              <section className="flex flex-col gap-2 w-full  col-span-2">
                 <h2 className="group-hover:underline underline-offset-4 font-bold tracking-tight text-2xl">
                   {result.name}
                 </h2>
-                <section className="flex gap-6">
-                  <ul className="flex max-w-96 gap-1.5 text-white/90">
+                <section className="flex gap-6  w-full ">
+                  <ul className="flex flex-wrap flex-1  w-full max-w-96  gap-1.5 text-white/90">
                     {result.cuisineItems.map((item, index) => {
                       return (
                         <li key={item}>

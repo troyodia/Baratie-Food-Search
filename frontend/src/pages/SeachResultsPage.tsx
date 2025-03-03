@@ -29,7 +29,7 @@ export default function SeachResultsPage() {
     cuisineFilter: cuisineFilter,
     search: search,
   });
-
+  // console.log("params", params);
   //add error, ipending stuff, data existing else render error page, put is pedning in search results section
   useEffect(() => {
     if (params.sortBy) {
@@ -38,8 +38,8 @@ export default function SeachResultsPage() {
           params.cuisineFilter !== ""
             ? "&cuisineFilter=" + params.cuisineFilter
             : ""
-        }`,
-        { replace: true }
+        }`
+        // { replace: true }
       );
     }
   }, [search, naviagte, params.sortBy, params.cuisineFilter, params.search]);
@@ -48,10 +48,7 @@ export default function SeachResultsPage() {
     <Layout>
       <div className="text-white border flex gap-10">
         <FilterSearchSection />
-        <SearchResultsSection
-          // searchResults={data}
-          params={params}
-        />
+        <SearchResultsSection params={params} />
       </div>
     </Layout>
   );

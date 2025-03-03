@@ -1,8 +1,7 @@
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import { items } from "../My Resturant Page/myResturantFormData";
-import { ChevronsUpDown } from "lucide-react";
-import { ChevronsDownUp } from "lucide-react";
-import { RotateCcw } from "lucide-react";
+import { ChevronsUpDown, ChevronsDownUp, RotateCcw } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -15,9 +14,7 @@ import clsx from "clsx";
 export default function FilterSearchSection() {
   const { setSearch, cuisineFilter } = useRestaurantFilters();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeButton, setActiveButton] = useState(
-    cuisineFilter?.toLowerCase()
-  );
+
   return (
     <main className=" flex flex-1 flex-col max-w-[250px] border gap-3">
       <section className="flex justify-between mx-2 gap-2 items-center">
@@ -28,8 +25,7 @@ export default function FilterSearchSection() {
           className=" border-2 bg-transparent  border-[#75AAF0]
              hover:border-[#b6cff7] hover:bg-transparent transition-colors ease-in-out"
           onClick={() => {
-            if (activeButton) {
-              setActiveButton("");
+            if (cuisineFilter?.toLowerCase()) {
               setSearch({ cuisineFilter: "" });
             }
           }}
@@ -50,14 +46,14 @@ export default function FilterSearchSection() {
                 className={clsx(
                   "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex w-full hover:bg-white hover:text-black",
                   {
-                    " border-white shadow-white": activeButton !== item.id,
+                    " border-white shadow-white":
+                      cuisineFilter?.toLowerCase() !== item.id,
                     " border-[#75AAF0] shadow-[#75AAF0] border-2":
-                      activeButton === item.id,
+                      cuisineFilter?.toLowerCase() === item.id,
                   }
                 )}
                 onClick={() => {
-                  if (activeButton !== item.id) {
-                    setActiveButton(item.id);
+                  if (cuisineFilter?.toLowerCase() !== item.id) {
                     setSearch({ cuisineFilter: item.label });
                   }
                 }}
@@ -76,14 +72,14 @@ export default function FilterSearchSection() {
                   className={clsx(
                     "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex w-full hover:bg-white hover:text-black",
                     {
-                      " border-white shadow-white": activeButton !== item.id,
+                      " border-white shadow-white":
+                        cuisineFilter?.toLowerCase() !== item.id,
                       " border-[#75AAF0] shadow-[#75AAF0] border-2":
-                        activeButton === item.id,
+                        cuisineFilter?.toLowerCase() === item.id,
                     }
                   )}
                   onClick={() => {
-                    if (activeButton !== item.id) {
-                      setActiveButton(item.id);
+                    if (cuisineFilter?.toLowerCase() !== item.id) {
                       setSearch({ cuisineFilter: item.label });
                     }
                   }}

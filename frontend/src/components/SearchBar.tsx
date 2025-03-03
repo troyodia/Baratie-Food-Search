@@ -2,11 +2,25 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 
 import { createSearchParams, useNavigate } from "react-router-dom";
-
-export default function SearchBar() {
+type Props = {
+  searchFn?: (search: string) => void;
+};
+export default function SearchBar({ searchFn }: Props) {
   const [searchParam, setSearchParam] = useState("");
   const naviagte = useNavigate();
   // max-w-[85%] sm:max-w-[70%]
+  const homePageSearchFn = () => {
+    naviagte(
+      {
+        pathname: "results",
+        search: createSearchParams({
+          search: searchParam,
+          sortBy: "best_match",
+        }).toString(),
+      },
+      { replace: true }
+    );
+  };
   return (
     <div className="flex w-full gap-3 text-white">
       <input
@@ -23,13 +37,11 @@ export default function SearchBar() {
       hover:bg-transparent transition-colors ease-in-out"
         onClick={() => {
           if (searchParam) {
-            naviagte({
-              pathname: "results",
-              search: createSearchParams({
-                search: searchParam,
-                sortBy: "best_match",
-              }).toString(),
-            });
+            if (searchFn) {
+              searchFn(searchParam);
+            } else {
+              homePageSearchFn();
+            }
           }
         }}
       >

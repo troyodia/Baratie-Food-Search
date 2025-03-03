@@ -22,13 +22,15 @@ export default function SortByDropdown() {
   const [currentSortOption, setCurrentSortOption] = useState(
     sortOptions[0].name
   );
-  const { setSearch } = useRestaurantFilters();
-
+  const { setSearch, sortBy } = useRestaurantFilters();
+  const sortOption = () => {
+    return sortOptions.find((option) => option.queryValue === sortBy)?.name;
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <span className="px-2 py-1 bg-[#97bcf4] text-black font-semibold rounded-md hover:bg-[#c5d8f9] transition-all">
-          Sort By: {currentSortOption}
+          Sort By: {sortOption()}
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="mt-1">
