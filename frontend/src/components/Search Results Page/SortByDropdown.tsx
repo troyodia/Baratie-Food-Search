@@ -19,9 +19,6 @@ const sortOptions: SortType[] = [
 ];
 
 export default function SortByDropdown() {
-  const [currentSortOption, setCurrentSortOption] = useState(
-    sortOptions[0].name
-  );
   const { setSearch, sortBy } = useRestaurantFilters();
   const sortOption = () => {
     return sortOptions.find((option) => option.queryValue === sortBy)?.name;
@@ -40,8 +37,7 @@ export default function SortByDropdown() {
               <button
                 className="w-full text-left py-1 px-2 rounded-md hover:bg-blue-100"
                 onClick={() => {
-                  if (option.name !== currentSortOption) {
-                    setCurrentSortOption(option.name);
+                  if (option.queryValue !== sortBy) {
                     setSearch({
                       sortBy: option.queryValue,
                     });
