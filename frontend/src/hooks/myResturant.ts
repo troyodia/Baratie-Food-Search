@@ -22,9 +22,9 @@ export const useCreatMyResturant = (
     },
   });
 };
-export const useGetMyResturant = () => {
+export const useGetMyResturant = (userId: string) => {
   return useQuery({
-    queryKey: ["resturant"],
+    queryKey: ["resturant", userId],
     queryFn: getMyResturant,
   });
 };

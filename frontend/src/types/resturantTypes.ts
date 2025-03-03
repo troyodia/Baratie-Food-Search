@@ -17,4 +17,5 @@ export type FilterRestaurants = {
   search?: string;
   sortBy?: "best_match" | "delivery_price" | "estimated_delivery_time";
   cuisineFilter?: string;
+  page?: string;
 };

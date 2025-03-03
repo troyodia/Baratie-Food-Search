@@ -1,9 +1,10 @@
-import { CreatedResturant, FilterRestaurants } from "@/types/resturantTypes";
+import { FilterRestaurants } from "@/types/resturantTypes";
 import SearchBar from "../SearchBar";
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import SortByDropdown from "./SortByDropdown";
 import SearchResults from "./SearchResults";
 import { useSearchForRestaurant } from "@/hooks/search";
+import RestaurantPagination from "./Pagination";
 
 type Props = {
   //   searchResults: CreatedResturant[];
@@ -38,7 +39,7 @@ export default function SearchResultsSection({ params }: Props) {
       <SearchBar searchFn={searchFn} />
       <section className="justify-between flex">
         <span className=" font-bold ">
-          {searchResults?.length} Resturaunts found for search term{" "}
+          {searchResults?.resturantCount} Resturaunts found for search term{" "}
           <span className="italic">{search}</span>
         </span>
         <SortByDropdown />
@@ -47,7 +48,12 @@ export default function SearchResultsSection({ params }: Props) {
       {isPending ? (
         <div>...loading</div>
       ) : (
-        <SearchResults searchResults={searchResults} />
+        <section className="w-full flex flex-col gap-10">
+          <SearchResults restrauants={searchResults?.restrauants} />
+          <RestaurantPagination
+            totalRestaurantCount={searchResults?.resturantCount}
+          />
+        </section>
       )}
     </div>
   );

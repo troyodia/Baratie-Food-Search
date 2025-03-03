@@ -1,9 +1,8 @@
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { items } from "@/components/My Resturant Page/myResturantFormData";
-import { useSearchForRestaurant } from "@/hooks/search";
 import Layout from "@/layouts/Layout";
 import FilterSearchSection from "@/components/Search Results Page/FilterSearchSection";
 import SearchResultsSection from "@/components/Search Results Page/SearchResultsSection";
@@ -20,14 +19,16 @@ const SearchSchema = z.object({
     })
     .catch(""),
   search: z.string().catch(""),
+  page: z.string().catch("1"),
 });
 export default function SeachResultsPage() {
   const naviagte = useNavigate();
-  const { search, sortBy, cuisineFilter } = useRestaurantFilters();
+  const { search, sortBy, cuisineFilter, page } = useRestaurantFilters();
   const params = SearchSchema.parse({
     sortBy: sortBy,
     cuisineFilter: cuisineFilter,
     search: search,
+    page: page,
   });
   // console.log("params", params);
   //add error, ipending stuff, data existing else render error page, put is pedning in search results section
@@ -38,11 +39,18 @@ export default function SeachResultsPage() {
           params.cuisineFilter !== ""
             ? "&cuisineFilter=" + params.cuisineFilter
             : ""
-        }`
+        }&page=${params.page}`
         // { replace: true }
       );
     }
-  }, [search, naviagte, params.sortBy, params.cuisineFilter, params.search]);
+  }, [
+    search,
+    naviagte,
+    params.sortBy,
+    params.cuisineFilter,
+    params.search,
+    params.page,
+  ]);
 
   return (
     <Layout>

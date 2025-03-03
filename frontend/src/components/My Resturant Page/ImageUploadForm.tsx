@@ -30,13 +30,15 @@ export default function ImageUploadForm({ isPending }: Props) {
           Add an image that will be displayed on your resturant listing in the
           seacrh results. Adding a new image will overwrite the existing one
         </p>
-        {isPending && !previewImage && (
-          <div className="w-full h-full max-w-[600px] ">
-            <AspectRatio ratio={16 / 9}>
-              <div className="animate-pulse bg-[#b6cff7] w-full h-full"></div>
-            </AspectRatio>
-          </div>
-        )}
+        {(isPending || form.formState.isLoading) &&
+          !previewImage &&
+          !imageUrl && (
+            <div className="w-full h-full max-w-[600px] ">
+              <AspectRatio ratio={16 / 9}>
+                <div className="animate-pulse bg-[#b6cff7] w-full h-full"></div>
+              </AspectRatio>
+            </div>
+          )}
         {imageUrl && !previewImage && !isPending && (
           <div className="w-full max-w-[600px] ">
             <AspectRatio ratio={16 / 9}>

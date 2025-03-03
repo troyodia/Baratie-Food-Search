@@ -62,7 +62,7 @@ const ManageResturantSchema = z
     imageUrl: z.string().optional(),
   })
   .refine((data) => data.imageUrl ?? data.image, {
-    message: "Either Image File must be provided",
+    message: "Image File must be provided",
     path: ["image"],
   });
 

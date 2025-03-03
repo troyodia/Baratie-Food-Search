@@ -2,12 +2,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
-import { useState } from "react";
 type SortType = {
   name: string;
   queryValue: "best_match" | "delivery_price" | "estimated_delivery_time";

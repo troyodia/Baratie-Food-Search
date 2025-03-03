@@ -3,15 +3,15 @@ import { Link } from "react-router-dom";
 import { AspectRatio } from "../ui/aspect-ratio";
 import { CircleDashed, Clock, CircleDollarSign } from "lucide-react";
 
-type Props = {
-  searchResults?: CreatedResturant[];
+type SearchResults = {
+  restrauants?: CreatedResturant[];
 };
 
-export default function SearchResults({ searchResults }: Props) {
+export default function SearchResults({ restrauants }: SearchResults) {
   //loading lottie?
   return (
     <main className="flex flex-col gap-8">
-      {searchResults?.map((result) => {
+      {restrauants?.map((result) => {
         return (
           <Link key={result._id} to="/" className="group">
             <div className="  grid grid-cols-3 gap-6 w-full">

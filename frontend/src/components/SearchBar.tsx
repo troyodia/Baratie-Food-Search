@@ -16,6 +16,7 @@ export default function SearchBar({ searchFn }: Props) {
         search: createSearchParams({
           search: searchParam,
           sortBy: "best_match",
+          page: "1",
         }).toString(),
       },
       { replace: true }

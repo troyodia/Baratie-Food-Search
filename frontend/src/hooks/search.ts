@@ -6,9 +6,10 @@ export const useSearchForRestaurant = ({
   search,
   cuisineFilter,
   sortBy,
+  page,
 }: FilterRestaurants) => {
   return useQuery({
-    queryKey: ["restaurant-search", { search, cuisineFilter, sortBy }],
-    queryFn: () => searchForRestaurant({ search, cuisineFilter, sortBy }),
+    queryKey: ["restaurant-search", { search, cuisineFilter, sortBy, page }],
+    queryFn: () => searchForRestaurant({ search, cuisineFilter, sortBy, page }),
   });
 };
