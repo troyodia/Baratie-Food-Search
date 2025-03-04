@@ -50,7 +50,7 @@ export const searchForRestrauant = async (
     .sort([[sortOptions[sortBy!], "asc"]])
     .limit(NUMBERS_PER_PAGE)
     .skip(page ? NUMBERS_PER_PAGE * (parseInt(page) - 1) : 1);
-  console.log(restrauants);
+  // console.log(restrauants);
   const resturantCount = await Resturant.countDocuments({
     $and: [
       {

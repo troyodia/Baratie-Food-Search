@@ -24,11 +24,11 @@ export default function SearchResultsSection({ params }: Props) {
   // with lottie in middle of page
 
   const searchFn = (search: string) => {
-    // console.log(search);
     setSearch({
       search: search,
       sortBy: "best_match",
       cuisineFilter: "",
+      page: "1",
     });
   };
   if (isError) {

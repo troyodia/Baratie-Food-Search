@@ -28,12 +28,12 @@ export default function SearchResults({ restrauants }: SearchResults) {
                 <h2 className="group-hover:underline underline-offset-4 font-bold tracking-tight text-2xl">
                   {result.name}
                 </h2>
-                <section className="flex gap-6  w-full ">
-                  <ul className="flex flex-wrap flex-1  w-full max-w-96  gap-1.5 text-white/90">
+                <section className="flex gap-6  w-full  ">
+                  <ul className="flex flex-wrap flex-1   w-full max-w-96  gap-1.5 text-white/90">
                     {result.cuisineItems.map((item, index) => {
                       return (
                         <li key={item}>
-                          <span className="flex items-center gap-1.5">
+                          <span className="flex items-center gap-1.5 ">
                             {item}{" "}
                             {index !== result.cuisineItems.length - 1 ? (
                               <CircleDashed className=" h-3 w-3" />
@@ -45,11 +45,11 @@ export default function SearchResults({ restrauants }: SearchResults) {
                       );
                     })}
                   </ul>
-                  <section className="space-y-2">
+                  <section className="space-y-2 flex-1 ">
                     <span className="text-[#75aaf0] flex gap-1.5">
                       <Clock /> {result.deliveryTime.toString()} mins
                     </span>
-                    <span className="flex text-white/90 gap-1.5">
+                    <span className="flex  text-white/90 gap-1.5">
                       <CircleDollarSign /> Delivery From $
                       {result.deliveryPrice.toString()}
                     </span>

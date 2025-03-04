@@ -18,9 +18,10 @@ const NUMBERS_PER_PAGE = 3;
 export default function RestaurantPagination({ totalRestaurantCount }: Props) {
   const { setSearch, page } = useRestaurantFilters();
   const numberOfPages = useMemo(() => {
-    if (totalRestaurantCount)
+    if (totalRestaurantCount || totalRestaurantCount === 0)
       return Math.ceil(totalRestaurantCount / NUMBERS_PER_PAGE);
   }, [totalRestaurantCount]);
+  //   console.log(!!numberOfPages, totalRestaurantCount);
   return (
     <Pagination>
       <PaginationContent>
@@ -43,7 +44,7 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
           />
         </PaginationItem>
         {page &&
-          numberOfPages &&
+          !!numberOfPages &&
           [...new Array(numberOfPages)]
             .map((_, index) => {
               const pageNum = index + 1;
@@ -82,7 +83,8 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
           <PaginationNext
             className={clsx("cursor-pointer hover:bg-[#97bcf4] font-semibold", {
               "hover:bg-transparent hover:text-slate-500 text-slate-500":
-                page && numberOfPages && parseInt(page) >= numberOfPages,
+                (page && numberOfPages && parseInt(page) >= numberOfPages) ||
+                numberOfPages === 0,
             })}
             onClick={() => {
               if (page && numberOfPages && parseInt(page) < numberOfPages) {

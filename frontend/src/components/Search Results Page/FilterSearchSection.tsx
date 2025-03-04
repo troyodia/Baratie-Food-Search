@@ -14,7 +14,11 @@ import clsx from "clsx";
 export default function FilterSearchSection() {
   const { setSearch, cuisineFilter } = useRestaurantFilters();
   const [isOpen, setIsOpen] = useState(false);
-
+  const changeCuisineFn = (item: string) => {
+    if (cuisineFilter?.toLowerCase() !== item) {
+      setSearch({ cuisineFilter: item, page: "1" });
+    }
+  };
   return (
     <main className=" flex flex-1 flex-col max-w-[250px] border gap-3">
       <section className="flex justify-between mx-2 gap-2 items-center">
@@ -53,9 +57,7 @@ export default function FilterSearchSection() {
                   }
                 )}
                 onClick={() => {
-                  if (cuisineFilter?.toLowerCase() !== item.id) {
-                    setSearch({ cuisineFilter: item.label });
-                  }
+                  changeCuisineFn(item.id);
                 }}
               >
                 {item.label}
@@ -79,9 +81,7 @@ export default function FilterSearchSection() {
                     }
                   )}
                   onClick={() => {
-                    if (cuisineFilter?.toLowerCase() !== item.id) {
-                      setSearch({ cuisineFilter: item.label });
-                    }
+                    changeCuisineFn(item.id);
                   }}
                 >
                   {item.label}
