@@ -67,7 +67,7 @@ export default function SeachResultsPage() {
 
   return (
     <Layout>
-      <div className="text-white border flex gap-10">
+      <div className="text-white  flex flex-col lg:flex-row gap-10 mx-6">
         <FilterSearchSection />
         <SearchResultsSection params={params} />
       </div>

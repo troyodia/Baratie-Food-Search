@@ -5,7 +5,7 @@ import SortByDropdown from "./SortByDropdown";
 import SearchResults from "./SearchResults";
 import { useSearchForRestaurant } from "@/hooks/search";
 import RestaurantPagination from "./Pagination";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useRef } from "react";
 import animationData from "../../assets/lottie/food_search_pending.json";
 import NoResultsPage from "./NoResultsIPage.tsx";
 
@@ -17,6 +17,7 @@ type Props = {
 
 export default function SearchResultsSection({ params }: Props) {
   const { search, setSearch } = useRestaurantFilters();
+  const scrollRef = useRef<HTMLDivElement>(null);
   //   console.log(search);
   const {
     data: searchResults,
@@ -35,16 +36,19 @@ export default function SearchResultsSection({ params }: Props) {
       page: "1",
     });
   };
-  console.log(searchResults);
+  const handleScroll = () => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   if (isError) {
     return <div>Error</div>;
   }
   return (
     <div className=" flex-1 flex flex-col gap-8">
+      <div className="" ref={scrollRef}></div>
       <SearchBar searchFn={searchFn} />
-      <section className="flex">
+      <section className="flex lg:flex-row items-center flex-col gap-4">
         {searchResults && searchResults.resturantCount !== 0 && (
-          <span className=" font-bold ">
+          <span className=" font-bold">
             {searchResults?.resturantCount} Resturaunts found for search term{" "}
             <span className="italic">{search}</span>
           </span>
@@ -63,6 +67,7 @@ export default function SearchResultsSection({ params }: Props) {
             <SearchResults restrauants={searchResults?.restrauants} />
             <RestaurantPagination
               totalRestaurantCount={searchResults?.resturantCount}
+              scrollFn={handleScroll}
             />
           </section>
         )

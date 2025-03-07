@@ -20,7 +20,8 @@ export default function FilterSearchSection() {
     }
   };
   return (
-    <main className=" flex flex-1 flex-col max-w-[250px] border gap-3">
+    <main className=" flex flex-1 flex-col w-full lg:max-w-[250px] gap-3">
+      <div></div>
       <section className="flex justify-between mx-2 gap-2 items-center">
         <span className="tracking-tight font-bold text-sm ">
           Filter By Cusisine
@@ -40,7 +41,7 @@ export default function FilterSearchSection() {
       <Collapsible
         open={isOpen}
         onOpenChange={setIsOpen}
-        className="max-w-[250px] space-y-2"
+        className="w-full lg:max-w-[250px] space-y-2"
       >
         {items
           .map((item) => {
@@ -48,7 +49,7 @@ export default function FilterSearchSection() {
               <button
                 key={item.id}
                 className={clsx(
-                  "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex w-full hover:bg-white hover:text-black",
+                  "rounded-md border px-4 py-2 font-mono justify-center lg:justify-normal text-sm shadow-sm flex w-full hover:bg-white hover:text-black",
                   {
                     " border-white shadow-white":
                       cuisineFilter?.toLowerCase() !== item.id,
@@ -72,7 +73,7 @@ export default function FilterSearchSection() {
                 <button
                   key={item.id}
                   className={clsx(
-                    "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex w-full hover:bg-white hover:text-black",
+                    "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex justify-center lg:justify-normal  w-full hover:bg-white hover:text-black",
                     {
                       " border-white shadow-white":
                         cuisineFilter?.toLowerCase() !== item.id,

@@ -12,9 +12,13 @@ import clsx from "clsx";
 
 type Props = {
   totalRestaurantCount?: number;
+  scrollFn: () => void;
 };
 
-export default function RestaurantPagination({ totalRestaurantCount }: Props) {
+export default function RestaurantPagination({
+  totalRestaurantCount,
+  scrollFn,
+}: Props) {
   const { setSearch, page } = useRestaurantFilters();
   const numberOfPages = useCalculatePageNumbers({ totalRestaurantCount });
 
@@ -35,6 +39,7 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
                 setSearch({
                   page: (parseInt(page) - 1).toString(),
                 });
+                scrollFn();
               }
             }}
           />
@@ -56,10 +61,10 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
                     )}
                     onClick={() => {
                       if (page && pageNum.toString() !== page) {
-                        console.log("pushed", page);
                         setSearch({
                           page: pageNum.toString(),
                         });
+                        scrollFn();
                       }
                     }}
                   >
@@ -88,6 +93,7 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
                 setSearch({
                   page: (parseInt(page) + 1).toString(),
                 });
+                scrollFn();
               }
             }}
           />

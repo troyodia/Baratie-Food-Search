@@ -22,7 +22,7 @@ export default function SortByDropdown() {
   };
 
   return (
-    <main className=" ml-auto">
+    <main className=" lg:ml-auto">
       <DropdownMenu>
         <DropdownMenuTrigger>
           <span
@@ -32,12 +32,12 @@ export default function SortByDropdown() {
             Sort By: {sortOption()}
           </span>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="mt-1">
+        <DropdownMenuContent align="end" className="mt-1 ">
           {sortOptions.map((option) => {
             return (
               <DropdownMenuItem key={option.queryValue}>
                 <button
-                  className="w-full text-left py-1 px-2 rounded-md hover:bg-blue-100"
+                  className="w-full  text-left py-1 px-2 rounded-md hover:bg-blue-100"
                   onClick={() => {
                     if (option.queryValue !== sortBy) {
                       setSearch({
