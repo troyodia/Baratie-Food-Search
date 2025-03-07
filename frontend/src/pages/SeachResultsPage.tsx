@@ -1,11 +1,13 @@
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { items } from "@/components/My Resturant Page/myResturantFormData";
 import Layout from "@/layouts/Layout";
 import FilterSearchSection from "@/components/Search Results Page/FilterSearchSection";
 import SearchResultsSection from "@/components/Search Results Page/SearchResultsSection";
+import useCalculatePageNumbers from "@/hooks/useCalculatePageNumbers";
+import { useSearchForRestaurant } from "@/hooks/search";
 
 const SearchSchema = z.object({
   sortBy: z
@@ -19,7 +21,10 @@ const SearchSchema = z.object({
     })
     .catch(""),
   search: z.string().catch(""),
-  page: z.string().catch("1"),
+  page: z
+    .string()
+    .refine((page) => parseInt(page) && parseInt(page) > 0)
+    .catch("1"),
 });
 export default function SeachResultsPage() {
   const naviagte = useNavigate();
@@ -30,16 +35,23 @@ export default function SeachResultsPage() {
     search: search,
     page: page,
   });
-  // console.log("params", params);
-  //add error, ipending stuff, data existing else render error page, put is pedning in search results section
+  const { data: searchResults } = useSearchForRestaurant(params);
+  const numberOfPages = useCalculatePageNumbers({
+    totalRestaurantCount: searchResults?.resturantCount,
+  });
+
   useEffect(() => {
-    if (params.sortBy) {
+    if (params.sortBy && numberOfPages) {
       naviagte(
         `/results?search=${params.search}&sortBy=${params.sortBy}${
           params.cuisineFilter !== ""
             ? "&cuisineFilter=" + params.cuisineFilter
             : ""
-        }&page=${params.page}`
+        }${
+          parseInt(params.page) <= numberOfPages
+            ? "&page=" + params.page
+            : "&page=1"
+        }`
         // { replace: true }
       );
     }
@@ -50,6 +62,7 @@ export default function SeachResultsPage() {
     params.cuisineFilter,
     params.search,
     params.page,
+    numberOfPages,
   ]);
 
   return (

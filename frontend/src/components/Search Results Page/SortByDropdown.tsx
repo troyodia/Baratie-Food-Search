@@ -20,33 +20,39 @@ export default function SortByDropdown() {
   const sortOption = () => {
     return sortOptions.find((option) => option.queryValue === sortBy)?.name;
   };
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger>
-        <span className="px-2 py-1 bg-[#97bcf4] text-black font-semibold rounded-md hover:bg-[#c5d8f9] transition-all">
-          Sort By: {sortOption()}
-        </span>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="mt-1">
-        {sortOptions.map((option) => {
-          return (
-            <DropdownMenuItem key={option.queryValue}>
-              <button
-                className="w-full text-left py-1 px-2 rounded-md hover:bg-blue-100"
-                onClick={() => {
-                  if (option.queryValue !== sortBy) {
-                    setSearch({
-                      sortBy: option.queryValue,
-                    });
-                  }
-                }}
-              >
-                {option.name}
-              </button>
-            </DropdownMenuItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <main className=" ml-auto">
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <span
+            className="px-2 py-1 bg-[#97bcf4] text-black font-semibold
+         rounded-md hover:bg-[#c5d8f9] transition-all"
+          >
+            Sort By: {sortOption()}
+          </span>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="mt-1">
+          {sortOptions.map((option) => {
+            return (
+              <DropdownMenuItem key={option.queryValue}>
+                <button
+                  className="w-full text-left py-1 px-2 rounded-md hover:bg-blue-100"
+                  onClick={() => {
+                    if (option.queryValue !== sortBy) {
+                      setSearch({
+                        sortBy: option.queryValue,
+                      });
+                    }
+                  }}
+                >
+                  {option.name}
+                </button>
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </main>
   );
 }

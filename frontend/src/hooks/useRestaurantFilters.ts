@@ -22,11 +22,10 @@ export default function useRestaurantFilters() {
             params.set("sortBy", filters.sortBy);
           }
           if (filters.page) {
-            console.log(filters.page);
             params.set("page", filters.page);
           }
           if (filters.cuisineFilter || filters.cuisineFilter === "") {
-            console.log(filters.page);
+            console.log(filters.cuisineFilter);
             params.set("cuisineFilter", filters.cuisineFilter);
           }
           return params;

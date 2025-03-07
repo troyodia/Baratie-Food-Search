@@ -15,7 +15,7 @@ export default function SearchResults({ restrauants }: SearchResults) {
         return (
           <Link key={result._id} to="/" className="group">
             <div className="  grid grid-cols-3 gap-6 w-full">
-              <section className="w-full max-w-[450px]">
+              <section className="w-full max-w-[450px] group-hover:scale-[1.02] transition-transform delay-75 ease-out">
                 <AspectRatio ratio={16 / 9} className="">
                   <img
                     alt=""

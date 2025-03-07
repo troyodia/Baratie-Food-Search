@@ -1,6 +1,5 @@
 import { StatusCodes } from "http-status-codes";
 import { Response, Request } from "express";
-import { BadRequestError } from "../errors";
 import { Resturant } from "../models/Resturant";
 type QueryParameter = {
   search?: string;
@@ -13,7 +12,7 @@ type FilterQuery = {
   // city?: RegExp;
   // city?: string;
 };
-const NUMBERS_PER_PAGE = 3;
+const NUMBERS_PER_PAGE = 7;
 export const searchForRestrauant = async (
   req: Request<{}, {}, {}, QueryParameter>,
   res: Response

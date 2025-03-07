@@ -6,22 +6,18 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import useCalculatePageNumbers from "@/hooks/useCalculatePageNumbers";
 import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import clsx from "clsx";
-import { useMemo } from "react";
 
 type Props = {
   totalRestaurantCount?: number;
 };
-const NUMBERS_PER_PAGE = 3;
 
 export default function RestaurantPagination({ totalRestaurantCount }: Props) {
   const { setSearch, page } = useRestaurantFilters();
-  const numberOfPages = useMemo(() => {
-    if (totalRestaurantCount || totalRestaurantCount === 0)
-      return Math.ceil(totalRestaurantCount / NUMBERS_PER_PAGE);
-  }, [totalRestaurantCount]);
-  //   console.log(!!numberOfPages, totalRestaurantCount);
+  const numberOfPages = useCalculatePageNumbers({ totalRestaurantCount });
+
   return (
     <Pagination>
       <PaginationContent>
@@ -59,7 +55,8 @@ export default function RestaurantPagination({ totalRestaurantCount }: Props) {
                       }
                     )}
                     onClick={() => {
-                      if (page) {
+                      if (page && pageNum.toString() !== page) {
+                        console.log("pushed", page);
                         setSearch({
                           page: pageNum.toString(),
                         });
