@@ -4,13 +4,11 @@ import { Resturant } from "../models/Resturant";
 type QueryParameter = {
   search?: string;
   sortBy?: "best_match" | "delivery_price" | "estimated_delivery_time";
-  cuisineFilter?: string;
+  cuisineFilter?: string[];
   page?: string;
 };
 type FilterQuery = {
-  cuisineItems?: string;
-  // city?: RegExp;
-  // city?: string;
+  cuisineItems?: { $in: string[] };
 };
 const NUMBERS_PER_PAGE = 7;
 export const searchForRestrauant = async (
@@ -24,7 +22,7 @@ export const searchForRestrauant = async (
   }
   const query: FilterQuery = {};
   if (cuisineFilter) {
-    query.cuisineItems = cuisineFilter.toLowerCase();
+    query.cuisineItems = { $in: cuisineFilter };
   }
 
   const searchRegex = new RegExp(search, "i");
@@ -48,7 +46,8 @@ export const searchForRestrauant = async (
   })
     .sort([[sortOptions[sortBy!], "asc"]])
     .limit(NUMBERS_PER_PAGE)
-    .skip(page ? NUMBERS_PER_PAGE * (parseInt(page) - 1) : 1);
+    .skip(page ? NUMBERS_PER_PAGE * (parseInt(page) - 1) : 1)
+    .lean();
   // console.log(restrauants);
   const resturantCount = await Resturant.countDocuments({
     $and: [
@@ -62,6 +61,5 @@ export const searchForRestrauant = async (
       query,
     ],
   });
-  // console.log(restrauants);
   res.status(StatusCodes.OK).json({ restrauants, resturantCount });
 };

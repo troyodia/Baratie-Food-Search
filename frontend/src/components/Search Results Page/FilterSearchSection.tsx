@@ -15,7 +15,7 @@ export default function FilterSearchSection() {
   const { setSearch, cuisineFilter } = useRestaurantFilters();
   const [isOpen, setIsOpen] = useState(false);
   const changeCuisineFn = (item: string) => {
-    if (cuisineFilter?.toLowerCase() !== item) {
+    if (!cuisineFilter?.includes(item)) {
       setSearch({ cuisineFilter: item, page: "1" });
     }
   };
@@ -30,7 +30,7 @@ export default function FilterSearchSection() {
           className=" border-2 bg-transparent  border-[#75AAF0]
              hover:border-[#b6cff7] hover:bg-transparent transition-colors ease-in-out"
           onClick={() => {
-            if (cuisineFilter?.toLowerCase()) {
+            if (cuisineFilter?.length > 0) {
               setSearch({ cuisineFilter: "" });
             }
           }}
@@ -51,10 +51,11 @@ export default function FilterSearchSection() {
                 className={clsx(
                   "rounded-md border px-4 py-2 font-mono justify-center lg:justify-normal text-sm shadow-sm flex w-full hover:bg-white hover:text-black",
                   {
-                    " border-white shadow-white":
-                      cuisineFilter?.toLowerCase() !== item.id,
+                    " border-white shadow-white": !cuisineFilter?.includes(
+                      item.id
+                    ),
                     " border-[#75AAF0] shadow-[#75AAF0] border-2":
-                      cuisineFilter?.toLowerCase() === item.id,
+                      cuisineFilter?.includes(item.id),
                   }
                 )}
                 onClick={() => {
@@ -75,10 +76,11 @@ export default function FilterSearchSection() {
                   className={clsx(
                     "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex justify-center lg:justify-normal  w-full hover:bg-white hover:text-black",
                     {
-                      " border-white shadow-white":
-                        cuisineFilter?.toLowerCase() !== item.id,
+                      " border-white shadow-white": !cuisineFilter?.includes(
+                        item.id
+                      ),
                       " border-[#75AAF0] shadow-[#75AAF0] border-2":
-                        cuisineFilter?.toLowerCase() === item.id,
+                        cuisineFilter?.includes(item.id),
                     }
                   )}
                   onClick={() => {

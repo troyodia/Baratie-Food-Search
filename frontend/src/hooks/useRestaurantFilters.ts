@@ -7,9 +7,8 @@ export default function useRestaurantFilters() {
 
   const search = searchParams.get("search") as FilterRestaurants["search"];
   const sortBy = searchParams.get("sortBy") as FilterRestaurants["sortBy"];
-  const cuisineFilter = searchParams.get(
-    "cuisineFilter"
-  ) as FilterRestaurants["cuisineFilter"];
+  const cuisineFilter: string[] | undefined =
+    searchParams.getAll("cuisineFilter");
   const page = searchParams.get("page") as FilterRestaurants["page"];
   const setSearch = useCallback(
     (filters: FilterRestaurants) => {
@@ -26,7 +25,12 @@ export default function useRestaurantFilters() {
           }
           if (filters.cuisineFilter || filters.cuisineFilter === "") {
             console.log(filters.cuisineFilter);
-            params.set("cuisineFilter", filters.cuisineFilter);
+            // params.append()
+            if (filters.cuisineFilter === "") {
+              params.set("cuisineFilter", filters.cuisineFilter);
+            } else {
+              params.append("cuisineFilter", filters.cuisineFilter as string);
+            }
           }
           return params;
         },

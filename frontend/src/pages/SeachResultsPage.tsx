@@ -15,11 +15,21 @@ const SearchSchema = z.object({
     .catch("best_match"),
   cuisineFilter: z
     .string()
-    .refine((val) => {
-      const found = items.find((item) => val === item.label || val === item.id);
-      return !!found;
+    .array()
+    .transform((valArr, ctx) => {
+      console.log(valArr);
+      const foundArr = valArr.filter((val) =>
+        items.find((item) => val === item.label || val === item.id)
+      );
+      if (foundArr.length < 1) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+        });
+        return z.NEVER;
+      }
+      return foundArr;
     })
-    .catch(""),
+    .catch([]),
   search: z.string().catch(""),
   page: z
     .string()
@@ -39,14 +49,22 @@ export default function SeachResultsPage() {
   const numberOfPages = useCalculatePageNumbers({
     totalRestaurantCount: searchResults?.resturantCount,
   });
+  console.log(params.cuisineFilter, numberOfPages);
 
+  const cuisineParamsJson = JSON.stringify(params.cuisineFilter);
+
+  //generate url for cuisine filter array
+  const cuisineUrl = params.cuisineFilter
+    .map((cuisine) => "&cuisineFilter=" + cuisine)
+    .join("");
+
+  //redirect incase of tampering with search params in browser
   useEffect(() => {
     if (params.sortBy && numberOfPages) {
+      const cuisineParams: string[] = JSON.parse(cuisineParamsJson);
       naviagte(
         `/results?search=${params.search}&sortBy=${params.sortBy}${
-          params.cuisineFilter !== ""
-            ? "&cuisineFilter=" + params.cuisineFilter
-            : ""
+          cuisineParams.length > 0 ? cuisineUrl : ""
         }${
           parseInt(params.page) <= numberOfPages
             ? "&page=" + params.page
@@ -59,10 +77,11 @@ export default function SeachResultsPage() {
     search,
     naviagte,
     params.sortBy,
-    params.cuisineFilter,
     params.search,
     params.page,
     numberOfPages,
+    cuisineParamsJson,
+    cuisineUrl,
   ]);
 
   return (

@@ -16,6 +16,6 @@ export type CreatedResturant = {
 export type FilterRestaurants = {
   search?: string;
   sortBy?: "best_match" | "delivery_price" | "estimated_delivery_time";
-  cuisineFilter?: string;
+  cuisineFilter?: string | string[];
   page?: string;
 };
