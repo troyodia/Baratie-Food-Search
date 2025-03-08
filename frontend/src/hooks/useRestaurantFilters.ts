@@ -27,7 +27,8 @@ export default function useRestaurantFilters() {
             console.log(filters.cuisineFilter);
             // params.append()
             if (filters.cuisineFilter === "") {
-              params.set("cuisineFilter", filters.cuisineFilter);
+              // params.set("cuisineFilter", filters.cuisineFilter);
+              params.delete("cuisineFilter");
             } else {
               params.append("cuisineFilter", filters.cuisineFilter as string);
             }

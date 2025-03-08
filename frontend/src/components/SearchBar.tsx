@@ -29,7 +29,7 @@ export default function SearchBar({ searchFn }: Props) {
       <section className="w-full flex">
         <input
           value={searchParam}
-          placeholder="Search by a City, Resturant Name or Cusinie"
+          placeholder="Search by a City, Resturant Name or Cuisinie"
           className="placeholder-[#c5d8f9] py-2  bg-[#474a4f] border-transparent outline-1 outline-b-
         outline-offset-2 focus:outline-dashed px-6 focus:border-none flex flex-1 min-w-0"
           onChange={(e) => {

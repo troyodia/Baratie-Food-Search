@@ -29,7 +29,7 @@ export default function SortByDropdown() {
             className="px-2 py-1 bg-[#97bcf4] text-black font-semibold
          rounded-md hover:bg-[#c5d8f9] transition-all"
           >
-            Sort By: {sortOption()}
+            Sort By: {sortBy ? sortOption() : "Best Match"}
           </span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="mt-1 ">

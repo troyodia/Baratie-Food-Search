@@ -2,12 +2,12 @@ import useRestaurantFilters from "@/hooks/useRestaurantFilters";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
-import { items } from "@/components/My Resturant Page/myResturantFormData";
 import Layout from "@/layouts/Layout";
 import FilterSearchSection from "@/components/Search Results Page/FilterSearchSection";
 import SearchResultsSection from "@/components/Search Results Page/SearchResultsSection";
 import useCalculatePageNumbers from "@/hooks/useCalculatePageNumbers";
 import { useSearchForRestaurant } from "@/hooks/search";
+import { filterCuisines } from "@/utils/filterCusinines";
 
 const SearchSchema = z.object({
   sortBy: z
@@ -17,10 +17,7 @@ const SearchSchema = z.object({
     .string()
     .array()
     .transform((valArr, ctx) => {
-      console.log(valArr);
-      const foundArr = valArr.filter((val) =>
-        items.find((item) => val === item.label || val === item.id)
-      );
+      const foundArr = filterCuisines(valArr);
       if (foundArr.length < 1) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
