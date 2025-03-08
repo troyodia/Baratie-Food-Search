@@ -12,11 +12,14 @@ import { useState } from "react";
 import clsx from "clsx";
 
 export default function FilterSearchSection() {
-  const { setSearch, cuisineFilter } = useRestaurantFilters();
+  const { setSearch, cuisineFilter, clearCuisineFilters } =
+    useRestaurantFilters();
   const [isOpen, setIsOpen] = useState(false);
   const changeCuisineFn = (item: string) => {
     if (!cuisineFilter?.includes(item)) {
       setSearch({ cuisineFilter: item, page: "1" });
+    } else {
+      clearCuisineFilters(item);
     }
   };
   return (

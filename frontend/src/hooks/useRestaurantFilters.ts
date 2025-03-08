@@ -40,11 +40,23 @@ export default function useRestaurantFilters() {
     },
     [setSearchParams]
   );
+  const clearCuisineFilters = useCallback(
+    (cuisineFilterValue: string) => {
+      setSearchParams((params) => {
+        if (cuisineFilterValue) {
+          params.delete("cuisineFilter", cuisineFilterValue);
+        }
+        return params;
+      });
+    },
+    [setSearchParams]
+  );
   return {
     search,
     sortBy,
     cuisineFilter,
     setSearch,
     page,
+    clearCuisineFilters,
   };
 }
