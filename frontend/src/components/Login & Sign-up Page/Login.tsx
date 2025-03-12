@@ -103,11 +103,11 @@ export default function Login() {
               </FormLabel>
               <FormControl>
                 <div className="flex gap-2">
-                  <Input {...field} />
+                  <Input aria-label="Email Address" {...field} />
                   <Eye opacity={0} />
                 </div>
               </FormControl>
-              <FormMessage />
+              <FormMessage aria-label="error" />
             </FormItem>
           )}
         />
@@ -121,6 +121,7 @@ export default function Login() {
               <FormControl>
                 <div className="flex gap-2">
                   <Input
+                    aria-label="Password"
                     {...field}
                     type={hidePassword ? "password" : "text"}
                     onChange={(e) => {
@@ -140,8 +141,9 @@ export default function Login() {
                   </button>
                 </div>
               </FormControl>
-              <FormDescription>
+              <FormDescription aria-label="prompt">
                 <span
+                  data-testid="password-span"
                   className={`flex gap-1 ${
                     !form.formState.errors.password && field.value.length > 1
                       ? " text-green-600"
@@ -171,6 +173,7 @@ export default function Login() {
           }
           className="bg-white border text-black font-bold hover:bg-transparent hover:text-white hover:border-white px-6"
           type="submit"
+          aria-label="login"
         >
           Login
         </Button>

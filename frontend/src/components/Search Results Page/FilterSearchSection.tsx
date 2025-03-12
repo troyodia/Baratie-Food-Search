@@ -24,7 +24,6 @@ export default function FilterSearchSection() {
   };
   return (
     <main className=" flex flex-1 flex-col w-full lg:max-w-[250px] gap-3">
-      <div></div>
       <section className="flex justify-between mx-2 gap-2 items-center">
         <span className="tracking-tight font-bold text-sm ">
           Filter By Cusisine

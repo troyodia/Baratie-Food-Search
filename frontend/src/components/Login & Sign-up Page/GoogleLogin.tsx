@@ -47,6 +47,7 @@ export default function GoogleLogin({ setGoogleLoginError }: GoogleLoginProps) {
       onClick={() => {
         googleLogin();
       }}
+      aria-label="google"
     >
       <img className="w-12" src={googleIcon} alt="" /> Google
     </Button>
