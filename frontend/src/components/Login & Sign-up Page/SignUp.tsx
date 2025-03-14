@@ -223,6 +223,7 @@ export default function SignUp() {
           }
           className="bg-white border text-black font-bold hover:bg-transparent hover:text-white hover:border-white px-6"
           type="submit"
+          aria-label="signup"
         >
           Sign Up
         </Button>

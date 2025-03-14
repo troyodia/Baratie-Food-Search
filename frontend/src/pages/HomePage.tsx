@@ -16,14 +16,20 @@ export default function HomePage() {
           sm:py-8 flex flex-col items-center gap-3 rounded-md hover:shadow-lg hover:shadow-[#c5d8f9]
         transition-shadow ease-in-out duration-150 delay-150 "
         >
-          <h1 className="text-lg sm:text-4xl text-white font-bold tracking-tight ">
+          <h1
+            className="text-lg sm:text-4xl text-white font-bold tracking-tight "
+            aria-label="section heading"
+          >
             ようこそ, Welcome{" "}
             <span className="text-[#c5d8f9]">
               {user && pathname !== "/welcome" ? user.firstname : ""}
             </span>{" "}
             to Baratie
           </h1>
-          <span className="text-sm sm:text-lg text-[#c5d8f9] font-bold tracking-tight">
+          <span
+            data-testid="search-subheading"
+            className="text-sm sm:text-lg text-[#c5d8f9] font-bold tracking-tight"
+          >
             You're Hungry?! We'll Feed You!!
           </span>
           {pathname !== "/welcome" && <SearchBar />}

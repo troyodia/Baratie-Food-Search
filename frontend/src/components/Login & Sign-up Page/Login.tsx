@@ -161,7 +161,11 @@ export default function Login() {
         />
         <div className="space-x-2">
           <span>Don't have an Account?</span>
-          <Link className="text-[#75aaf0] font-bold" to="/signup-page">
+          <Link
+            className="text-[#75aaf0] font-bold"
+            to="/signup-page"
+            aria-label="Signup"
+          >
             Sign Up
           </Link>
         </div>
@@ -182,7 +186,11 @@ export default function Login() {
             {form.formState.errors.root.message}
           </div>
         )}
-        {error && <div className="text-red-500">{error.message}</div>}
+        {error && (
+          <div className="text-red-500" data-testid="login-error">
+            {error.message ? error.message : "An Error occurred"}
+          </div>
+        )}
       </form>
     </Form>
   );

@@ -1,24 +1,61 @@
 import { screen, within } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { it, expect, describe } from "vitest";
+import { it, expect, describe, beforeAll, afterAll } from "vitest";
 import LoginPage from "../../src/pages/LoginPage";
+import SignUpPage from "../../src/pages/SignUpPage";
 import HomePage from "../../src/pages/HomePage";
 import React from "react";
 import AllWrapers from "../AllWrapers";
 import { renderWithRouter } from "../test-utils";
 import { Route, Routes } from "react-router-dom";
+import { db } from "../mocks/db";
+import { server } from "../mocks/server";
+import { LOGIN_URL } from "../../src/apis/URLS";
+import { http, HttpResponse } from "msw";
+// import { useLoginUser } from "../../src/hooks/auth";
+// const mockedMutate = vi.fn();
+// vi.doMock("../../src/hooks/auth.ts", async () => {
+//   const actualImport = await vi.importActual("../../src/hooks/auth.ts");
+//   return {
+//     ...actualImport,
+//     useLoginUser: () => ({ mutate: mockedMutate }),
+//   };
+// });
 
 describe("Login Page", () => {
+  let userId: number;
+
+  beforeAll(async () => {
+    const user = db.user.create();
+    userId = user.id;
+  });
+  afterAll(() => {
+    db.user.delete({ where: { id: { equals: userId } } });
+  });
   const renderForm = () => {
     renderWithRouter(
       <AllWrapers>
         <Routes>
+          <Route path="/signup-page" element={<SignUpPage />}></Route>
           <Route path="/login-page" element={<LoginPage />}></Route>
           <Route path="/" element={<HomePage />}></Route>
         </Routes>
       </AllWrapers>,
       { route: "/login-page" }
     );
+    const submitForm = async (email: string, password: string) => {
+      const user = userEvent.setup();
+
+      await user.type(
+        screen.getByRole("textbox", { name: /Password/i }),
+        password
+      );
+      await user.type(
+        screen.getByRole("textbox", { name: /email address/i }),
+        email
+      );
+      await user.click(screen.getByRole("button", { name: /login/i }));
+    };
     return {
       getInputs: () => {
         return {
@@ -28,8 +65,8 @@ describe("Login Page", () => {
           loginButton: screen.getByRole("button", { name: /login/i }),
         };
       },
-
       getInputField: (label: string | RegExp) => screen.getByLabelText(label),
+      submitForm,
     };
   };
   it("should render login form", () => {
@@ -116,4 +153,43 @@ describe("Login Page", () => {
       expect(loginButton).toBeDisabled();
     }
   );
+  it("should render the sign up page when the sign up link is clicked", async () => {
+    renderForm();
+    const link = screen.getByRole("link", { name: /Signup/i });
+    const user = userEvent.setup();
+    await user.click(link);
+    const signUpButton = screen.getByRole("button", { name: /signup/i });
+
+    expect(link).toHaveTextContent(/Sign Up/i);
+    expect(signUpButton).toBeInTheDocument();
+  });
+  it("should render then home page after login and display users name", async () => {
+    const { submitForm } = renderForm();
+
+    const user = db.user.findFirst({ where: { id: { equals: userId } } });
+    await submitForm(user!.email, user!.password);
+
+    const subHeading = await screen.findByTestId("search-subheading");
+    const heading = screen.getByRole("heading", { name: /section heading/i });
+    const userName = within(heading).getByText(
+      new RegExp(user!.firstname, "i")
+    );
+
+    expect(subHeading).toBeInTheDocument();
+    expect(userName).toBeInTheDocument();
+  });
+
+  it("should display an error message if an error occurs", async () => {
+    server.use(
+      http.post(LOGIN_URL, () => {
+        return HttpResponse.error();
+      })
+    );
+    const { submitForm } = renderForm();
+
+    const user = db.user.findFirst({ where: { id: { equals: userId } } });
+    await submitForm(user!.email, user!.password);
+    const loginErrorMsg = await screen.findByText(/Error/i);
+    expect(loginErrorMsg).toBeInTheDocument();
+  });
 });

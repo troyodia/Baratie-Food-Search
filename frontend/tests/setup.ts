@@ -1,16 +1,14 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { afterAll, beforeAll, vi } from "vitest";
+import { server } from "./mocks/server";
+import { afterEach } from "node:test";
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
+server.events.on("request:start", ({ request }) => {
+  console.log("MSW intercepted:", request.method, request.url);
+});
 
 vi.mock("@react-oauth/google");
-// vi.mock("react-router-dom", async() => {
-//     const routerDom = await vi.importActual('react-router-dom')
-//     return{
-//         ...routerDom,
-//         default:{
-
-//         }
-//     }
-// });
-
-// useNavigate: () => vi.fn(),
-// Link: () => vi.fn(),
