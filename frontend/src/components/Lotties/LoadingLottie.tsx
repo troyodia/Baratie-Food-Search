@@ -16,6 +16,7 @@ function LoadingLottie({ animationData }: LottieProps) {
   const ref = useRef(null);
   return (
     <Lottie
+      // data-testid="loading-lottie"
       options={defaultOptions}
       height={350}
       width={350}

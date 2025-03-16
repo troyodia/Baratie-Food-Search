@@ -24,7 +24,7 @@ const ProfileSchema = z.object({
   firstname: z
     .string({ message: "first name is required" })
     .min(1, {
-      message: "last name must not be longer than 1 characters",
+      message: "first name must not be longer than 1 characters",
     })
     .max(10, {
       message: "first name must not be longer than 10 characters",
@@ -35,7 +35,7 @@ const ProfileSchema = z.object({
       message: "last name must not be longer than 1 characters",
     })
     .max(10, {
-      message: "first name must not be longer than 10 characters",
+      message: "last name must not be longer than 10 characters",
     }),
   address: z.string({ message: "address is required" }).min(1, {
     message: "Invalid Address provided",
@@ -92,10 +92,10 @@ export default function Profile({ currentUser }: Props) {
             <FormItem>
               <FormLabel className="font-bold">Email</FormLabel>
               <FormControl>
-                <Input className="bg-[#c5d8f9]" {...field} />
+                <Input className="bg-[#c5d8f9]" {...field} aria-label="Email" />
               </FormControl>
 
-              <FormMessage />
+              <FormMessage aria-label="error" />
             </FormItem>
           )}
         />
@@ -108,10 +108,14 @@ export default function Profile({ currentUser }: Props) {
               <FormItem className="flex-1">
                 <FormLabel className="font-bold">FirstName</FormLabel>
                 <FormControl>
-                  <Input className="bg-[#c5d8f9]" {...field} />
+                  <Input
+                    className="bg-[#c5d8f9]"
+                    {...field}
+                    aria-label="First Name"
+                  />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage aria-label="error" />
               </FormItem>
             )}
           />
@@ -123,10 +127,14 @@ export default function Profile({ currentUser }: Props) {
               <FormItem className="flex-1">
                 <FormLabel className="font-bold">LastName</FormLabel>
                 <FormControl>
-                  <Input className="bg-[#c5d8f9]" {...field} />
+                  <Input
+                    className="bg-[#c5d8f9]"
+                    {...field}
+                    aria-label="Last Name"
+                  />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage aria-label="error" />
               </FormItem>
             )}
           />
@@ -141,10 +149,14 @@ export default function Profile({ currentUser }: Props) {
               <FormItem className="flex-1">
                 <FormLabel className="font-bold">Address Line 1</FormLabel>
                 <FormControl>
-                  <Input className="bg-[#c5d8f9]" {...field} />
+                  <Input
+                    className="bg-[#c5d8f9]"
+                    {...field}
+                    aria-label="Address"
+                  />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage aria-label="error" />
               </FormItem>
             )}
           />
@@ -156,10 +168,14 @@ export default function Profile({ currentUser }: Props) {
               <FormItem className="flex-1">
                 <FormLabel className="font-bold">City</FormLabel>
                 <FormControl>
-                  <Input className="bg-[#c5d8f9]" {...field} />
+                  <Input
+                    className="bg-[#c5d8f9]"
+                    {...field}
+                    aria-label="City"
+                  />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage aria-label="error" />
               </FormItem>
             )}
           />
@@ -171,10 +187,14 @@ export default function Profile({ currentUser }: Props) {
               <FormItem className="flex-1">
                 <FormLabel className="font-bold">Country</FormLabel>
                 <FormControl>
-                  <Input className="bg-[#c5d8f9]" {...field} />
+                  <Input
+                    className="bg-[#c5d8f9]"
+                    {...field}
+                    aria-label="Country"
+                  />
                 </FormControl>
 
-                <FormMessage />
+                <FormMessage aria-label="error" />
               </FormItem>
             )}
           />

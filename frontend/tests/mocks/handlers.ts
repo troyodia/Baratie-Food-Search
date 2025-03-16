@@ -1,9 +1,10 @@
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 import {
   LOGIN_URL,
   GET_AUTH_USER_URL,
   REFRESH_URL,
   BASE_URL,
+  UPDATE_PROFILE,
 } from "../../src/apis/URLS";
 import { db } from "./db";
 import { faker } from "@faker-js/faker";
@@ -21,5 +22,12 @@ export const handlers = [
   }),
   http.get(REFRESH_URL, () => {
     return HttpResponse.json({ token: faker.string.uuid });
+  }),
+  http.post(BASE_URL + UPDATE_PROFILE, async () => {
+    const user = db.user.create();
+    db.user.delete({ where: { id: { equals: user.id } } });
+    await delay();
+
+    return HttpResponse.json({ user });
   }),
 ];

@@ -1,4 +1,5 @@
 import "@testing-library/jest-dom/vitest";
+import "vitest-canvas-mock";
 import { afterAll, beforeAll, vi } from "vitest";
 import { server } from "./mocks/server";
 import { afterEach } from "node:test";

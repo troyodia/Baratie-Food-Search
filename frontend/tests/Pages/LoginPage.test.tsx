@@ -12,15 +12,6 @@ import { db } from "../mocks/db";
 import { server } from "../mocks/server";
 import { LOGIN_URL } from "../../src/apis/URLS";
 import { http, HttpResponse } from "msw";
-// import { useLoginUser } from "../../src/hooks/auth";
-// const mockedMutate = vi.fn();
-// vi.doMock("../../src/hooks/auth.ts", async () => {
-//   const actualImport = await vi.importActual("../../src/hooks/auth.ts");
-//   return {
-//     ...actualImport,
-//     useLoginUser: () => ({ mutate: mockedMutate }),
-//   };
-// });
 
 describe("Login Page", () => {
   let userId: number;
@@ -65,7 +56,6 @@ describe("Login Page", () => {
           loginButton: screen.getByRole("button", { name: /login/i }),
         };
       },
-      getInputField: (label: string | RegExp) => screen.getByLabelText(label),
       submitForm,
     };
   };
