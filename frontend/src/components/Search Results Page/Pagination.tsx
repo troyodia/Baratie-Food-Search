@@ -25,8 +25,9 @@ export default function RestaurantPagination({
   return (
     <Pagination>
       <PaginationContent>
-        <PaginationItem>
+        <PaginationItem aria-label="previous">
           <PaginationPrevious
+            data-testid="previous-button"
             className={clsx(
               "cursor-pointer  hover:bg-[#97bcf4] font-semibold",
               {
@@ -50,8 +51,9 @@ export default function RestaurantPagination({
             .map((_, index) => {
               const pageNum = index + 1;
               return (
-                <PaginationItem key={pageNum}>
+                <PaginationItem key={pageNum} aria-label="pagination">
                   <PaginationLink
+                    data-testid="page-number"
                     className={clsx(
                       "cursor-pointer transition-all delay-150 hover:bg-[#97bcf4]",
                       {
@@ -81,8 +83,9 @@ export default function RestaurantPagination({
               );
             })}
 
-        <PaginationItem>
+        <PaginationItem aria-label="next">
           <PaginationNext
+            data-testid="next-button"
             className={clsx("cursor-pointer hover:bg-[#97bcf4] font-semibold", {
               "hover:bg-transparent hover:text-slate-500 text-slate-500":
                 (page && numberOfPages && parseInt(page) >= numberOfPages) ||

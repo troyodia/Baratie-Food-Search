@@ -5,6 +5,7 @@ import {
   REFRESH_URL,
   BASE_URL,
   UPDATE_PROFILE,
+  SEARCH_FOR_RESTAURANT,
 } from "../../src/apis/URLS";
 import { db } from "./db";
 import { faker } from "@faker-js/faker";
@@ -29,5 +30,13 @@ export const handlers = [
     await delay();
 
     return HttpResponse.json({ user });
+  }),
+  http.get(BASE_URL + SEARCH_FOR_RESTAURANT, async () => {
+    const allRestrauants = db.restaurant.getAll();
+    const restrauants = allRestrauants.filter((restaurant) => {
+      return restaurant.cuisineItems.includes("american");
+    });
+
+    return HttpResponse.json({ restrauants, resturantCount: 14 });
   }),
 ];

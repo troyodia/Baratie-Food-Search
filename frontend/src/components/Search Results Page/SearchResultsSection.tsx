@@ -42,16 +42,19 @@ export default function SearchResultsSection({ params }: Props) {
   if (isError) {
     return <div>Error</div>;
   }
+  console.log(searchResults?.resturantCount);
   return (
     <div className=" flex-1 flex flex-col gap-8">
       <div className="" ref={scrollRef}></div>
       <SearchBar searchFn={searchFn} />
       <section className="flex lg:flex-row items-center flex-col gap-4">
-        {searchResults && searchResults.resturantCount !== 0 && (
+        {searchResults?.resturantCount && searchResults.resturantCount !== 0 ? (
           <span className=" font-bold">
             {searchResults?.resturantCount} Resturaunts found for search term{" "}
             <span className="italic">{search}</span>
           </span>
+        ) : (
+          ""
         )}
         <SortByDropdown />
       </section>

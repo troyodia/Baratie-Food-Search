@@ -7,7 +7,10 @@ export default function NoResultsPage() {
   const filteredCuisines = filterCuisines(cuisineFilter);
   return (
     <main className="text-center">
-      <section className="w-full  mx-auto max-w-[450px] hover:scale-[1.02] transition-transform delay-75 ease-out">
+      <section
+        data-testid="no-results-found"
+        className="w-full  mx-auto max-w-[450px] hover:scale-[1.02] transition-transform delay-75 ease-out"
+      >
         <AspectRatio ratio={16 / 9} className="">
           <img
             alt=""

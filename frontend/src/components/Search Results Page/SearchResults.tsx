@@ -14,7 +14,12 @@ export default function SearchResults({ restrauants }: SearchResults) {
     <main className="flex flex-col gap-10">
       {restrauants?.map((result) => {
         return (
-          <Link key={result._id} to="/" className="group">
+          <Link
+            key={result._id}
+            to="/"
+            className="group"
+            aria-label="restuarant link"
+          >
             <div className="  lg:grid flex flex-col grid-cols-3 gap-4 w-full">
               <section className="w-full  lg:max-w-[450px] group-hover:scale-[1.02] transition-transform delay-75 ease-out">
                 <AspectRatio ratio={!lg ? 2.35 / 1 : 16 / 9} className="">
@@ -50,7 +55,10 @@ export default function SearchResults({ restrauants }: SearchResults) {
                     <span className="text-[#75aaf0] flex gap-1.5">
                       <Clock /> {result.deliveryTime.toString()} mins
                     </span>
-                    <span className="flex  text-white/90 gap-1.5">
+                    <span
+                      className="flex  text-white/90 gap-1.5"
+                      data-testid="delivery-price"
+                    >
                       <CircleDollarSign /> Delivery From $
                       {result.deliveryPrice.toString()}
                     </span>

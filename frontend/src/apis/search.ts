@@ -15,7 +15,7 @@ export const searchForRestaurant = async (
       resturantCount: number;
     }>(SEARCH_FOR_RESTAURANT, { params: params });
     if (res.data && res.status === 200) {
-      console.log(res.data.restrauants);
+      // console.log(res.data.restrauants);
       return res.data;
     }
   } catch (error) {

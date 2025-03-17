@@ -49,6 +49,7 @@ export default function FilterSearchSection() {
           .map((item) => {
             return (
               <button
+                aria-label="filter button"
                 key={item.id}
                 className={clsx(
                   "rounded-md border px-4 py-2 font-mono justify-center lg:justify-normal text-sm shadow-sm flex w-full hover:bg-white hover:text-black",
@@ -74,6 +75,7 @@ export default function FilterSearchSection() {
             .map((item) => {
               return (
                 <button
+                  aria-label="filter button"
                   key={item.id}
                   className={clsx(
                     "rounded-md border px-4 py-2 font-mono text-sm shadow-sm  flex justify-center lg:justify-normal  w-full hover:bg-white hover:text-black",
@@ -100,13 +102,13 @@ export default function FilterSearchSection() {
             {!isOpen ? "More Cusinies" : "Less Cusinies"}
           </h4>
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm">
+            <Button variant="ghost" size="sm" aria-label="collapse">
               {!isOpen ? (
                 <ChevronsUpDown className="h-4 w-4" />
               ) : (
                 <ChevronsDownUp className="h-4 w-4" />
               )}
-              <span className="sr-only">Toggle</span>
+              {/* <span className="sr-only">Toggle</span> */}
             </Button>
           </CollapsibleTrigger>
         </div>

@@ -35,6 +35,7 @@ export default function SearchBar({ searchFn }: Props) {
           onChange={(e) => {
             setSearchParam(e.target.value);
           }}
+          aria-label="search bar"
         />
         <button
           className={clsx(
@@ -55,6 +56,7 @@ export default function SearchBar({ searchFn }: Props) {
         className=" group rounded-full w-10 shrink-0 flex items-center justify-center 
       border-2 bg-transparent text-black border-[#75AAF0] hover:border-[#b6cff7] 
       hover:bg-transparent transition-colors ease-in-out"
+        aria-label="search button"
         onClick={() => {
           if (searchParam) {
             if (searchFn) {

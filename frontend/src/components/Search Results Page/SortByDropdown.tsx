@@ -24,7 +24,7 @@ export default function SortByDropdown() {
   return (
     <main className=" lg:ml-auto">
       <DropdownMenu>
-        <DropdownMenuTrigger>
+        <DropdownMenuTrigger aria-label="sort button">
           <span
             className="px-2 py-1 bg-[#97bcf4] text-black font-semibold
          rounded-md hover:bg-[#c5d8f9] transition-all"
@@ -37,6 +37,7 @@ export default function SortByDropdown() {
             return (
               <DropdownMenuItem key={option.queryValue}>
                 <button
+                  aria-label="sort dropdown"
                   className="w-full  text-left py-1 px-2 rounded-md hover:bg-blue-100"
                   onClick={() => {
                     if (option.queryValue !== sortBy) {

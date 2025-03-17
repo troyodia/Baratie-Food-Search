@@ -46,7 +46,7 @@ export default function SeachResultsPage() {
   const numberOfPages = useCalculatePageNumbers({
     totalRestaurantCount: searchResults?.resturantCount,
   });
-  console.log(params.cuisineFilter, numberOfPages);
+  // console.log(params.cuisineFilter, numberOfPages);
 
   const cuisineParamsJson = JSON.stringify(params.cuisineFilter);
 
