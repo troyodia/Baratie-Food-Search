@@ -63,7 +63,7 @@ export const getMyResturant = async (req: Request, res: Response) => {
 
   const restruant = await Resturant.findOne({ owner: req.user.userId });
 
-  if (!restruant) throw new BadRequestError("Your Resturant does nto exist");
+  if (!restruant) throw new BadRequestError("Your Resturant does not exist");
 
   res.status(StatusCodes.OK).json({ restruant });
 };
@@ -114,4 +114,19 @@ export const updateMyResturant = async (req: Request, res: Response) => {
   }
   resturant.save();
   res.status(StatusCodes.OK).json({ msg: "restruant info updated" });
+};
+type RequestParams = {
+  restaurantId: string;
+};
+export const getSearchedRestaurant = async (
+  req: Request<RequestParams>,
+  res: Response
+) => {
+  const { restaurantId } = req.params;
+  if (!restaurantId) {
+    throw new BadRequestError("Restaurant Id not provided");
+  }
+  const restaurant = await Resturant.findById(restaurantId);
+  if (!restaurant) throw new BadRequestError("Restaurant does not exist");
+  res.status(StatusCodes.OK).json({ restaurant });
 };

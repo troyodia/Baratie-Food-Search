@@ -16,7 +16,7 @@ export default function SearchResults({ restrauants }: SearchResults) {
         return (
           <Link
             key={result._id}
-            to="/"
+            to={`/${result.name.toLowerCase().replace(" ", "-")}/${result._id}`}
             className="group"
             aria-label="restuarant link"
           >

@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { Response, Request } from "express";
 import { Resturant } from "../models/Resturant";
+import { BadRequestError } from "../errors";
 type QueryParameter = {
   search?: string;
   sortBy?: "best_match" | "delivery_price" | "estimated_delivery_time";
@@ -10,6 +11,7 @@ type QueryParameter = {
 type FilterQuery = {
   cuisineItems?: { $in: string[] };
 };
+
 const NUMBERS_PER_PAGE = 7;
 export const searchForRestrauant = async (
   req: Request<{}, {}, {}, QueryParameter>,

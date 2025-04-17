@@ -13,6 +13,8 @@ export const UPDATE_PROFILE = `/api/v1/auth/update-profile`;
 
 export const CREATE_RESTURANT = "/api/v1/resturant/create-resturant";
 export const GET_RESTURANT = "/api/v1/resturant/get-resturant";
+//need restaurant id
+export const GET_SEARCHED_RESTURANT = "/api/v1/resturant/";
 export const UPDATE_RESTURANT = "/api/v1/resturant/update-resturant";
 
 //search

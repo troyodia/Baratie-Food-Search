@@ -8,5 +8,5 @@ export default function ManageResturantPage() {
   const { data } = useGetMyResturant(user ? user._id : "");
   console.log(data);
 
-  return <ManageResturant myCurrentResturant={data} />;
+  return <ManageResturant myCurrentResturant={data} user={user} />;
 }

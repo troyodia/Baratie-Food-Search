@@ -9,6 +9,7 @@ import NaviagteToHome from "./auth/NaviagteToHome";
 import ProfilePage from "./pages/ProfilePage";
 import MyResturantPage from "./pages/MyResturantPage";
 import SeachResultsPage from "./pages/SeachResultsPage";
+import RestaurantProfile from "./pages/RestaurantProfile";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +28,10 @@ function App() {
             <Route path="/user-profile" element={<ProfilePage />}></Route>
             <Route path="/my-resturant" element={<MyResturantPage />}></Route>
             <Route path="/results" element={<SeachResultsPage />}></Route>
+            <Route
+              path="/:restaurant/:id"
+              element={<RestaurantProfile />}
+            ></Route>
           </Route>
         </Route>
         <Route path="*" element={<Navigate to="/welcome" />}></Route>

@@ -15,6 +15,7 @@ import { useCreatMyResturant, useUpdateMyResturant } from "@/hooks/myResturant";
 import { LoaderCircle } from "lucide-react";
 import { CreatedResturant } from "@/types/resturantTypes";
 import { notify } from "@/utils/notify";
+import { User } from "@/types/userInfo";
 
 //get current restant as props
 const ManageResturantSchema = z
@@ -69,6 +70,7 @@ const ManageResturantSchema = z
 export type ManageResturantForm = z.infer<typeof ManageResturantSchema>;
 type Props = {
   myCurrentResturant?: CreatedResturant;
+  user?: User;
 };
 type DefaultValueProps = {
   menu: { name: string; price: string }[];
@@ -82,17 +84,17 @@ type DefaultValueProps = {
   };
   imageUrl: string;
 };
-export default function ManageResturant({ myCurrentResturant }: Props) {
+export default function ManageResturant({ myCurrentResturant, user }: Props) {
   const {
     mutate: createMyResturant,
     isPending: isCreatingResturant,
     error: createResturantError,
-  } = useCreatMyResturant(notify);
+  } = useCreatMyResturant(notify, user?._id);
   const {
     mutate: updateMyResturant,
     isPending: isUpdatingResturant,
     error: updateResturantError,
-  } = useUpdateMyResturant(notify);
+  } = useUpdateMyResturant(notify, user?._id);
 
   const form = useForm<ManageResturantForm>({
     resolver: zodResolver(ManageResturantSchema),

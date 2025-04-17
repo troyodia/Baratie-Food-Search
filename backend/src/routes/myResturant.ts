@@ -4,6 +4,7 @@ import {
   createMyResturant,
   getMyResturant,
   updateMyResturant,
+  getSearchedRestaurant,
 } from "../controllers/resturant";
 export const resturantRouter = express.Router();
 resturantRouter
@@ -15,3 +16,4 @@ resturantRouter
   .post(upload.single("image"), updateMyResturant);
 
 resturantRouter.route("/get-resturant").get(getMyResturant);
+resturantRouter.route("/:restaurantId").get(getSearchedRestaurant);
