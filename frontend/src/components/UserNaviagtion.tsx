@@ -1,4 +1,5 @@
 import { useLogoutUser } from "@/hooks/auth";
+import { ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,7 +30,7 @@ export default function UserNaviagtion() {
   const navigate = useNavigate();
   const { mutate: logout } = useLogoutUser(() => navigate("/login-page"));
   return (
-    <nav className="hidden lg:flex space-x-10 items-center">
+    <nav className="hidden lg:flex space-x-8 items-center">
       <div className="flex items-center space-x-6 px-8 rounded-full font-medium text-lg tracking-tight bg-[#eff7ff1f] ">
         {NavLinks.map((link) => {
           return (
@@ -50,6 +51,9 @@ export default function UserNaviagtion() {
           );
         })}
       </div>
+      <button>
+        <ShoppingCart className="hover:text-[#75AAF0] text-white transition-all" />
+      </button>
       <button
         className="group hover-button text-sm font-bold py-2.5 px-6 border-2 border-[#75AAF0] hover:border-[#FFFF] rounded-md"
         onClick={() => logout()}

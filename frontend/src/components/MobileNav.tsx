@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { SquareMenu } from "lucide-react";
+import { ShoppingCart, SquareMenu } from "lucide-react";
 import { useMediaQuery } from "react-responsive";
 import baratieIcon from "../assets/Images/Baratie-icon.png";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
@@ -50,6 +50,9 @@ export function MobileNav() {
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="/user-profile">Profile</NavLink>
                 <NavLink to="/my-resturant">My Resturant</NavLink>
+                <button>
+                  <ShoppingCart className="hover:text-[#75AAF0]  transition-all" />
+                </button>
               </nav>
             )}
             <SheetDescription className="flex justify-center">
