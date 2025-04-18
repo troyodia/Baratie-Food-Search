@@ -5,8 +5,10 @@ import animationData from "../assets/lottie/food_search_pending.json";
 import LoadingLottie from "@/components/Lotties/LoadingLottie";
 import Layout from "@/layouts/Layout";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { CircleDashed } from "lucide-react";
+import { CircleDashed, LoaderCircle } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
+import { useUpdateCart } from "@/hooks/cart";
+import { notify } from "@/utils/notify";
 // type Props = {};
 type SelectedMenuItem = {
   quantity: number;
@@ -20,13 +22,30 @@ export default function RestaurantProfile() {
     isError,
     isPending,
   } = useGetSearchedRestaurant(id!);
-  const [orderCost, setOrderCost] = useState(1.5);
+  const [orderCost, setOrderCost] = useState(0.0);
   const [selectedMenuItems, setSelectedMenuItems] = useState<
     SelectedMenuItem[]
   >([]);
+  const {
+    mutate: updateCart,
+    isPending: cartPending,
+    isError: isCartError,
+    isSuccess: isCartSuccess,
+  } = useUpdateCart(
+    { restaurantId: searchedRestaurant?._id, details: selectedMenuItems },
+    notify
+  );
   useEffect(() => {
     console.log(selectedMenuItems);
   }, [selectedMenuItems]);
+  useEffect(() => {
+    if (searchedRestaurant) setOrderCost(searchedRestaurant.deliveryPrice);
+  }, [searchedRestaurant]);
+  useEffect(() => {
+    if (!cartPending && isCartSuccess && !isCartError) {
+      setSelectedMenuItems([]);
+    }
+  }, [cartPending, isCartSuccess, isCartError]);
   if (isPending) {
     return (
       <Layout>
@@ -48,7 +67,9 @@ export default function RestaurantProfile() {
     name: string;
     price: string;
   }) => {
-    setOrderCost((prev) => prev + parseFloat(menuItem.price!));
+    setOrderCost((prev) => {
+      return prev + parseFloat(menuItem.price!);
+    });
     let itemIndex: number = 0;
     const menuItemMatch = selectedMenuItems.find((item, index) => {
       itemIndex = index;
@@ -136,13 +157,16 @@ export default function RestaurantProfile() {
             <section className="flex justify-between">
               <h1 className="text-xl lg:text-2xl font-semibold">Your Order</h1>
               <span className="text-xl lg:text-2xl font-semibold">
-                ${orderCost.toFixed(2)}
+                ${orderCost?.toFixed(2)}
               </span>
             </section>
             <Separator className="h-0.5 bg-gray-200" />
-            {selectedMenuItems.map((item) => {
+            {selectedMenuItems.map((item, index) => {
               return (
-                <section className="flex justify-between">
+                <section
+                  key={item.name + index}
+                  className="flex justify-between"
+                >
                   <section className="ml-2 flex gap-5">
                     <span className=" text-black/90">{item.quantity}</span>
                     <span className=" text-black/90">{item.name}</span>
@@ -154,13 +178,23 @@ export default function RestaurantProfile() {
             <Separator className="h-0.5 bg-gray-200" />
             <section className="flex justify-between">
               <span className=" text-black/90">Delivery</span>
-              <span className=" text-black/90">$1.50</span>
+              <span className=" text-black/90">
+                ${searchedRestaurant?.deliveryPrice.toFixed(2)}
+              </span>
             </section>
             <Separator className="h-0.5 bg-gray-200" />
+            {/*Only add to cart if array is > 0 */}
             <button
+              disabled={cartPending}
               className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
-            transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold"
+            transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
+              onClick={() => {
+                if (selectedMenuItems.length > 0) {
+                  updateCart();
+                }
+              }}
             >
+              {cartPending && <LoaderCircle className="animate-spin h-4 w-4" />}
               Add To Cart
             </button>
           </section>

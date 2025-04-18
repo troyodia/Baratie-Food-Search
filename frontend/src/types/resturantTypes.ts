@@ -12,10 +12,16 @@ export type CreatedResturant = {
   image: string;
   lastUpdated: Date;
 };
-//cused to filter restaurants on search results page
+//used to filter restaurants on search results page
 export type FilterRestaurants = {
   search?: string;
   sortBy?: "best_match" | "delivery_price" | "estimated_delivery_time";
   cuisineFilter?: string | string[];
   page?: string;
+};
+//for cart
+export type Cart = {
+  //delivery and name
+  restaurantId?: string;
+  details: { name: string; quantity: number; price: string }[];
 };
