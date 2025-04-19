@@ -4,13 +4,13 @@ import { BadRequestError } from "../errors";
 import mongoose from "mongoose";
 import { Cart } from "../models/Cart";
 import { Resturant } from "../models/Resturant";
-type UpdateCartReqBody = {
+type CartReqBody = {
   //delivery and name
   restaurantId: string;
   details: { name: string; quantity: number; price: string }[];
 };
 export const updateCart = async (
-  req: Request<{}, {}, UpdateCartReqBody>,
+  req: Request<{}, {}, CartReqBody>,
   res: Response
 ) => {
   const { restaurantId, details } = req.body;
@@ -69,4 +69,25 @@ export const getCart = async (req: Request, res: Response) => {
       subTotal,
     },
   });
+};
+export const createNewOrder = async (
+  req: Request<{}, {}, CartReqBody>,
+  res: Response
+) => {
+  const { restaurantId, details } = req.body;
+  if (!restaurantId || details.length < 1) {
+    console.log("error", restaurantId, details);
+    throw new BadRequestError("Invalid Cart entry");
+  }
+  await Cart.deleteMany({});
+  const restaurantObjectId = new mongoose.Types.ObjectId(restaurantId);
+  details.forEach(async (detail) => {
+    await Cart.create({
+      restaurantId: restaurantObjectId,
+      quantity: detail.quantity,
+      price: detail.price,
+      menuItem: detail.name,
+    });
+  });
+  res.status(StatusCodes.OK).json({ msg: "success" });
 };
