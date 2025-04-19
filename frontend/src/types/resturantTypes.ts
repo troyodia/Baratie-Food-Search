@@ -22,6 +22,20 @@ export type FilterRestaurants = {
 //for cart
 export type Cart = {
   //delivery and name
+  _id?: string;
   restaurantId?: string;
   details: { name: string; quantity: number; price: string }[];
+};
+export type CartItems = {
+  _id: string;
+  restaurantId: string;
+  menuItem: string;
+  quantity: number;
+  price: string;
+};
+export type CheckOutCart = {
+  restaurantName: string;
+  restaurantId: string;
+  cart: CartItems;
+  subTotal: number;
 };

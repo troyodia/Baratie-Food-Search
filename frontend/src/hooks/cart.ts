@@ -1,6 +1,6 @@
-import { updateCart } from "@/apis/cart";
+import { getCart, updateCart } from "@/apis/cart";
 import { Cart } from "@/types/resturantTypes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TypeOptions } from "react-toastify";
 
 export const useUpdateCart = (
@@ -12,7 +12,7 @@ export const useUpdateCart = (
     mutationFn: () => updateCart(cart),
     onSuccess: () => {
       notify("Cart Updated Successfully", "success");
-      // client.invalidateQueries({ queryKey: ["user"] });
+      client.invalidateQueries({ queryKey: ["cart", cart.restaurantId] });
     },
     onError: (error) => {
       notify(error.message, "error");
@@ -21,3 +21,9 @@ export const useUpdateCart = (
 };
 
 //add invalidtion to getter
+export const useGetCart = (restaurantId: string | undefined) => {
+  return useQuery({
+    queryKey: ["cart", restaurantId],
+    queryFn: getCart,
+  });
+};

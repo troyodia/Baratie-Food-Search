@@ -7,7 +7,7 @@ import Layout from "@/layouts/Layout";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { CircleDashed, LoaderCircle } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
-import { useUpdateCart } from "@/hooks/cart";
+import { useGetCart, useUpdateCart } from "@/hooks/cart";
 import { notify } from "@/utils/notify";
 // type Props = {};
 type SelectedMenuItem = {
@@ -35,6 +35,10 @@ export default function RestaurantProfile() {
     { restaurantId: searchedRestaurant?._id, details: selectedMenuItems },
     notify
   );
+  const { data: cart, isError: getCartError } = useGetCart(
+    searchedRestaurant?._id
+  );
+  console.log(cart);
   useEffect(() => {
     console.log(selectedMenuItems);
   }, [selectedMenuItems]);
@@ -42,10 +46,11 @@ export default function RestaurantProfile() {
     if (searchedRestaurant) setOrderCost(searchedRestaurant.deliveryPrice);
   }, [searchedRestaurant]);
   useEffect(() => {
-    if (!cartPending && isCartSuccess && !isCartError) {
+    if (!cartPending && isCartSuccess && !isCartError && searchedRestaurant) {
       setSelectedMenuItems([]);
+      setOrderCost(searchedRestaurant.deliveryPrice);
     }
-  }, [cartPending, isCartSuccess, isCartError]);
+  }, [cartPending, isCartSuccess, isCartError, searchedRestaurant]);
   if (isPending) {
     return (
       <Layout>
@@ -56,7 +61,7 @@ export default function RestaurantProfile() {
     );
   }
   //update with error page
-  if (!isPending && (isError || !searchedRestaurant)) {
+  if (!isPending && (isError || getCartError || !searchedRestaurant || !cart)) {
     return (
       <Layout>
         <div>An error occurred</div>;

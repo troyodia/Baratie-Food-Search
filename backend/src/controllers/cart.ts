@@ -3,6 +3,7 @@ import { Response, Request } from "express";
 import { BadRequestError } from "../errors";
 import mongoose from "mongoose";
 import { Cart } from "../models/Cart";
+import { Resturant } from "../models/Resturant";
 type UpdateCartReqBody = {
   //delivery and name
   restaurantId: string;
@@ -46,4 +47,25 @@ export const updateCart = async (
     }
   });
   res.status(StatusCodes.OK).json({ msg: "success" });
+};
+
+export const getCart = async (req: Request, res: Response) => {
+  const cart = await Cart.find({});
+  //   console.log(cart);
+  const restaurant = await Resturant.findById(cart[0].restaurantId);
+  if (!restaurant) {
+    throw new BadRequestError("Restaurant does not exist");
+  }
+  let subTotal = restaurant.deliveryPrice;
+  cart.forEach((item) => {
+    subTotal += parseFloat(item.price);
+  });
+  res.status(StatusCodes.OK).json({
+    checkoutCart: {
+      restaurantName: restaurant.name,
+      restaurantId: restaurant._id,
+      cart,
+      subTotal,
+    },
+  });
 };

@@ -24,3 +24,4 @@ export const SEARCH_FOR_RESTAURANT = "/api/v1/search-restaurant";
 //Cart
 
 export const UPDATE_CART = "/api/v1/cart/update-cart";
+export const GET_CART = "/api/v1/cart/get-cart";
