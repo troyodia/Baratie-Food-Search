@@ -64,6 +64,7 @@ export const getCart = async (req: Request, res: Response) => {
     checkoutCart: {
       restaurantName: restaurant.name,
       restaurantId: restaurant._id,
+      address: restaurant.city,
       cart,
       subTotal,
     },
