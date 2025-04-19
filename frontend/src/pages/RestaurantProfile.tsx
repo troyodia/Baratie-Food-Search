@@ -7,7 +7,7 @@ import Layout from "@/layouts/Layout";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { CircleDashed, LoaderCircle } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
-import { useGetCart, useUpdateCart } from "@/hooks/cart";
+import { useCreateNewOrder, useGetCart, useUpdateCart } from "@/hooks/cart";
 import { notify } from "@/utils/notify";
 import DialogBox from "@/components/Restaurant Profile/DialogBox";
 // type Props = {};
@@ -31,32 +31,50 @@ export default function RestaurantProfile() {
   const {
     mutate: updateCart,
     isPending: cartPending,
-    isError: isCartError,
     isSuccess: isCartSuccess,
   } = useUpdateCart(
     { restaurantId: searchedRestaurant?._id, details: selectedMenuItems },
     notify
   );
-  const { data: cart, isError: getCartError } = useGetCart(
-    searchedRestaurant?._id
+  const { data: cart, isError: getCartError } = useGetCart();
+  const {
+    mutate: createNewOrder,
+    isPending: newOrderPending,
+    isSuccess: isNewOrderSuccess,
+  } = useCreateNewOrder(
+    { restaurantId: searchedRestaurant?._id, details: selectedMenuItems },
+    notify
   );
   const title = "Create a new Order?";
   const description = `Your current order contains items from ${cart?.restaurantName} (${cart?.address}).
  Do you want to create a new order to add items from
   ${searchedRestaurant?.name} (${searchedRestaurant?.city}).`;
   console.log(cart);
+
   useEffect(() => {
     console.log(selectedMenuItems);
   }, [selectedMenuItems]);
+
   useEffect(() => {
     if (searchedRestaurant) setOrderCost(searchedRestaurant.deliveryPrice);
   }, [searchedRestaurant]);
+
   useEffect(() => {
-    if (!cartPending && isCartSuccess && !isCartError && searchedRestaurant) {
+    if (
+      ((!cartPending && isCartSuccess) ||
+        (!newOrderPending && isNewOrderSuccess)) &&
+      searchedRestaurant
+    ) {
       setSelectedMenuItems([]);
       setOrderCost(searchedRestaurant.deliveryPrice);
     }
-  }, [cartPending, isCartSuccess, isCartError, searchedRestaurant]);
+  }, [
+    cartPending,
+    isCartSuccess,
+    searchedRestaurant,
+    newOrderPending,
+    isNewOrderSuccess,
+  ]);
   if (isPending) {
     return (
       <Layout>
@@ -224,14 +242,17 @@ export default function RestaurantProfile() {
           description={description}
         >
           <button
-            disabled={cartPending}
+            disabled={newOrderPending}
             className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
             transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
             onClick={() => {
-              updateCart();
+              createNewOrder();
+              setIsOpen(!isOpen);
             }}
           >
-            {cartPending && <LoaderCircle className="animate-spin h-4 w-4" />}
+            {newOrderPending && (
+              <LoaderCircle className="animate-spin h-4 w-4" />
+            )}
             New Order
           </button>
         </DialogBox>

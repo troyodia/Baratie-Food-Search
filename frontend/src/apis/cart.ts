@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/axios/axiosInstance";
 import { Cart, CheckOutCart } from "@/types/resturantTypes";
 import { isAxiosError } from "axios";
-import { GET_CART, UPDATE_CART } from "./URLS";
+import { CREATE_NEW_CART, GET_CART, UPDATE_CART } from "./URLS";
 
 export const updateCart = async (cart: Cart) => {
   try {
@@ -23,6 +23,23 @@ export const getCart = async () => {
     if (res.data && res.status === 200) {
       console.log(res.data);
       return res.data.checkoutCart;
+    }
+  } catch (error) {
+    if (isAxiosError(error) && error.response?.status === 500) {
+      console.log(error.response?.data);
+      throw new Error(error.response?.data.msg);
+    }
+  }
+};
+
+export const createNewOrder = async (cart: Cart) => {
+  try {
+    const res = await axiosInstance.post<{ msg: string }>(
+      CREATE_NEW_CART,
+      cart
+    );
+    if (res.data && res.status === 200) {
+      console.log(res.data.msg);
     }
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 500) {
