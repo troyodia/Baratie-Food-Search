@@ -11,7 +11,6 @@ export const updateCart = async (cart: Cart) => {
     }
   } catch (error) {
     if (isAxiosError(error) && error.response?.status === 500) {
-      console.log(error.response?.data);
       throw new Error(error.response?.data.msg);
     }
   }

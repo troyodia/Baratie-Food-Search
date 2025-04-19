@@ -9,6 +9,7 @@ import { CircleDashed, LoaderCircle } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
 import { useGetCart, useUpdateCart } from "@/hooks/cart";
 import { notify } from "@/utils/notify";
+import DialogBox from "@/components/Restaurant Profile/DialogBox";
 // type Props = {};
 type SelectedMenuItem = {
   quantity: number;
@@ -26,6 +27,7 @@ export default function RestaurantProfile() {
   const [selectedMenuItems, setSelectedMenuItems] = useState<
     SelectedMenuItem[]
   >([]);
+  const [isOpen, setIsOpen] = useState(false);
   const {
     mutate: updateCart,
     isPending: cartPending,
@@ -38,6 +40,10 @@ export default function RestaurantProfile() {
   const { data: cart, isError: getCartError } = useGetCart(
     searchedRestaurant?._id
   );
+  const title = "Create a new Order?";
+  const description = `Your current order contains items from ${cart?.restaurantName} (${cart?.address}).
+ Do you want to create a new order to add items from
+  ${searchedRestaurant?.name} (${searchedRestaurant?.city}).`;
   console.log(cart);
   useEffect(() => {
     console.log(selectedMenuItems);
@@ -188,15 +194,20 @@ export default function RestaurantProfile() {
               </span>
             </section>
             <Separator className="h-0.5 bg-gray-200" />
-            {/*Only add to cart if array is > 0 */}
+
             <button
               disabled={cartPending}
               className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
             transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
               onClick={() => {
-                if (selectedMenuItems.length > 0) {
-                  updateCart();
+                if (selectedMenuItems.length < 1) {
+                  return;
                 }
+                if (searchedRestaurant?._id !== cart?.restaurantId) {
+                  setIsOpen(!isOpen);
+                  return;
+                }
+                updateCart();
               }}
             >
               {cartPending && <LoaderCircle className="animate-spin h-4 w-4" />}
@@ -205,6 +216,26 @@ export default function RestaurantProfile() {
           </section>
         </section>
       </main>
+      <section className="absolute z-100 px-4">
+        <DialogBox
+          isOpen={isOpen}
+          onOpenChange={setIsOpen}
+          title={title}
+          description={description}
+        >
+          <button
+            disabled={cartPending}
+            className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
+            transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
+            onClick={() => {
+              updateCart();
+            }}
+          >
+            {cartPending && <LoaderCircle className="animate-spin h-4 w-4" />}
+            New Order
+          </button>
+        </DialogBox>
+      </section>
     </Layout>
   );
 }

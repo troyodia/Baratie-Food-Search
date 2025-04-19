@@ -36,6 +36,7 @@ export type CartItems = {
 export type CheckOutCart = {
   restaurantName: string;
   restaurantId: string;
+  address: string;
   cart: CartItems;
   subTotal: number;
 };
