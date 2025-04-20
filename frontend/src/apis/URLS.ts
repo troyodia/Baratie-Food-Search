@@ -26,3 +26,5 @@ export const SEARCH_FOR_RESTAURANT = "/api/v1/search-restaurant";
 export const GET_CART = "/api/v1/cart/get-cart";
 export const UPDATE_CART = "/api/v1/cart/update-cart";
 export const CREATE_NEW_CART = "/api/v1/cart/create-new-order";
+export const UPDATE_CART_ITEM_QTY = "/api/v1/cart/update-quantity/";
+export const DELETE_CART_ITEM = "/api/v1/cart/delete-cart-item/";

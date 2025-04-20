@@ -1,7 +1,7 @@
 import { useLogoutUser } from "@/hooks/auth";
-import { ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import CartButton from "./CartButton";
 
 type NavLinksProps = {
   name: string;
@@ -51,9 +51,7 @@ export default function UserNaviagtion() {
           );
         })}
       </div>
-      <button>
-        <ShoppingCart className="hover:text-[#75AAF0] text-white transition-all" />
-      </button>
+      <CartButton />
       <button
         className="group hover-button text-sm font-bold py-2.5 px-6 border-2 border-[#75AAF0] hover:border-[#FFFF] rounded-md"
         onClick={() => logout()}

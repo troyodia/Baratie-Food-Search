@@ -52,14 +52,32 @@ export const updateCart = async (
 export const getCart = async (req: Request, res: Response) => {
   const cart = await Cart.find({});
   //   console.log(cart);
+  let cartCount = 0;
+  if (cart.length < 1) {
+    res.status(StatusCodes.OK).json({
+      checkoutCart: {
+        restaurantName: "emtpy",
+        restaurantId: "emtpy",
+        address: "emtpy",
+        cart,
+        subTotal: 0,
+        cartCount,
+      },
+    });
+    return;
+  }
   const restaurant = await Resturant.findById(cart[0].restaurantId);
+
   if (!restaurant) {
     throw new BadRequestError("Restaurant does not exist");
   }
   let subTotal = restaurant.deliveryPrice;
   cart.forEach((item) => {
-    subTotal += parseFloat(item.price);
+    subTotal += parseFloat(item.price) * item.quantity;
+    cartCount += item.quantity;
   });
+  console.log(restaurant._id);
+
   res.status(StatusCodes.OK).json({
     checkoutCart: {
       restaurantName: restaurant.name,
@@ -67,6 +85,7 @@ export const getCart = async (req: Request, res: Response) => {
       address: restaurant.city,
       cart,
       subTotal,
+      cartCount,
     },
   });
 };
@@ -89,5 +108,30 @@ export const createNewOrder = async (
       menuItem: detail.name,
     });
   });
+  res.status(StatusCodes.OK).json({ msg: "success" });
+};
+
+export const updateCartItemQuantity = async (
+  req: Request<{ id: string }, {}, { quantity: number }>,
+  res: Response
+) => {
+  const { quantity } = req.body;
+  const { id } = req.params;
+  console.log(quantity, id);
+  if (!quantity || !id) {
+    throw new BadRequestError("Error updating Cart item quantity");
+  }
+  await Cart.findByIdAndUpdate(id, { quantity: quantity });
+  res.status(StatusCodes.OK).json({ msg: "success" });
+};
+export const deleteFromCart = async (
+  req: Request<{ id: string }>,
+  res: Response
+) => {
+  const { id } = req.params;
+  if (!id) {
+    throw new BadRequestError("Error deleting Cart item");
+  }
+  await Cart.findByIdAndDelete(id);
   res.status(StatusCodes.OK).json({ msg: "success" });
 };

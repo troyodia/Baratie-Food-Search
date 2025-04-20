@@ -5,11 +5,12 @@ import animationData from "../assets/lottie/food_search_pending.json";
 import LoadingLottie from "@/components/Lotties/LoadingLottie";
 import Layout from "@/layouts/Layout";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { CircleDashed, LoaderCircle } from "lucide-react";
+import { CircleDashed, Trash } from "lucide-react";
 import { Separator } from "@radix-ui/react-separator";
 import { useCreateNewOrder, useGetCart, useUpdateCart } from "@/hooks/cart";
 import { notify } from "@/utils/notify";
 import DialogBox from "@/components/Restaurant Profile/DialogBox";
+import ButtonBorderBlue from "@/components/ButtonBorderBlue";
 // type Props = {};
 type SelectedMenuItem = {
   quantity: number;
@@ -36,7 +37,7 @@ export default function RestaurantProfile() {
     { restaurantId: searchedRestaurant?._id, details: selectedMenuItems },
     notify
   );
-  const { data: cart, isError: getCartError } = useGetCart();
+  const { data: checkoutCart, isError: getCartError } = useGetCart();
   const {
     mutate: createNewOrder,
     isPending: newOrderPending,
@@ -46,10 +47,10 @@ export default function RestaurantProfile() {
     notify
   );
   const title = "Create a new Order?";
-  const description = `Your current order contains items from ${cart?.restaurantName} (${cart?.address}).
+  const description = `Your current order contains items from ${checkoutCart?.restaurantName} (${checkoutCart?.address}).
  Do you want to create a new order to add items from
   ${searchedRestaurant?.name} (${searchedRestaurant?.city}).`;
-  console.log(cart);
+  console.log(checkoutCart);
 
   useEffect(() => {
     console.log(selectedMenuItems);
@@ -85,7 +86,10 @@ export default function RestaurantProfile() {
     );
   }
   //update with error page
-  if (!isPending && (isError || getCartError || !searchedRestaurant || !cart)) {
+  if (
+    !isPending &&
+    (isError || getCartError || !searchedRestaurant || !checkoutCart)
+  ) {
     return (
       <Layout>
         <div>An error occurred</div>;
@@ -117,7 +121,15 @@ export default function RestaurantProfile() {
     }
     setSelectedMenuItems([...selectedMenuItems, { ...menuItem, quantity: 1 }]);
   };
-
+  const deletItem = (itemName: string, itemPrice: string) => {
+    const filterMenuItems = selectedMenuItems.filter(
+      (item) => item.name !== itemName
+    );
+    setSelectedMenuItems([...filterMenuItems]);
+    setOrderCost((prev) => {
+      return prev - parseFloat(itemPrice);
+    });
+  };
   return (
     <Layout>
       <main className="flex flex-col gap-10">
@@ -200,7 +212,15 @@ export default function RestaurantProfile() {
                     <span className=" text-black/90">{item.quantity}</span>
                     <span className=" text-black/90">{item.name}</span>
                   </section>
-                  <span className=" text-black/90">${item.price}</span>
+                  <section className="flex gap-2 items-center justify-center">
+                    <button onClick={() => deletItem(item.name, item.price)}>
+                      <Trash
+                        className="text-red-600 cursor-pointer"
+                        size={20}
+                      />
+                    </button>
+                    <span className=" text-black/90">${item.price}</span>
+                  </section>
                 </section>
               );
             })}
@@ -212,25 +232,25 @@ export default function RestaurantProfile() {
               </span>
             </section>
             <Separator className="h-0.5 bg-gray-200" />
-
-            <button
-              disabled={cartPending}
-              className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
-            transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
-              onClick={() => {
+            <ButtonBorderBlue
+              isPending={cartPending}
+              btnFn={() => {
                 if (selectedMenuItems.length < 1) {
                   return;
                 }
-                if (searchedRestaurant?._id !== cart?.restaurantId) {
+                if (
+                  checkoutCart &&
+                  checkoutCart.cart.length > 0 &&
+                  searchedRestaurant?._id !== checkoutCart.restaurantId
+                ) {
                   setIsOpen(!isOpen);
                   return;
                 }
                 updateCart();
               }}
             >
-              {cartPending && <LoaderCircle className="animate-spin h-4 w-4" />}
               Add To Cart
-            </button>
+            </ButtonBorderBlue>
           </section>
         </section>
       </main>
@@ -241,20 +261,15 @@ export default function RestaurantProfile() {
           title={title}
           description={description}
         >
-          <button
-            disabled={newOrderPending}
-            className="w-full py-2 border-2 border-[#75AAF0] hover:border-black rounded-md 
-            transition-all ease-in-out delay-150 hover:text-[#75AAF0] text-lg font-bold flex gap-1.5 items-center justify-center"
-            onClick={() => {
+          <ButtonBorderBlue
+            isPending={newOrderPending}
+            btnFn={() => {
               createNewOrder();
               setIsOpen(!isOpen);
             }}
           >
-            {newOrderPending && (
-              <LoaderCircle className="animate-spin h-4 w-4" />
-            )}
             New Order
-          </button>
+          </ButtonBorderBlue>
         </DialogBox>
       </section>
     </Layout>

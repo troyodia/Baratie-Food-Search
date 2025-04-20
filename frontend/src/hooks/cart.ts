@@ -1,4 +1,10 @@
-import { createNewOrder, getCart, updateCart } from "@/apis/cart";
+import {
+  createNewOrder,
+  deleteCartItem,
+  getCart,
+  updateCart,
+  updateCartItemQty,
+} from "@/apis/cart";
 import { Cart } from "@/types/resturantTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TypeOptions } from "react-toastify";
@@ -28,6 +34,41 @@ export const useCreateNewOrder = (
     mutationFn: () => createNewOrder(cart),
     onSuccess: () => {
       notify("New Order craeted Successfully, Cart Updated", "success");
+      client.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error) => {
+      notify(error.message, "error");
+    },
+  });
+};
+
+export const useUpdateCartItemQty = (
+  notify: (message: string, type: TypeOptions) => void
+) => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      quantity,
+      id,
+    }: {
+      quantity: number;
+      id: string;
+    }): Promise<void> => updateCartItemQty(quantity, id),
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error) => {
+      notify(error.message, "error");
+    },
+  });
+};
+export const useDeleteCartItem = (
+  notify: (message: string, type: TypeOptions) => void
+) => {
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id }: { id: string }): Promise<void> => deleteCartItem(id),
+    onSuccess: () => {
       client.invalidateQueries({ queryKey: ["cart"] });
     },
     onError: (error) => {

@@ -14,6 +14,7 @@ import baratieIcon from "../assets/Images/Baratie-icon.png";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useGetAuthUser, useLogoutUser } from "@/hooks/auth";
 import clsx from "clsx";
+import CartButton from "./CartButton";
 
 export function MobileNav() {
   const mobile = useMediaQuery({ maxWidth: 1024 });
@@ -50,9 +51,7 @@ export function MobileNav() {
                 <NavLink to="">Order Status</NavLink>
                 <NavLink to="/user-profile">Profile</NavLink>
                 <NavLink to="/my-resturant">My Resturant</NavLink>
-                <button>
-                  <ShoppingCart className="hover:text-[#75AAF0]  transition-all" />
-                </button>
+                <CartButton />
               </nav>
             )}
             <SheetDescription className="flex justify-center">

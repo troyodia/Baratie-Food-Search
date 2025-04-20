@@ -37,6 +37,7 @@ export type CheckOutCart = {
   restaurantName: string;
   restaurantId: string;
   address: string;
-  cart: CartItems;
+  cart: CartItems[];
   subTotal: number;
+  cartCount: number;
 };
